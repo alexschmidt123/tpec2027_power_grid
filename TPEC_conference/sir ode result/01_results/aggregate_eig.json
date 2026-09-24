@@ -1,0 +1,209 @@
+[
+  {
+    "T": 3,
+    "method": "dad_eig",
+    "mean": 6.8394084853999875,
+    "sd_across_training_seed_means": 0.008727666117067058,
+    "training_seed_means": [
+      6.849264137479643,
+      6.832658093198235,
+      6.836303225522085
+    ]
+  },
+  {
+    "T": 3,
+    "method": "rl_sboed_eig",
+    "mean": 6.849389039554056,
+    "sd_across_training_seed_means": 0.0029334797266632713,
+    "training_seed_means": [
+      6.8523119927512495,
+      6.84940998049516,
+      6.84644514541576
+    ]
+  },
+  {
+    "T": 3,
+    "method": "step_dad",
+    "mean": 6.843778909091812,
+    "sd_across_training_seed_means": 0.00945425216158554,
+    "training_seed_means": [
+      6.8513249684105535,
+      6.833173923233565,
+      6.846837835631319
+    ]
+  },
+  {
+    "T": 3,
+    "method": "myopic_delta_h",
+    "mean": 6.710821537251271,
+    "sd_across_training_seed_means": 0.0,
+    "training_seed_means": [
+      6.710821537251271,
+      6.710821537251271,
+      6.710821537251271
+    ],
+    "evaluation_seed_sd_deduplicated": 0.012453757082073753
+  },
+  {
+    "T": 3,
+    "method": "fixed_open_loop",
+    "mean": 6.281562873501701,
+    "sd_across_training_seed_means": 0.0,
+    "training_seed_means": [
+      6.281562873501701,
+      6.281562873501701,
+      6.281562873501701
+    ],
+    "evaluation_seed_sd_deduplicated": 0.010085731789929414
+  },
+  {
+    "T": 3,
+    "method": "random",
+    "mean": 3.778275411497327,
+    "sd_across_training_seed_means": 0.0,
+    "training_seed_means": [
+      3.778275411497327,
+      3.778275411497327,
+      3.778275411497327
+    ],
+    "evaluation_seed_sd_deduplicated": 0.01668282206257108
+  },
+  {
+    "T": 4,
+    "method": "dad_eig",
+    "mean": 6.8591101909024506,
+    "sd_across_training_seed_means": 0.003907515126237313,
+    "training_seed_means": [
+      6.86343574323887,
+      6.858059112625056,
+      6.855835716843425
+    ]
+  },
+  {
+    "T": 4,
+    "method": "rl_sboed_eig",
+    "mean": 6.867418011870742,
+    "sd_across_training_seed_means": 0.0019612965666721267,
+    "training_seed_means": [
+      6.8694606549948345,
+      6.867243679696553,
+      6.865549700920841
+    ]
+  },
+  {
+    "T": 4,
+    "method": "step_dad",
+    "mean": 6.867855878986607,
+    "sd_across_training_seed_means": 0.001108692682962178,
+    "training_seed_means": [
+      6.867399052497208,
+      6.8691199956802675,
+      6.867048588782343
+    ]
+  },
+  {
+    "T": 4,
+    "method": "myopic_delta_h",
+    "mean": 6.743675119850828,
+    "sd_across_training_seed_means": 0.0,
+    "training_seed_means": [
+      6.743675119850828,
+      6.743675119850828,
+      6.743675119850828
+    ],
+    "evaluation_seed_sd_deduplicated": 0.012428412486732206
+  },
+  {
+    "T": 4,
+    "method": "fixed_open_loop",
+    "mean": 6.450062524085958,
+    "sd_across_training_seed_means": 0.0,
+    "training_seed_means": [
+      6.450062524085958,
+      6.450062524085958,
+      6.450062524085958
+    ],
+    "evaluation_seed_sd_deduplicated": 0.009097976273122229
+  },
+  {
+    "T": 4,
+    "method": "random",
+    "mean": 3.8592760991052906,
+    "sd_across_training_seed_means": 0.0,
+    "training_seed_means": [
+      3.8592760991052906,
+      3.8592760991052906,
+      3.8592760991052906
+    ],
+    "evaluation_seed_sd_deduplicated": 0.016704493705059616
+  },
+  {
+    "T": 5,
+    "method": "dad_eig",
+    "mean": 6.865842780666681,
+    "sd_across_training_seed_means": 0.007697584344119551,
+    "training_seed_means": [
+      6.874729283554422,
+      6.861558760358178,
+      6.861240298087445
+    ]
+  },
+  {
+    "T": 5,
+    "method": "rl_sboed_eig",
+    "mean": 6.881419544023699,
+    "sd_across_training_seed_means": 0.0015141222508557076,
+    "training_seed_means": [
+      6.883064955397909,
+      6.881108729191905,
+      6.880084947481283
+    ]
+  },
+  {
+    "T": 5,
+    "method": "step_dad",
+    "mean": 6.876107451712025,
+    "sd_across_training_seed_means": 0.010904288343887254,
+    "training_seed_means": [
+      6.887995165991276,
+      6.87375736573899,
+      6.86656982340581
+    ]
+  },
+  {
+    "T": 5,
+    "method": "myopic_delta_h",
+    "mean": 6.7596017519948415,
+    "sd_across_training_seed_means": 0.0,
+    "training_seed_means": [
+      6.7596017519948415,
+      6.7596017519948415,
+      6.7596017519948415
+    ],
+    "evaluation_seed_sd_deduplicated": 0.013547845131969294
+  },
+  {
+    "T": 5,
+    "method": "fixed_open_loop",
+    "mean": 6.5359663157729155,
+    "sd_across_training_seed_means": 0.0,
+    "training_seed_means": [
+      6.5359663157729155,
+      6.5359663157729155,
+      6.5359663157729155
+    ],
+    "evaluation_seed_sd_deduplicated": 0.004395455320261689
+  },
+  {
+    "T": 5,
+    "method": "random",
+    "mean": 3.9241140312624285,
+    "sd_across_training_seed_means": 0.0,
+    "training_seed_means": [
+      3.9241140312624285,
+      3.9241140312624285,
+      3.9241140312624285
+    ],
+    "evaluation_seed_sd_deduplicated": 0.01669891098026433
+  }
+]

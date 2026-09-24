@@ -1,0 +1,590 @@
+[
+  {
+    "T": 3,
+    "method": "random",
+    "training_seed": 101,
+    "mean_online_seconds": 0.00016081652696205614,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g061",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101"
+  },
+  {
+    "T": 3,
+    "method": "fixed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0013767168056801893,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g061",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101"
+  },
+  {
+    "T": 3,
+    "method": "fixed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0012447684578849778,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g063",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202"
+  },
+  {
+    "T": 3,
+    "method": "fixed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0008663154549140017,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g073",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+  },
+  {
+    "T": 3,
+    "method": "myopic",
+    "training_seed": 101,
+    "mean_online_seconds": 9.999676711919165,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g061",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101"
+  },
+  {
+    "T": 3,
+    "method": "dad",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0012789068144532696,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g061",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101"
+  },
+  {
+    "T": 3,
+    "method": "dad",
+    "training_seed": 202,
+    "mean_online_seconds": 0.00125862033504139,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g063",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202"
+  },
+  {
+    "T": 3,
+    "method": "dad",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0011372277294867672,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g073",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+  },
+  {
+    "T": 3,
+    "method": "rl_sboed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0019628358058980666,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g061",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101"
+  },
+  {
+    "T": 3,
+    "method": "rl_sboed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0014793225745961536,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g063",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202"
+  },
+  {
+    "T": 3,
+    "method": "rl_sboed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0016101985565910581,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g073",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+  },
+  {
+    "T": 3,
+    "method": "step_dad",
+    "training_seed": 101,
+    "mean_online_seconds": 9.234150444162273,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g061",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101"
+  },
+  {
+    "T": 3,
+    "method": "step_dad",
+    "training_seed": 202,
+    "mean_online_seconds": 9.14933161517547,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g063",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202"
+  },
+  {
+    "T": 3,
+    "method": "step_dad",
+    "training_seed": 303,
+    "mean_online_seconds": 8.954781645933204,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g073",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+  },
+  {
+    "T": 4,
+    "method": "random",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0002091893293254543,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g073",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101"
+  },
+  {
+    "T": 4,
+    "method": "fixed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0018106280755697905,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g073",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101"
+  },
+  {
+    "T": 4,
+    "method": "fixed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.001340866871032631,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g077",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202"
+  },
+  {
+    "T": 4,
+    "method": "fixed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.001290424530452583,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g079",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+  },
+  {
+    "T": 4,
+    "method": "myopic",
+    "training_seed": 101,
+    "mean_online_seconds": 13.437180911996014,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g073",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101"
+  },
+  {
+    "T": 4,
+    "method": "dad",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0015340732425102033,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g073",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101"
+  },
+  {
+    "T": 4,
+    "method": "dad",
+    "training_seed": 202,
+    "mean_online_seconds": 0.001301895278932837,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g077",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202"
+  },
+  {
+    "T": 4,
+    "method": "dad",
+    "training_seed": 303,
+    "mean_online_seconds": 0.001412710634516164,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g079",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+  },
+  {
+    "T": 4,
+    "method": "rl_sboed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.005579257249337388,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g073",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101"
+  },
+  {
+    "T": 4,
+    "method": "rl_sboed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0018697204565493546,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g077",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202"
+  },
+  {
+    "T": 4,
+    "method": "rl_sboed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0024822068832387836,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g079",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+  },
+  {
+    "T": 4,
+    "method": "step_dad",
+    "training_seed": 101,
+    "mean_online_seconds": 23.35656008852675,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g073",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101"
+  },
+  {
+    "T": 4,
+    "method": "step_dad",
+    "training_seed": 202,
+    "mean_online_seconds": 23.188384982198233,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g077",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202"
+  },
+  {
+    "T": 4,
+    "method": "step_dad",
+    "training_seed": 303,
+    "mean_online_seconds": 23.1833979327627,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g079",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+  },
+  {
+    "T": 5,
+    "method": "random",
+    "training_seed": 101,
+    "mean_online_seconds": 0.00030928604004050914,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g083",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101"
+  },
+  {
+    "T": 5,
+    "method": "fixed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.004884509811139044,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g083",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101"
+  },
+  {
+    "T": 5,
+    "method": "fixed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0017305886564524069,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g094",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202"
+  },
+  {
+    "T": 5,
+    "method": "fixed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0016237086238106713,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g032",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+  },
+  {
+    "T": 5,
+    "method": "myopic",
+    "training_seed": 101,
+    "mean_online_seconds": 16.9353540299453,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g083",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101"
+  },
+  {
+    "T": 5,
+    "method": "dad",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0018954297277862981,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g083",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101"
+  },
+  {
+    "T": 5,
+    "method": "dad",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0019173988148395438,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g094",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202"
+  },
+  {
+    "T": 5,
+    "method": "dad",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0019688562279043254,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g032",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+  },
+  {
+    "T": 5,
+    "method": "rl_sboed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.002289892124584488,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g083",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101"
+  },
+  {
+    "T": 5,
+    "method": "rl_sboed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.002543212545181935,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g094",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202"
+  },
+  {
+    "T": 5,
+    "method": "rl_sboed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0032913302566157654,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g032",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+  },
+  {
+    "T": 5,
+    "method": "step_dad",
+    "training_seed": 101,
+    "mean_online_seconds": 45.100896960203194,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g083",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101"
+  },
+  {
+    "T": 5,
+    "method": "step_dad",
+    "training_seed": 202,
+    "mean_online_seconds": 44.98355228424407,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g094",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202"
+  },
+  {
+    "T": 5,
+    "method": "step_dad",
+    "training_seed": 303,
+    "mean_online_seconds": 43.99337041142644,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g032",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+  }
+]

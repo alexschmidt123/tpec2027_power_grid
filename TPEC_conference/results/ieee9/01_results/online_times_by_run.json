@@ -1,0 +1,590 @@
+[
+  {
+    "T": 3,
+    "method": "random",
+    "training_seed": 101,
+    "mean_online_seconds": 7.145121768796041e-05,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation"
+  },
+  {
+    "T": 3,
+    "method": "fixed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0005065047813938387,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation"
+  },
+  {
+    "T": 3,
+    "method": "fixed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.00052465410650863,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202"
+  },
+  {
+    "T": 3,
+    "method": "fixed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.000538324114434848,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303"
+  },
+  {
+    "T": 3,
+    "method": "myopic",
+    "training_seed": 101,
+    "mean_online_seconds": 9.308166414562342,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation"
+  },
+  {
+    "T": 3,
+    "method": "dad",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0005290347247258372,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation"
+  },
+  {
+    "T": 3,
+    "method": "dad",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0005345857995659268,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202"
+  },
+  {
+    "T": 3,
+    "method": "dad",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0005473985329444986,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303"
+  },
+  {
+    "T": 3,
+    "method": "rl_sboed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0004821247445458236,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation"
+  },
+  {
+    "T": 3,
+    "method": "rl_sboed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0004909787379195526,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202"
+  },
+  {
+    "T": 3,
+    "method": "rl_sboed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.00050167171866633,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303"
+  },
+  {
+    "T": 3,
+    "method": "step_dad",
+    "training_seed": 101,
+    "mean_online_seconds": 6.340254207093797,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train101"
+  },
+  {
+    "T": 3,
+    "method": "step_dad",
+    "training_seed": 202,
+    "mean_online_seconds": 6.341934666621455,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train202"
+  },
+  {
+    "T": 3,
+    "method": "step_dad",
+    "training_seed": 303,
+    "mean_online_seconds": 6.345233421612041,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train303"
+  },
+  {
+    "T": 4,
+    "method": "random",
+    "training_seed": 101,
+    "mean_online_seconds": 9.445257334543082e-05,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation"
+  },
+  {
+    "T": 4,
+    "method": "fixed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0006163819477175517,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation"
+  },
+  {
+    "T": 4,
+    "method": "fixed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0006305880572957298,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202"
+  },
+  {
+    "T": 4,
+    "method": "fixed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0006213523089778997,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303"
+  },
+  {
+    "T": 4,
+    "method": "myopic",
+    "training_seed": 101,
+    "mean_online_seconds": 12.577336922053291,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation"
+  },
+  {
+    "T": 4,
+    "method": "dad",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0006783260875333023,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation"
+  },
+  {
+    "T": 4,
+    "method": "dad",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0006888421873251597,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202"
+  },
+  {
+    "T": 4,
+    "method": "dad",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0006823910989623982,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303"
+  },
+  {
+    "T": 4,
+    "method": "rl_sboed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0006179332031024387,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation"
+  },
+  {
+    "T": 4,
+    "method": "rl_sboed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0006341949786777453,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202"
+  },
+  {
+    "T": 4,
+    "method": "rl_sboed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0006266594724972189,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303"
+  },
+  {
+    "T": 4,
+    "method": "step_dad",
+    "training_seed": 101,
+    "mean_online_seconds": 15.899297949987764,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train101"
+  },
+  {
+    "T": 4,
+    "method": "step_dad",
+    "training_seed": 202,
+    "mean_online_seconds": 15.649646774262388,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train202"
+  },
+  {
+    "T": 4,
+    "method": "step_dad",
+    "training_seed": 303,
+    "mean_online_seconds": 15.875740473433325,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train303"
+  },
+  {
+    "T": 5,
+    "method": "random",
+    "training_seed": 101,
+    "mean_online_seconds": 0.00012119385974074248,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation"
+  },
+  {
+    "T": 5,
+    "method": "fixed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0007682909345021471,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation"
+  },
+  {
+    "T": 5,
+    "method": "fixed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0007629866534747028,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202"
+  },
+  {
+    "T": 5,
+    "method": "fixed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0007665912677718248,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303"
+  },
+  {
+    "T": 5,
+    "method": "myopic",
+    "training_seed": 101,
+    "mean_online_seconds": 15.891999925847509,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation"
+  },
+  {
+    "T": 5,
+    "method": "dad",
+    "training_seed": 101,
+    "mean_online_seconds": 0.0008382027141730456,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation"
+  },
+  {
+    "T": 5,
+    "method": "dad",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0008382095572111817,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202"
+  },
+  {
+    "T": 5,
+    "method": "dad",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0008377737879830723,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303"
+  },
+  {
+    "T": 5,
+    "method": "rl_sboed",
+    "training_seed": 101,
+    "mean_online_seconds": 0.000764753669500351,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation"
+  },
+  {
+    "T": 5,
+    "method": "rl_sboed",
+    "training_seed": 202,
+    "mean_online_seconds": 0.0007641350954751639,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202"
+  },
+  {
+    "T": 5,
+    "method": "rl_sboed",
+    "training_seed": 303,
+    "mean_online_seconds": 0.0007628289592200114,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303"
+  },
+  {
+    "T": 5,
+    "method": "step_dad",
+    "training_seed": 101,
+    "mean_online_seconds": 29.514689372172143,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T5/train101"
+  },
+  {
+    "T": 5,
+    "method": "step_dad",
+    "training_seed": 202,
+    "mean_online_seconds": 29.231343788481656,
+    "hardware": {
+      "execution_site": "unknown",
+      "cluster": null,
+      "computer_name": "qiqi-workstation",
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
+      "gpu_model": "NVIDIA GeForce RTX 5080"
+    },
+    "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T5/train202"
+  },
+  {
+    "T": 5,
+    "method": "step_dad",
+    "training_seed": 303,
+    "mean_online_seconds": 14.303500833410604,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "faster",
+      "computer_name": "fc026",
+      "cpu_model": "Intel(R) Xeon(R) Platinum 8352Y CPU @ 2.20GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_run": "experiments/09232026/09232026_ieee9_stepdad4_faster_T5_train303/T5/train303"
+  }
+]

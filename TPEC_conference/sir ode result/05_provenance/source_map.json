@@ -1,0 +1,38 @@
+{
+  "04_runs/T3/train_seed_101": {
+    "source": "/home/grads/g/g.lin/Documents/objective_power_grid/experiments/09032026/09032026_121824_sir_ode_EIG_T3_Nobs1_sigma1",
+    "execution_site_evidence": "LabPC run path; consult original logs"
+  },
+  "04_runs/T3/train_seed_202": {
+    "source": "/home/grads/g/g.lin/Documents/objective_power_grid/experiments/09032026/09032026_172447_sir_ode_EIG_T3_Nobs1_sigma1",
+    "execution_site_evidence": "LabPC run path; consult original logs"
+  },
+  "04_runs/T3/train_seed_303": {
+    "source": "/home/grads/g/g.lin/Documents/objective_power_grid/experiments/09032026/09032026_222843_sir_ode_EIG_T3_Nobs1_sigma1",
+    "execution_site_evidence": "LabPC run path; consult original logs"
+  },
+  "04_runs/T4/train_seed_101": {
+    "source": "/home/grads/g/g.lin/Documents/objective_power_grid/experiments/09042026/09042026_033233_sir_ode_EIG_T4_Nobs1_sigma1",
+    "execution_site_evidence": "LabPC run path; consult original logs"
+  },
+  "04_runs/T4/train_seed_202": {
+    "source": "/home/grads/g/g.lin/Documents/objective_power_grid/experiments/09042026/09042026_084300_sir_ode_EIG_T4_Nobs1_sigma1",
+    "execution_site_evidence": "LabPC run path; consult original logs"
+  },
+  "04_runs/T4/train_seed_303": {
+    "source": "/home/grads/g/g.lin/Documents/objective_power_grid/archives/hprc_20260912/hprc_experiments_20260912.tar.gz::experiments/09062026_221336_sir_ode_hprc_seed303_rerun_EIG_T4_Nobs1_sigma1",
+    "execution_site_evidence": "HPRC archived run"
+  },
+  "04_runs/T5/train_seed_101": {
+    "source": "/home/grads/g/g.lin/Documents/objective_power_grid/archives/hprc_20260912/hprc_experiments_20260912.tar.gz::experiments/09042026_162715_sir_ode_hprc_seed101_EIG_T5_Nobs1_sigma1",
+    "execution_site_evidence": "HPRC archived run"
+  },
+  "04_runs/T5/train_seed_202": {
+    "source": "/home/grads/g/g.lin/Documents/objective_power_grid/archives/hprc_20260912/hprc_experiments_20260912.tar.gz::experiments/09042026_164101_sir_ode_hprc_seed202_EIG_T5_Nobs1_sigma1",
+    "execution_site_evidence": "HPRC archived run"
+  },
+  "04_runs/T5/train_seed_303": {
+    "source": "/home/grads/g/g.lin/Documents/objective_power_grid/archives/hprc_20260912/hprc_experiments_20260912.tar.gz::experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1",
+    "execution_site_evidence": "HPRC archived run"
+  }
+}

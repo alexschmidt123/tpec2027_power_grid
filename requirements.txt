@@ -1,0 +1,8 @@
+# Install a PyTorch build matching your NVIDIA GPU and CUDA toolkit first.
+numpy==2.2.6
+scipy==1.15.2
+PyYAML==6.0.3
+torch>=2.4.0
+pycuda==2025.1.2
+matplotlib==3.10.7
+tqdm==4.67.1

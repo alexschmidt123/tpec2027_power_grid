@@ -1,0 +1,146 @@
+[
+  {
+    "T": 3,
+    "method": "fixed",
+    "hours": 0.9604301825419275,
+    "sd": 0.35185285327669724,
+    "values": [
+      0.5541760086356144,
+      1.167868881343036,
+      1.159245657647132
+    ],
+    "sources": [
+      "experiments/09142026/09142026_ieee9_eig_endpoint_rocof_T3_train101_eval1001/T3/run",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303"
+    ]
+  },
+  {
+    "T": 3,
+    "method": "dad",
+    "hours": 0.9565361329124102,
+    "sd": 0.3418032439389982,
+    "values": [
+      0.5618697566337263,
+      1.1567496237288126,
+      1.1509890183746918
+    ],
+    "sources": [
+      "experiments/09142026/09142026_ieee9_eig_endpoint_rocof_T3_train101_eval1001/T3/run",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303"
+    ]
+  },
+  {
+    "T": 3,
+    "method": "rl_sboed",
+    "hours": 0.12018501187528105,
+    "sd": 0.017484292277424825,
+    "values": [
+      0.1000001461726303,
+      0.12991845466144797,
+      0.13063643479176487
+    ],
+    "sources": [
+      "experiments/09142026/09142026_ieee9_eig_endpoint_rocof_T3_train101_eval1001/T3/run",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303"
+    ]
+  },
+  {
+    "T": 4,
+    "method": "fixed",
+    "hours": 1.39614437696386,
+    "sd": 0.5147520988915218,
+    "values": [
+      0.8020008911947824,
+      1.6785579462972884,
+      1.707874293399509
+    ],
+    "sources": [
+      "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303"
+    ]
+  },
+  {
+    "T": 4,
+    "method": "dad",
+    "hours": 1.3926296077298725,
+    "sd": 0.5086392883729914,
+    "values": [
+      0.8056176981780058,
+      1.669501584936192,
+      1.7027695400754197
+    ],
+    "sources": [
+      "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303"
+    ]
+  },
+  {
+    "T": 4,
+    "method": "rl_sboed",
+    "hours": 0.1515129109422021,
+    "sd": 0.02998245567018626,
+    "values": [
+      0.1168989592195592,
+      0.16822540583528786,
+      0.16941436777175922
+    ],
+    "sources": [
+      "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303"
+    ]
+  },
+  {
+    "T": 5,
+    "method": "fixed",
+    "hours": 1.8272953494129427,
+    "sd": 0.6623842097745305,
+    "values": [
+      1.0626173441137912,
+      2.223899782915186,
+      2.1953689212098513
+    ],
+    "sources": [
+      "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303"
+    ]
+  },
+  {
+    "T": 5,
+    "method": "dad",
+    "hours": 1.8309831866751753,
+    "sd": 0.6535130638631996,
+    "values": [
+      1.0765020176578157,
+      2.220387193338635,
+      2.196060349029075
+    ],
+    "sources": [
+      "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303"
+    ]
+  },
+  {
+    "T": 5,
+    "method": "rl_sboed",
+    "hours": 0.18039754198312208,
+    "sd": 0.04484004989152582,
+    "values": [
+      0.12863530480949623,
+      0.20734316813707765,
+      0.20521415300279236
+    ],
+    "sources": [
+      "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202",
+      "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303"
+    ]
+  }
+]

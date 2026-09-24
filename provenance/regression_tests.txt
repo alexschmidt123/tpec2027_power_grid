@@ -1,0 +1,44 @@
+test_all_six_methods_work_with_online_state_and_continuous_actions (test_continuous_eig.ContinuousEIGTests) ... [online-design] fixed update=0 validation_utility=0.880292
+[online-design] fixed update=1 validation_utility=0.880603
+[online-design] dad update=0 validation_utility=0.472325
+[online-design] dad update=1 validation_utility=0.494295
+[online-design] rl_sboed update=0 validation_utility=0.498369
+[online-design] rl_sboed update=1 validation_utility=0.517276
+[online-design] evaluated dad: 0.1s
+[online-design] evaluated rl_sboed: 0.1s
+[online-design] evaluated step_dad: 1.5s
+[online-design] evaluated myopic: 0.5s
+[online-design] evaluated fixed: 0.1s
+[online-design] evaluated random: 0.1s
+ok
+test_feasible_mapping_excludes_overlapping_intervals_and_endpoints (test_continuous_eig.ContinuousEIGTests) ... ok
+test_fixed_policy_does_not_see_observations (test_continuous_eig.ContinuousEIGTests) ... ok
+test_history_order_changes_policy_inputs (test_continuous_eig.ContinuousEIGTests) ... ok
+test_increasing_t3_map_reserves_room_and_preserves_gradients (test_continuous_eig.ContinuousEIGTests) ... ok
+test_saturated_policy_and_external_selector_obey_nonrepetition (test_continuous_eig.ContinuousEIGTests) ... ok
+test_torch_feasible_map_matches_numpy_and_has_history_gradient (test_continuous_eig.ContinuousEIGTests) ... ok
+test_two_stage_pathwise_gradient_includes_carried_state (test_continuous_eig.ContinuousEIGTests) ... ok
+test_uninformative_system_has_zero_sequential_information (test_continuous_eig.ContinuousEIGTests) ... ok
+test_log_density_matches_torch_tanh_transform (test_continuous_redq.REDQTests) ... ok
+test_scalar_rocof_replay_rewards_telescope_and_terminate (test_continuous_redq.REDQTests) ... ok
+test_temperature_decreases_above_target_and_increases_below (test_continuous_redq.REDQTests) ... ok
+test_conditional_t3_stepdad_gradients (test_endpoint_rocof.EndpointRocofTests) ... ok
+test_full_t3_fixed_and_dad_gradients (test_endpoint_rocof.EndpointRocofTests) ... ok
+test_signed_endpoint_and_state_carry_against_independent_cpu (test_endpoint_rocof.EndpointRocofTests) ... ok
+test_conditional_refinement_gradients (tools.tests.test_rocof_pathwise.RocofPathwiseTests) ... ok
+test_fixed_interior_initializations_have_working_gradients (tools.tests.test_rocof_pathwise.RocofPathwiseTests) ... ok
+test_full_objective_gradients_t3_t4_t5 (tools.tests.test_rocof_pathwise.RocofPathwiseTests) ... ok
+test_primal_active_sample_matches_maximum (tools.tests.test_rocof_pathwise.RocofPathwiseTests) ... ok
+test_absolute_time_sequence_against_independent_solver (test_ieee14_cpu.IEEE14CPUTests) ... ok
+test_batched_scalar_and_posterior_reference (test_ieee14_cpu.IEEE14CPUTests) ... ok
+test_prior_shape_equilibrium_and_unsupported_system (test_ieee14_cpu.IEEE14CPUTests) ... ok
+test_reference_case_reduction_and_bus_mapping (test_ieee14_cpu.IEEE14CPUTests) ... ok
+test_conditional_refinement_gradients (test_rocof_pathwise.RocofPathwiseTests) ... ok
+test_fixed_interior_initializations_have_working_gradients (test_rocof_pathwise.RocofPathwiseTests) ... ok
+test_full_objective_gradients_t3_t4_t5 (test_rocof_pathwise.RocofPathwiseTests) ... ok
+test_primal_active_sample_matches_maximum (test_rocof_pathwise.RocofPathwiseTests) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 214.826s
+
+OK

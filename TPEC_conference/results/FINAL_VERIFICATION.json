@@ -1,0 +1,16 @@
+{
+  "verified_utc": "2026-09-23T15:25:10.462113+00:00",
+  "conference_grid_complete": true,
+  "grid_method_T_groups": 36,
+  "grid_unique_evaluation_runs": 27,
+  "grid_verified_raw_files": 2847,
+  "grid_model_files": 54,
+  "reused_checkpoint_references_verified": 18,
+  "receipt_count": 5,
+  "broken_navigation_links": [],
+  "checksum_errors": [],
+  "all_navigation_targets_inside_TPEC": true,
+  "sir_verified_files": 397,
+  "sir_model_files": 18,
+  "sir_checksum_errors": []
+}

@@ -1,0 +1,146 @@
+[
+  {
+    "T": 3,
+    "method": "fixed",
+    "hours": 1.876957428422584,
+    "sd": 0.011107238080121606,
+    "values": [
+      1.8795998277603132,
+      1.886505176820275,
+      1.864767280687164
+    ],
+    "sources": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+    ]
+  },
+  {
+    "T": 3,
+    "method": "dad",
+    "hours": 1.8936455043907174,
+    "sd": 0.0324996163204534,
+    "values": [
+      1.930569356243747,
+      1.8693786724160115,
+      1.8809884845123936
+    ],
+    "sources": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+    ]
+  },
+  {
+    "T": 3,
+    "method": "rl_sboed",
+    "hours": 0.16963987251829907,
+    "sd": 0.007805746394319153,
+    "values": [
+      0.16326785403200322,
+      0.17834654404781758,
+      0.16730521947507643
+    ],
+    "sources": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+    ]
+  },
+  {
+    "T": 4,
+    "method": "fixed",
+    "hours": 2.749807121105216,
+    "sd": 0.0018558493200547632,
+    "values": [
+      2.7500784196394186,
+      2.747830555075262,
+      2.751512388600968
+    ],
+    "sources": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+    ]
+  },
+  {
+    "T": 4,
+    "method": "dad",
+    "hours": 2.72537288886288,
+    "sd": 0.01789086494347255,
+    "values": [
+      2.70656885097062,
+      2.7273661854066367,
+      2.7421836302113825
+    ],
+    "sources": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+    ]
+  },
+  {
+    "T": 4,
+    "method": "rl_sboed",
+    "hours": 0.20441651145668907,
+    "sd": 0.0009901303738192476,
+    "values": [
+      0.2054909704144423,
+      0.20354088632441644,
+      0.20421767763120846
+    ],
+    "sources": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+    ]
+  },
+  {
+    "T": 5,
+    "method": "fixed",
+    "hours": 3.6912759054709157,
+    "sd": 0.04993120780414029,
+    "values": [
+      3.7202331346770126,
+      3.7199740747952212,
+      3.633620506940513
+    ],
+    "sources": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+    ]
+  },
+  {
+    "T": 5,
+    "method": "dad",
+    "hours": 3.62632765287016,
+    "sd": 0.06753279725582709,
+    "values": [
+      3.6977401386294515,
+      3.617748359016453,
+      3.5634944609645753
+    ],
+    "sources": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+    ]
+  },
+  {
+    "T": 5,
+    "method": "rl_sboed",
+    "hours": 0.24838702836919024,
+    "sd": 0.0008020465904084403,
+    "values": [
+      0.24886849614791573,
+      0.2488314370319454,
+      0.24746115192770957
+    ],
+    "sources": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+    ]
+  }
+]

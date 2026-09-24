@@ -1,0 +1,11 @@
+{
+  "network": "ieee9",
+  "missing_runs": [],
+  "conference_complete": true,
+  "required_evaluation_seeds": [
+    1001,
+    1002,
+    1003
+  ],
+  "missing_evaluation_seeds": []
+}

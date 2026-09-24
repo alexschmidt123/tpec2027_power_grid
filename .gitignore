@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.DS_Store
+AGENTS.md
+/data/
+/experiments/
+/TPEC_conference/*.aux
+/TPEC_conference/*.log
+/TPEC_conference/*.bbl
+/TPEC_conference/*.blg
+/TPEC_conference/*.out
+/TPEC_conference/*.fls
+/TPEC_conference/*.fdb_latexmk

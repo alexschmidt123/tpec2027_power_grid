@@ -1,0 +1,17 @@
+{
+  "protocol": "crossed_publication_protocol_v1",
+  "training_seed": 303,
+  "evaluation_seeds": [
+    1001,
+    1002,
+    1003,
+    1004,
+    1005
+  ],
+  "model_scope": "copied_from_source_run",
+  "shared_models_across_run_folders": true,
+  "source_run": "/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_135537_sir_ode_EIG_T4_Nobs1_sigma1",
+  "rerun_of_existing_training_seed": true,
+  "status": "complete",
+  "note": "Use this run instead of its incomplete source; it is not another training seed."
+}

@@ -1,0 +1,7 @@
+# Preserve archived scientific records byte-for-byte on every platform.
+TPEC_conference/results/** -text
+"TPEC_conference/sir ode result/**" -text
+*.pth binary
+*.pdf binary
+*.npy binary
+*.npz binary

@@ -1,0 +1,722 @@
+[
+  {
+    "T": 3,
+    "method": "random",
+    "mean_seconds": 7.145121768796041e-05,
+    "sample_sd_seconds": 8.928448762708613e-08,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      7.139366789488122e-05,
+      7.140591333154589e-05,
+      7.15540718374541e-05
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 7.139366789488122e-05,
+          "1002": 7.140591333154589e-05,
+          "1003": 7.15540718374541e-05
+        }
+      }
+    ]
+  },
+  {
+    "T": 3,
+    "method": "fixed",
+    "mean_seconds": 0.0005231610007791056,
+    "sample_sd_seconds": 3.76067872827189e-05,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      0.0005109356085692222,
+      0.0004931880309110662,
+      0.0005653593628570283
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0005511938197741983,
+          "1002": 0.00048522139513806906,
+          "1003": 0.0004830991292692488
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0004866923245572252,
+          "1002": 0.0004921095369354589,
+          "1003": 0.0005951604580332059
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.000494920681376243,
+          "1002": 0.0005022331606596708,
+          "1003": 0.0006178185012686299
+        }
+      }
+    ]
+  },
+  {
+    "T": 3,
+    "method": "myopic",
+    "mean_seconds": 9.308166414562342,
+    "sample_sd_seconds": 0.003986897968003537,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      9.309436434827148,
+      9.303699219439295,
+      9.31136358942058
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 9.309436434827148,
+          "1002": 9.303699219439295,
+          "1003": 9.31136358942058
+        }
+      }
+    ]
+  },
+  {
+    "T": 3,
+    "method": "dad",
+    "mean_seconds": 0.0005370063524120876,
+    "sample_sd_seconds": 2.4325670861689005e-06,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      0.0005343996920904223,
+      0.0005392159794913217,
+      0.0005374033856545187
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0005305348022375256,
+          "1002": 0.0005300054672261467,
+          "1003": 0.0005265639047138393
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0005291345296427608,
+          "1002": 0.0005397194927354576,
+          "1003": 0.0005349033763195621
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0005435297443909803,
+          "1002": 0.0005479229785123607,
+          "1003": 0.0005507428759301547
+        }
+      }
+    ]
+  },
+  {
+    "T": 3,
+    "method": "rl_sboed",
+    "mean_seconds": 0.0004915917337105687,
+    "sample_sd_seconds": 3.336466127499414e-06,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      0.0004884012923866976,
+      0.0004913167085760506,
+      0.0004950572001689579
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.00048257186790579,
+          "1002": 0.0004806077849934809,
+          "1003": 0.0004831945807381999
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0004874144960922422,
+          "1002": 0.00048704886103223544,
+          "1003": 0.0004984728566341801
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0004952175131620606,
+          "1002": 0.0005062934797024354,
+          "1003": 0.0005035041631344939
+        }
+      }
+    ]
+  },
+  {
+    "T": 3,
+    "method": "step_dad",
+    "mean_seconds": 6.342474098442431,
+    "sample_sd_seconds": 0.0017390935559487705,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      6.344235195325989,
+      6.3407578767861805,
+      6.342429223215125
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train101",
+        "evaluation_seed_means_seconds": {
+          "1001": 6.341996221863155,
+          "1002": 6.3379526579301455,
+          "1003": 6.340813741488091
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 6.343898947387061,
+          "1002": 6.3392894455828355,
+          "1003": 6.342615606894469
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 6.346810416727749,
+          "1002": 6.34503152684556,
+          "1003": 6.343858321262815
+        }
+      }
+    ]
+  },
+  {
+    "T": 4,
+    "method": "random",
+    "mean_seconds": 9.445257334543082e-05,
+    "sample_sd_seconds": 3.273385978668367e-08,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      9.441623478778638e-05,
+      9.44797502597794e-05,
+      9.446173498872668e-05
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 9.441623478778638e-05,
+          "1002": 9.44797502597794e-05,
+          "1003": 9.446173498872668e-05
+        }
+      }
+    ]
+  },
+  {
+    "T": 4,
+    "method": "fixed",
+    "mean_seconds": 0.0006227741046637271,
+    "sample_sd_seconds": 1.7427003915973584e-06,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      0.0006208294331978929,
+      0.0006241944295955667,
+      0.0006232984511977216
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0006112876944825985,
+          "1002": 0.0006176941315061413,
+          "1003": 0.0006201640171639156
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0006320320717350114,
+          "1002": 0.000629328416835051,
+          "1003": 0.0006304036833171267
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0006191685333760688,
+          "1002": 0.0006255607404455077,
+          "1003": 0.0006193276531121228
+        }
+      }
+    ]
+  },
+  {
+    "T": 4,
+    "method": "myopic",
+    "mean_seconds": 12.577336922053291,
+    "sample_sd_seconds": 0.0015381262394159488,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      12.577155610946647,
+      12.575897487073235,
+      12.578957668139992
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 12.577155610946647,
+          "1002": 12.575897487073235,
+          "1003": 12.578957668139992
+        }
+      }
+    ]
+  },
+  {
+    "T": 4,
+    "method": "dad",
+    "mean_seconds": 0.0006831864579402867,
+    "sample_sd_seconds": 1.7812598990901191e-06,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      0.0006851858846251465,
+      0.0006817688851394147,
+      0.0006826046040562991
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0006940164967090823,
+          "1002": 0.0006680875940219266,
+          "1003": 0.000672874171868898
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0006856924192106817,
+          "1002": 0.000692233488734928,
+          "1003": 0.0006886006540298695
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0006758487379556755,
+          "1002": 0.0006849855726613896,
+          "1003": 0.0006863389862701297
+        }
+      }
+    ]
+  },
+  {
+    "T": 4,
+    "method": "rl_sboed",
+    "mean_seconds": 0.000626262551425801,
+    "sample_sd_seconds": 9.388092283669443e-07,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      0.0006271618470539883,
+      0.0006252886772320684,
+      0.0006263371299913464
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0006184950671013212,
+          "1002": 0.0006143675291241379,
+          "1003": 0.000620937013081857
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0006357654310704675,
+          "1002": 0.0006318419218587223,
+          "1003": 0.0006349775831040461
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.000627225042990176,
+          "1002": 0.0006296565807133447,
+          "1003": 0.000623096793788136
+        }
+      }
+    ]
+  },
+  {
+    "T": 4,
+    "method": "step_dad",
+    "mean_seconds": 15.808228399227826,
+    "sample_sd_seconds": 0.009255903146797683,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      15.81718403559959,
+      15.798698930228056,
+      15.80880223185583
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train101",
+        "evaluation_seed_means_seconds": {
+          "1001": 15.911896133344271,
+          "1002": 15.877284726611833,
+          "1003": 15.908712990007189
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 15.69833320592079,
+          "1002": 15.629487507552767,
+          "1003": 15.62111960931361
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 15.841322767533711,
+          "1002": 15.889324556519568,
+          "1003": 15.896574096246695
+        }
+      }
+    ]
+  },
+  {
+    "T": 5,
+    "method": "random",
+    "mean_seconds": 0.00012119385974074248,
+    "sample_sd_seconds": 5.112036781070494e-07,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      0.00012121472900616936,
+      0.00012067254101566505,
+      0.00012169430920039304
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.00012121472900616936,
+          "1002": 0.00012067254101566505,
+          "1003": 0.00012169430920039304
+        }
+      }
+    ]
+  },
+  {
+    "T": 5,
+    "method": "fixed",
+    "mean_seconds": 0.0007659562852495583,
+    "sample_sd_seconds": 1.928478809753792e-06,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      0.0007644008025332975,
+      0.0007653540318036297,
+      0.0007681140214117477
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0007672140545764705,
+          "1002": 0.0007689031153859105,
+          "1003": 0.0007687556335440604
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0007625837861269247,
+          "1002": 0.0007605732935189735,
+          "1003": 0.0007658028807782102
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0007634045668964973,
+          "1002": 0.000766585686506005,
+          "1003": 0.0007697835499129724
+        }
+      }
+    ]
+  },
+  {
+    "T": 5,
+    "method": "myopic",
+    "mean_seconds": 15.891999925847509,
+    "sample_sd_seconds": 0.002194676518694647,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      15.889533148980263,
+      15.893736170062766,
+      15.8927304584995
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 15.889533148980263,
+          "1002": 15.893736170062766,
+          "1003": 15.8927304584995
+        }
+      }
+    ]
+  },
+  {
+    "T": 5,
+    "method": "dad",
+    "mean_seconds": 0.0008380620197890999,
+    "sample_sd_seconds": 3.6440482161065052e-06,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      0.0008341581906279316,
+      0.0008413737784091305,
+      0.0008386540903302375
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0008334066023962805,
+          "1002": 0.0008396350694965804,
+          "1003": 0.000841566470626276
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0008304815346491523,
+          "1002": 0.000842381803522585,
+          "1003": 0.000841765333461808
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.000838586434838362,
+          "1002": 0.0008421044622082263,
+          "1003": 0.0008326304669026285
+        }
+      }
+    ]
+  },
+  {
+    "T": 5,
+    "method": "rl_sboed",
+    "mean_seconds": 0.0007639059080651754,
+    "sample_sd_seconds": 2.4491619762397907e-06,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      0.0007636189147888217,
+      0.0007616128865871966,
+      0.0007664859228195079
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0007661164490855299,
+          "1002": 0.0007625964153703535,
+          "1003": 0.0007655481440451695
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0007602482346555917,
+          "1002": 0.0007583767692267429,
+          "1003": 0.0007737802825431572
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 0.0007644920606253436,
+          "1002": 0.0007638654751644935,
+          "1003": 0.0007601293418701971
+        }
+      }
+    ]
+  },
+  {
+    "T": 5,
+    "method": "step_dad",
+    "mean_seconds": 24.349844664688135,
+    "sample_sd_seconds": 0.04999655814020031,
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "evaluation_seed_means_seconds": [
+      24.398508572829087,
+      24.352411109439952,
+      24.298614311795365
+    ],
+    "aggregation": "Mean over 512 episodes within each training/evaluation cell, then over training seeds within each evaluation seed; mean and sample SD across three evaluation-seed means.",
+    "source_runs": [
+      {
+        "training_seed": 101,
+        "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T5/train101",
+        "evaluation_seed_means_seconds": {
+          "1001": 29.54499345559816,
+          "1002": 29.539145680497313,
+          "1003": 29.459928980420955
+        }
+      },
+      {
+        "training_seed": 202,
+        "source_run": "experiments/09212026/09212026_ieee9_conference_stepdad4/T5/train202",
+        "evaluation_seed_means_seconds": {
+          "1001": 29.18112400121936,
+          "1002": 29.251471103998483,
+          "1003": 29.26143626022713
+        }
+      },
+      {
+        "training_seed": 303,
+        "source_run": "experiments/09232026/09232026_ieee9_stepdad4_faster_T5_train303/T5/train303",
+        "evaluation_seed_means_seconds": {
+          "1001": 14.469408261669741,
+          "1002": 14.266616543824057,
+          "1003": 14.174477694738016
+        }
+      }
+    ]
+  }
+]

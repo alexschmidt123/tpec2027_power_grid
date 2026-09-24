@@ -1,0 +1,16 @@
+{
+  "state": "complete",
+  "training_runs": 9,
+  "evaluation_cells": 45,
+  "method_summaries": 270,
+  "canonical_neural_checkpoints": 18,
+  "canonical_fixed_designs": 9,
+  "neural_checkpoint_files_including_workspaces": 28,
+  "all_neural_checkpoints_strict_cpu_load": true,
+  "all_original_copy_hashes_verified": true,
+  "all_45_evaluation_sets_checked_against_per_system_rollouts": true,
+  "all_methods_512_systems": true,
+  "posterior_particles": 1024,
+  "no_retraining": true,
+  "scientific_claim": "Artifact completeness and consistency, not independent reproduction of historical training."
+}

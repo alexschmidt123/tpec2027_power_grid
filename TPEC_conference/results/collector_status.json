@@ -1,0 +1,19 @@
+{
+  "pid": 69844,
+  "started_utc": "2026-09-23T04:17:42.964785+00:00",
+  "collected": [
+    "ubuntu_seed202",
+    "faster_seed303"
+  ],
+  "errors": [],
+  "complete": true,
+  "ubuntu_seed202": {
+    "complete": true,
+    "failed": false
+  },
+  "faster_seed303": {
+    "complete": true,
+    "failed": false
+  },
+  "updated_utc": "2026-09-23T10:29:05.759365+00:00"
+}

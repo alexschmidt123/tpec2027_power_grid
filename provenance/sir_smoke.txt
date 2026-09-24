@@ -1,0 +1,29 @@
+[sir-bank] iDAD-matched SIR ODE: N=500.0 I0=2.0 n_grid=10000 t_end=100.0 (observe I count)
+[sir-bank] wrote /home/grads/g/g.lin/Documents/tpec2027_power_grid/experiments/09232026/09232026_release_validation/sir/smoke_bank train=32 test=12 n_t=10000 dt=0.010001 I=[32, 10000] A=100 (3.1s)
+[eig:dad_eig] BC warm-start trajectories=12 horizon=3 n_actions=100 lookahead=two_step temp=0.5 actor_critic=False obs_seed=101
+[eig:dad_eig] BC 1/12
+[eig:dad_eig] BC 2/12
+[eig:dad_eig] BC 3/12
+[eig:dad_eig] BC 4/12
+[eig:dad_eig] BC 5/12
+[eig:dad_eig] BC 6/12
+[eig:dad_eig] BC 7/12
+[eig:dad_eig] BC 8/12
+[eig:dad_eig] BC 9/12
+[eig:dad_eig] BC 10/12
+[eig:dad_eig] BC 11/12
+[eig:dad_eig] BC 12/12
+[eig:rl_sboed_eig] BC warm-start trajectories=12 horizon=3 n_actions=100 lookahead=two_step temp=0.5 actor_critic=True obs_seed=101
+[eig:rl_sboed_eig] BC 1/12
+[eig:rl_sboed_eig] BC 2/12
+[eig:rl_sboed_eig] BC 3/12
+[eig:rl_sboed_eig] BC 4/12
+[eig:rl_sboed_eig] BC 5/12
+[eig:rl_sboed_eig] BC 6/12
+[eig:rl_sboed_eig] BC 7/12
+[eig:rl_sboed_eig] BC 8/12
+[eig:rl_sboed_eig] BC 9/12
+[eig:rl_sboed_eig] BC 10/12
+[eig:rl_sboed_eig] BC 11/12
+[eig:rl_sboed_eig] BC 12/12
+SIR_EIG_COMPLETE /home/grads/g/g.lin/Documents/tpec2027_power_grid/experiments/09232026/09232026_release_validation/sir

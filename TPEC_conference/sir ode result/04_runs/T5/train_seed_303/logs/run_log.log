@@ -1,0 +1,98 @@
+Log file: /scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1/logs/run_log.log
+=== run.sh (config=configs/sir_ode.yaml type=eig_based T=5 N_obs=1 noise_sigma=1 seed=303 methods=config) ===
+Result folder: /scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+Evaluate: dad rl_sboed step_dad myopic fixed random
+Train: dad rl_sboed
+=== data_generation (config=configs/sir_ode.yaml type=eig_based T=5 N_obs=1 noise_sigma=1 seed=303 methods=config) ===
+[full-bank] no data.reuse_bank_dir; nothing to ensure
+[generate-data] type=eig_based config=/home/g.lin/objective_power_grid/configs/sir_ode.yaml exp_dir=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1 smoke=False force=False methods=['dad', 'rl_sboed', 'step_dad', 'myopic', 'fixed', 'random']
+[generate-data] SIR ODE dataset_dir=/scratch/user/g.lin/objective_power_grid_runtime/data/sir_ode
+[generate-data] reused=True path=/scratch/user/g.lin/objective_power_grid_runtime/data/sir_ode train=10000 test=3000 actions=100
+EXP_DIR=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+=== training method=dad (config=configs/sir_ode.yaml type=eig_based T=5 N_obs=1 noise_sigma=1 seed=303) ===
+[prior] SIR using mc_samples=1024/7500 fit particles (seed=1)
+[eig:dad_eig] BC warm-start trajectories=128 horizon=5 n_actions=100 lookahead=two_step temp=0.5 actor_critic=False obs_seed=303
+[eig:dad_eig] BC 1/128
+[eig:dad_eig] BC 16/128
+[eig:dad_eig] BC 32/128
+[eig:dad_eig] BC 48/128
+[eig:dad_eig] BC 64/128
+[eig:dad_eig] BC 80/128
+[eig:dad_eig] BC 96/128
+[eig:dad_eig] BC 112/128
+[eig:dad_eig] BC 128/128
+[train] dad_eig val_eig=6.887839958831542 uniq=35 stage=epoch_200 5553s → /scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1/model/dad_eig.pth
+EXP_DIR=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+=== training method=rl_sboed (config=configs/sir_ode.yaml type=eig_based T=5 N_obs=1 noise_sigma=1 seed=303) ===
+[prior] SIR using mc_samples=1024/7500 fit particles (seed=1)
+[eig:rl_sboed_eig] BC warm-start trajectories=128 horizon=5 n_actions=100 lookahead=two_step temp=0.5 actor_critic=True obs_seed=303
+[eig:rl_sboed_eig] BC 1/128
+[eig:rl_sboed_eig] BC 16/128
+[eig:rl_sboed_eig] BC 32/128
+[eig:rl_sboed_eig] BC 48/128
+[eig:rl_sboed_eig] BC 64/128
+[eig:rl_sboed_eig] BC 80/128
+[eig:rl_sboed_eig] BC 96/128
+[eig:rl_sboed_eig] BC 112/128
+[eig:rl_sboed_eig] BC 128/128
+[train] rl_sboed_eig val_eig=6.908986960090955 uniq=52 stage=epoch_84 4115s → /scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1/model/rl_sboed_eig.pth
+EXP_DIR=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+=== crossed evaluation train_seed=303 eval_seed=1001 ===
+=== evaluation (config=configs/sir_ode.yaml type=eig_based T=5 N_obs=1 noise_sigma=1 seed=303 methods=config) ===
+[prior] SIR using mc_samples=1024/7500 fit particles (seed=1)
+[evaluate] type=eig_based methods=['dad', 'rl_sboed', 'step_dad', 'myopic', 'fixed', 'random'] eval_seed=1001 N_obs=1 exp_dir=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+[evaluate] dad_eig eig=6.8503 uniq=46 eval_seed=1001
+[evaluate] rl_sboed_eig eig=6.8818 uniq=61 eval_seed=1001
+[evaluate] step_dad eig=6.8665 uniq=159 eval_seed=1001
+[evaluate] myopic_delta_h eig=6.7805 uniq=501 eval_seed=1001
+[evaluate] fixed_open_loop eig=6.5371 uniq=1 eval_seed=1001
+[evaluate] random eig=3.9074 uniq=14149 eval_seed=1001
+EXP_DIR=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+=== crossed evaluation train_seed=303 eval_seed=1002 ===
+=== evaluation (config=configs/sir_ode.yaml type=eig_based T=5 N_obs=1 noise_sigma=1 seed=303 methods=config) ===
+[prior] SIR using mc_samples=1024/7500 fit particles (seed=1)
+[evaluate] type=eig_based methods=['dad', 'rl_sboed', 'step_dad', 'myopic', 'fixed', 'random'] eval_seed=1002 N_obs=1 exp_dir=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+[evaluate] dad_eig eig=6.8659 uniq=48 eval_seed=1002
+[evaluate] rl_sboed_eig eig=6.8870 uniq=61 eval_seed=1002
+[evaluate] step_dad eig=6.8712 uniq=164 eval_seed=1002
+[evaluate] myopic_delta_h eig=6.7530 uniq=509 eval_seed=1002
+[evaluate] fixed_open_loop eig=6.5296 uniq=1 eval_seed=1002
+[evaluate] random eig=3.9304 uniq=14199 eval_seed=1002
+EXP_DIR=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+=== crossed evaluation train_seed=303 eval_seed=1003 ===
+=== evaluation (config=configs/sir_ode.yaml type=eig_based T=5 N_obs=1 noise_sigma=1 seed=303 methods=config) ===
+[prior] SIR using mc_samples=1024/7500 fit particles (seed=1)
+[evaluate] type=eig_based methods=['dad', 'rl_sboed', 'step_dad', 'myopic', 'fixed', 'random'] eval_seed=1003 N_obs=1 exp_dir=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+[evaluate] dad_eig eig=6.8646 uniq=51 eval_seed=1003
+[evaluate] rl_sboed_eig eig=6.8818 uniq=61 eval_seed=1003
+[evaluate] step_dad eig=6.8569 uniq=158 eval_seed=1003
+[evaluate] myopic_delta_h eig=6.7459 uniq=503 eval_seed=1003
+[evaluate] fixed_open_loop eig=6.5364 uniq=1 eval_seed=1003
+[evaluate] random eig=3.9115 uniq=14182 eval_seed=1003
+EXP_DIR=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+=== crossed evaluation train_seed=303 eval_seed=1004 ===
+=== evaluation (config=configs/sir_ode.yaml type=eig_based T=5 N_obs=1 noise_sigma=1 seed=303 methods=config) ===
+[prior] SIR using mc_samples=1024/7500 fit particles (seed=1)
+[evaluate] type=eig_based methods=['dad', 'rl_sboed', 'step_dad', 'myopic', 'fixed', 'random'] eval_seed=1004 N_obs=1 exp_dir=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+[evaluate] dad_eig eig=6.8572 uniq=49 eval_seed=1004
+[evaluate] rl_sboed_eig eig=6.8802 uniq=59 eval_seed=1004
+[evaluate] step_dad eig=6.8598 uniq=166 eval_seed=1004
+[evaluate] myopic_delta_h eig=6.7536 uniq=507 eval_seed=1004
+[evaluate] fixed_open_loop eig=6.5350 uniq=1 eval_seed=1004
+[evaluate] random eig=3.9493 uniq=14171 eval_seed=1004
+EXP_DIR=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+=== crossed evaluation train_seed=303 eval_seed=1005 ===
+=== evaluation (config=configs/sir_ode.yaml type=eig_based T=5 N_obs=1 noise_sigma=1 seed=303 methods=config) ===
+[prior] SIR using mc_samples=1024/7500 fit particles (seed=1)
+[evaluate] type=eig_based methods=['dad', 'rl_sboed', 'step_dad', 'myopic', 'fixed', 'random'] eval_seed=1005 N_obs=1 exp_dir=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+[evaluate] dad_eig eig=6.8682 uniq=50 eval_seed=1005
+[evaluate] rl_sboed_eig eig=6.8697 uniq=62 eval_seed=1005
+[evaluate] step_dad eig=6.8785 uniq=163 eval_seed=1005
+[evaluate] myopic_delta_h eig=6.7650 uniq=508 eval_seed=1005
+[evaluate] fixed_open_loop eig=6.5418 uniq=1 eval_seed=1005
+[evaluate] random eig=3.9220 uniq=14099 eval_seed=1005
+EXP_DIR=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+
+Done config=configs/sir_ode.yaml type=eig_based T=5.
+EXP_DIR=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1
+LOG_FILE=/scratch/user/g.lin/objective_power_grid_runtime/experiments/09042026_164321_sir_ode_hprc_seed303_EIG_T5_Nobs1_sigma1/logs/run_log.log

@@ -1,0 +1,16 @@
+[online-design] fixed update=0 validation_utility=2.197094
+[online-design] fixed update=1 validation_utility=2.197086
+[online-design] fixed update=2 validation_utility=2.197088
+[online-design] dad update=0 validation_utility=2.197094
+[online-design] dad update=1 validation_utility=2.197037
+[online-design] dad update=2 validation_utility=2.197064
+[online-design] rl_sboed update=0 validation_utility=0.170424
+[online-design] rl_sboed update=1 validation_utility=0.237526
+[online-design] rl_sboed update=2 validation_utility=0.066653
+[online-design] evaluated dad: 1.2s
+[online-design] evaluated rl_sboed: 1.2s
+[online-design] evaluated step_dad: 16.6s
+[online-design] evaluated myopic: 6.4s
+[online-design] evaluated fixed: 1.1s
+[online-design] evaluated random: 1.1s
+CONTINUOUS_EIG_COMPLETE /home/grads/g/g.lin/Documents/tpec2027_power_grid/experiments/09232026/09232026_release_validation/ieee14

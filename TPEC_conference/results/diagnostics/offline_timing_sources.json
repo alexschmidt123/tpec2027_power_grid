@@ -1,0 +1,294 @@
+{
+  "ieee9": [
+    {
+      "T": 3,
+      "method": "fixed",
+      "hours": 0.9604301825419275,
+      "sd": 0.35185285327669724,
+      "values": [
+        0.5541760086356144,
+        1.167868881343036,
+        1.159245657647132
+      ],
+      "sources": [
+        "experiments/09142026/09142026_ieee9_eig_endpoint_rocof_T3_train101_eval1001/T3/run",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303"
+      ]
+    },
+    {
+      "T": 3,
+      "method": "dad",
+      "hours": 0.9565361329124102,
+      "sd": 0.3418032439389982,
+      "values": [
+        0.5618697566337263,
+        1.1567496237288126,
+        1.1509890183746918
+      ],
+      "sources": [
+        "experiments/09142026/09142026_ieee9_eig_endpoint_rocof_T3_train101_eval1001/T3/run",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303"
+      ]
+    },
+    {
+      "T": 3,
+      "method": "rl_sboed",
+      "hours": 0.12018501187528105,
+      "sd": 0.017484292277424825,
+      "values": [
+        0.1000001461726303,
+        0.12991845466144797,
+        0.13063643479176487
+      ],
+      "sources": [
+        "experiments/09142026/09142026_ieee9_eig_endpoint_rocof_T3_train101_eval1001/T3/run",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303"
+      ]
+    },
+    {
+      "T": 4,
+      "method": "fixed",
+      "hours": 1.39614437696386,
+      "sd": 0.5147520988915218,
+      "values": [
+        0.8020008911947824,
+        1.6785579462972884,
+        1.707874293399509
+      ],
+      "sources": [
+        "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303"
+      ]
+    },
+    {
+      "T": 4,
+      "method": "dad",
+      "hours": 1.3926296077298725,
+      "sd": 0.5086392883729914,
+      "values": [
+        0.8056176981780058,
+        1.669501584936192,
+        1.7027695400754197
+      ],
+      "sources": [
+        "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303"
+      ]
+    },
+    {
+      "T": 4,
+      "method": "rl_sboed",
+      "hours": 0.1515129109422021,
+      "sd": 0.02998245567018626,
+      "values": [
+        0.1168989592195592,
+        0.16822540583528786,
+        0.16941436777175922
+      ],
+      "sources": [
+        "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303"
+      ]
+    },
+    {
+      "T": 5,
+      "method": "fixed",
+      "hours": 1.8272953494129427,
+      "sd": 0.6623842097745305,
+      "values": [
+        1.0626173441137912,
+        2.223899782915186,
+        2.1953689212098513
+      ],
+      "sources": [
+        "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303"
+      ]
+    },
+    {
+      "T": 5,
+      "method": "dad",
+      "hours": 1.8309831866751753,
+      "sd": 0.6535130638631996,
+      "values": [
+        1.0765020176578157,
+        2.220387193338635,
+        2.196060349029075
+      ],
+      "sources": [
+        "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303"
+      ]
+    },
+    {
+      "T": 5,
+      "method": "rl_sboed",
+      "hours": 0.18039754198312208,
+      "sd": 0.04484004989152582,
+      "values": [
+        0.12863530480949623,
+        0.20734316813707765,
+        0.20521415300279236
+      ],
+      "sources": [
+        "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202",
+        "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303"
+      ]
+    }
+  ],
+  "ieee14": [
+    {
+      "T": 3,
+      "method": "fixed",
+      "hours": 1.876957428422584,
+      "sd": 0.011107238080121606,
+      "values": [
+        1.8795998277603132,
+        1.886505176820275,
+        1.864767280687164
+      ],
+      "sources": [
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+      ]
+    },
+    {
+      "T": 3,
+      "method": "dad",
+      "hours": 1.8936455043907174,
+      "sd": 0.0324996163204534,
+      "values": [
+        1.930569356243747,
+        1.8693786724160115,
+        1.8809884845123936
+      ],
+      "sources": [
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+      ]
+    },
+    {
+      "T": 3,
+      "method": "rl_sboed",
+      "hours": 0.16963987251829907,
+      "sd": 0.007805746394319153,
+      "values": [
+        0.16326785403200322,
+        0.17834654404781758,
+        0.16730521947507643
+      ],
+      "sources": [
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+      ]
+    },
+    {
+      "T": 4,
+      "method": "fixed",
+      "hours": 2.749807121105216,
+      "sd": 0.0018558493200547632,
+      "values": [
+        2.7500784196394186,
+        2.747830555075262,
+        2.751512388600968
+      ],
+      "sources": [
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+      ]
+    },
+    {
+      "T": 4,
+      "method": "dad",
+      "hours": 2.72537288886288,
+      "sd": 0.01789086494347255,
+      "values": [
+        2.70656885097062,
+        2.7273661854066367,
+        2.7421836302113825
+      ],
+      "sources": [
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+      ]
+    },
+    {
+      "T": 4,
+      "method": "rl_sboed",
+      "hours": 0.20441651145668907,
+      "sd": 0.0009901303738192476,
+      "values": [
+        0.2054909704144423,
+        0.20354088632441644,
+        0.20421767763120846
+      ],
+      "sources": [
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+      ]
+    },
+    {
+      "T": 5,
+      "method": "fixed",
+      "hours": 3.6912759054709157,
+      "sd": 0.04993120780414029,
+      "values": [
+        3.7202331346770126,
+        3.7199740747952212,
+        3.633620506940513
+      ],
+      "sources": [
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+      ]
+    },
+    {
+      "T": 5,
+      "method": "dad",
+      "hours": 3.62632765287016,
+      "sd": 0.06753279725582709,
+      "values": [
+        3.6977401386294515,
+        3.617748359016453,
+        3.5634944609645753
+      ],
+      "sources": [
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+      ]
+    },
+    {
+      "T": 5,
+      "method": "rl_sboed",
+      "hours": 0.24838702836919024,
+      "sd": 0.0008020465904084403,
+      "values": [
+        0.24886849614791573,
+        0.2488314370319454,
+        0.24746115192770957
+      ],
+      "sources": [
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+        "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+      ]
+    }
+  ]
+}
