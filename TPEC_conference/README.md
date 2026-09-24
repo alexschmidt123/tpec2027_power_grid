@@ -12,7 +12,7 @@ The paper flows naturally across six pages, without forced page or column breaks
 - Final-page columns are balanced. Unused space below the final text is intentional; no margins, fonts or equation spacing are enlarged to fill it.
 - Problem formulation: unknown M/K and grid dynamics, probe/observation model, feasible adaptive policies, then EIG and its finite-contrast approximation.
 - Results: aligned IEEE9/IEEE14 information tables and measured online/offline computation, followed by limitations and the supplementary SIR-ODE comparison.
-- All nine tables use the same full IEEE-column width, small font, row spacing and booktabs rules. Complete EIG tables cover IEEE9, IEEE14 and SIR-ODE; four computation tables report offline hours and online seconds for IEEE9/IEEE14 at T=3,4,5. The former computation figures have been removed.
+- All eight tables use the same full IEEE-column width, small font, row spacing and booktabs rules. Complete EIG tables cover IEEE9, IEEE14 and SIR-ODE; four computation tables report offline hours and online seconds for IEEE9/IEEE14 at T=3,4,5. The former computation figures have been removed.
 - Hardware details are confined to the experimental-settings paragraph, not figures or tables. LabPC reports RTX 4090 (not RTX 4090 Ti). The paragraph distinguishes project development hardware from reported timing runs and notes that the aggregate timing is not a controlled runtime comparison between networks.
 - Optional [validation histories](results/diagnostics/validation_histories.pdf) remain in the local result collection, outside the main paper.
 
