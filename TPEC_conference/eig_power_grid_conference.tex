@@ -32,20 +32,20 @@ email@example.com}}
 \maketitle
 \begin{abstract}
 Power-grid stability is vital to industrial operations and daily life.
-Understanding latent parameters, including inertia $M$ and effective frequency
-response $K$, helps predict disturbance responses and inform stability control.
-Active probing reduces parameter uncertainty through small injected signals
-and measured responses. However, selecting all probes in advance prevents
-adaptation to new measurements, while greedy optimization focuses only on the next step,
-incurring substantial online computation and overlooking future information gains.
+Assessing and controlling stability requires understanding latent parameters,
+including inertia $M$ and effective frequency response $K$.
+Active probing obtains information about these parameters by injecting small
+signals and measuring the response. However, predetermined probe sequences
+cannot use new measurements, while myopic optimization targets only
+next-step information gain and requires costly online search.
 We apply adaptive sequential Bayesian optimal experimental design to address
-these limitations by selecting probe durations from accumulated observations
-while accounting for the information obtainable from the remaining probes.
-On reduced IEEE9 and IEEE14 models, we compare DAD, RL-sBOED, and Step-DAD
-with Myopic, an optimized fixed sequence, and random probing. All three
-learned methods achieve higher estimated expected information gain than the
-baselines. DAD and RL-sBOED also substantially reduce online decision time
-relative to Myopic by learning adaptive policies offline.
+both limitations. Learned policies use observed responses to select subsequent
+probes and optimize expected information gain over the complete sequence.
+On reduced IEEE9 and IEEE14 models, DAD, RL-sBOED, and Step-DAD achieve
+higher mean estimated information gain than Myopic, an optimized fixed
+sequence, and random probing at equal probe budgets. DAD and RL-sBOED
+also substantially reduce online decision time relative to Myopic by
+amortizing optimization through offline training.
 \end{abstract}
 \begin{IEEEkeywords}
 Bayesian experimental design, power-system identification, adaptive probing,
@@ -53,36 +53,40 @@ expected information gain, rate of change of frequency.
 \end{IEEEkeywords}
 
 \section{Introduction}
-Stable power-system operation supports reliable electricity supply.
-Engineers need information about inertia $M$ and effective frequency
-response $K$ to predict disturbance responses and choose operating
-and control actions. Reducing uncertainty in these parameters can support better
-informed decisions. Active probing identifies them by injecting controlled
-signals and measuring frequency responses~\cite{peng2024probing}.
+Power-grid stability is vital to industry and daily life. Stability
+assessment and control require understanding disturbance responses,
+which depend on uncertain inertia $M$ and effective frequency response
+$K$. Identifying these parameters supports informed operating
+decisions~\cite{peng2024probing}.
 
-The information obtained depends on the probing inputs. Our aim is to
-learn more about $M$ and $K$ with the same number of experiments by
-adapting successive probes to observed responses. Sequential Bayesian
-optimal experimental design (sBOED) provides the framework. Fixed designs
-cannot use new observations; myopic designs use them but optimize only
-the next experiment~\cite{huan2016sequential}. Full-sequence design can
-account for how each probe informs later choices. It must also account
-for the grid's physical state changes caused by preceding probes.
+Active probing obtains parameter information by injecting small,
+controlled signals and measuring frequency responses~\cite{peng2024probing}.
+The signal design determines what can be learned. We seek more
+information from a limited probing budget by selecting pulse durations
+while retaining physical state between experiments.
 
-Existing methods offer different information--computation trade-offs.
-Deep adaptive design (DAD) learns a policy offline to maximize information
-over a complete sequence~\cite{foster2021dad}. RL-sBOED learns policies
-through simulated rewards~\cite{blau2022rlsboed}; Step-DAD refines a
-pretrained policy after observations arrive~\cite{hedman2025stepdad}.
-We evaluate whether these methods yield more information under matched
-grid probing constraints, and whether online refinement justifies its cost.
+Predetermined sequences cannot adapt to incoming measurements. Myopic
+Bayesian optimization uses feedback but greedily maximizes only next-step
+information gain, ignoring subsequent learning
+opportunities~\cite{huan2016sequential}, and requires repeated online
+search. The gap is efficient adaptation that considers the complete
+probing sequence.
 
-We formulate continuous probe-duration selection with a shared sensor
-model and physical state carried between experiments. Six existing methods are compared on reduced IEEE9 and
-IEEE14 systems at equal probe budgets. We report EIG, seed variability, and offline and online computation. Our
-contribution is the power-system design formulation and matched evaluation;
-the policy algorithms are existing methods, and conclusions are limited
-to the stated models and sensor.
+We apply adaptive sequential Bayesian optimal experimental design.
+Policies use observed responses to guide later probes, while full-sequence
+optimization accounts for how early measurements inform subsequent choices.
+DAD~\cite{foster2021dad} and RL-sBOED~\cite{blau2022rlsboed} learn policies
+offline, replacing online optimization with policy evaluation.
+Step-DAD~\cite{hedman2025stepdad} adds refinement using the observed history.
+
+Our contribution is the grid-probing formulation and matched evaluation
+of these existing methods on reduced IEEE9 and IEEE14 models.
+At equal probe budgets, all three learned methods achieve higher mean
+estimated information gain than Myopic, an optimized fixed sequence,
+and random probing at every tested horizon. DAD and RL-sBOED also
+substantially reduce online decision time relative to Myopic.
+These results demonstrate improved information acquisition for the
+broader purpose of informed stability assessment and control.
 
 \section{Problem Formulation}\label{sec:problem}
 We seek to reduce uncertainty in $M$ and $K$ through informative probes
