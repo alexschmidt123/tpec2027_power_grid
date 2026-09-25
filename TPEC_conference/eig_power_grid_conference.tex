@@ -1,5 +1,6 @@
 \documentclass[conference]{IEEEtran}
-\usepackage{cite,tikz,balance}
+\usepackage{cite,tikz}
+\usepackage[nospread]{flushend}
 \usepackage{amsmath,amssymb,amsfonts,booktabs,graphicx,textcomp,xcolor}
 \usepackage[hidelinks]{hyperref}
 \usetikzlibrary{arrows.meta,positioning,calc}
@@ -29,23 +30,26 @@ City, Country\\
 email@example.com}}
 \begin{document}
 \raggedbottom
+\brokenpenalty=10000
 \maketitle
 \begin{abstract}
 Power-grid stability is vital to industrial operations and daily life.
-Assessing and controlling stability requires understanding latent parameters,
-including inertia $M$ and effective frequency response $K$.
-Active probing obtains information about these parameters by injecting small
-signals and measuring the response. However, predetermined probe sequences
-cannot use new measurements, while myopic optimization targets only
-next-step information gain and requires costly online search.
-We apply adaptive sequential Bayesian optimal experimental design to address
-both limitations. Learned policies use observed responses to select subsequent
-probes and optimize expected information gain over the complete sequence.
-On reduced IEEE9 and IEEE14 models, DAD, RL-sBOED, and Step-DAD achieve
+Understanding uncertain inertia and frequency-response parameters supports
+stability assessment and control. Active probing obtains information about
+these parameters by injecting small signals and measuring the response.
+However, predetermined sequences cannot exploit new measurements, while
+myopic design considers only next-step information gain and requires
+online optimization. We apply sequential Bayesian optimal experimental
+design to learn adaptive policies that select probe durations from observed
+responses and optimize information gain over the complete sequence.
+On reduced IEEE9 and IEEE14 models, deep adaptive design (DAD), its online-refined
+variant Step-DAD, and reinforcement learning (RL-sBOED) achieve
 higher mean estimated information gain than Myopic, an optimized fixed
-sequence, and random probing at equal probe budgets. DAD and RL-sBOED
-also substantially reduce online decision time relative to Myopic by
-amortizing optimization through offline training.
+sequence, and random probing at equal probe budgets. Offline-trained DAD
+and RL-sBOED also substantially reduce online decision time relative to
+Myopic. Step-DAD provides modest additional gains on IEEE9, with substantial
+online cost, but no consistent improvement over DAD on IEEE14.
+
 \end{abstract}
 \begin{IEEEkeywords}
 Bayesian experimental design, power-system identification, adaptive probing,
@@ -53,75 +57,103 @@ expected information gain, rate of change of frequency.
 \end{IEEEkeywords}
 
 \section{Introduction}
-An electrical power grid connects generators and consumers through a
-network of transmission lines. Its operation requires a continuous balance
-between power generation and demand: disturbances to this balance produce
-changes in grid frequency. Understanding these changes is important for
-maintaining the reliable electricity supply on which industry, public
-services, and households depend. Inertia determines how strongly the
-system resists rapid frequency changes, while frequency-response mechanisms
-adjust power in response to frequency deviations~\cite{peng2024probing}.
-In the reduced models studied here, these effects are represented by
-inertia $M$ and effective frequency-response coefficients $K$. Their
-values are latent: they are not observed directly, but must be inferred
-from the system's measured behavior. Uncertainty in these parameters
-therefore limits the information available for stability assessment
-and control.
+Electrical power systems connect generators and consumers through
+transmission networks. A disturbance to the balance between generation
+and demand changes system frequency; understanding this response is
+essential to maintaining the reliable supply required by industry,
+public services, and households. Inertia resists rapid frequency changes,
+while frequency-response mechanisms adjust power following frequency
+deviations~\cite{peng2024probing}. In the reduced models considered here,
+these effects are represented by inertia $M$ and effective
+frequency-response coefficients $K$. These parameters are latent: their
+values must be inferred from measured behavior. Reducing their uncertainty
+supports predictions of disturbance responses and informed control decisions.
 
-Active probing provides a way to obtain that information under controlled
-excitation. A probing experiment injects a small, known power signal and
-records the resulting frequency response. Different parameter values
-produce different responses, allowing measurements to distinguish among
-plausible values of $M$ and $K$~\cite{peng2024probing}. The experiment's
-informativeness depends on the chosen signal. For example, changing the
-duration of a power pulse changes the transient response and thus the
-evidence available for identification. The design problem is consequently
-to select informative probes within a limited experimental budget.
+Active probing is an established approach to obtaining such information.
+A small, known power signal is injected into the system, and the resulting
+frequency response is measured~\cite{peng2024probing}. The response provides
+evidence about plausible parameter values, but the information obtained
+depends on the signal design. For example, pulse duration changes the
+transient response and the evidence available for identification. This
+raises an experimental-design question: how should a limited number of
+probes be selected to learn as much as possible about the unknown parameters?
 
-Bayesian optimal experimental design (BOED) formalizes this selection
-problem~\cite{huan2016sequential}. A prior distribution represents
-uncertainty about the parameters before an experiment; Bayes' rule combines
-this prior with a measurement model and observed data to obtain a posterior
-distribution. Expected information gain (EIG) measures the average
-information that an experiment is expected to provide about the parameters,
-averaging over possible parameters and noisy observations. Maximizing EIG
-therefore selects experiments for their expected reduction of parameter
-uncertainty, before their outcomes are known.
+Bayesian optimal experimental design (BOED) provides a framework for this
+question~\cite{huan2016sequential}. A prior distribution describes parameter
+uncertainty before an experiment. Bayes' rule combines this prior with
+the measurement model and observed response to form a posterior distribution.
+Expected information gain (EIG) quantifies the average reduction in
+uncertainty anticipated from an experiment, accounting for unknown parameters
+and noisy outcomes. It therefore provides a criterion for choosing a probe
+before its response is available.
 
-For multiple experiments, the key question is how to use information as
-it arrives. A fixed design selects the complete probing sequence in
-advance and cannot revise it after observing a response. A greedy, or
-myopic, design incorporates new measurements but maximizes only the next
-step's EIG, without considering how the current choice affects later
-learning opportunities~\cite{huan2016sequential}. Computing and optimizing
-that objective during the experiment can also be expensive. These
-limitations motivate policies that adapt to observations, account for
-the complete sequence, and support inexpensive online decisions.
+For a sequence of experiments, fixed and greedy designs have distinct
+limitations. A fixed sequence cannot use incoming measurements to revise
+later probes. A greedy, or myopic, design uses observation feedback but
+maximizes only the next step's EIG, without accounting for subsequent
+learning opportunities~\cite{huan2016sequential}. Repeated online optimization
+can also make design selection expensive. The challenge is to combine
+observation feedback with planning over the complete sequence while
+limiting online computation.
 
-Sequential BOED provides this policy perspective. Early measurements can
-guide later probes toward the uncertainty that remains, while training
-over complete sequences accounts for the value of those future choices.
-Deep adaptive design (DAD)~\cite{foster2021dad} and reinforcement-learning-based
-sequential BOED (RL-sBOED)~\cite{blau2022rlsboed} learn such policies from
-simulated experiments. Offline training amortizes optimization: the learned
-mapping from past designs and observations to the next design is reused
-during execution. Step-DAD~\cite{hedman2025stepdad} additionally refines a
-pretrained policy as observations arrive, allowing us to examine the value
-and cost of further online adaptation.
+Policy-based sequential BOED addresses this challenge. Early measurements
+inform later choices, and training over complete sequences accounts for
+the value of future experiments. Deep adaptive design
+(DAD)~\cite{foster2021dad} and reinforcement-learning-based sequential BOED
+(RL-sBOED)~\cite{blau2022rlsboed} learn a mapping from past designs and
+observations to the next design. Offline training amortizes optimization
+by reusing this mapping during experiments. Step-DAD~\cite{hedman2025stepdad}
+additionally refines a pretrained policy as observations arrive, allowing
+the value of further adaptation to be weighed against its online cost.
 
-This paper applies these methods to probe-duration selection on reduced
+We apply these existing methods to probe-duration selection on reduced
 IEEE9 and IEEE14 models. These benchmark networks have nine and fourteen
-buses, respectively, where a bus is an electrical connection point for
-lines, generation, or demand~\cite{zimmerman2011matpower}. Our reduced
-models retain coupled machine dynamics while simplifying the network
-representation. Successive probes share the evolving physical state,
-rather than restarting from equilibrium. We compare DAD, RL-sBOED, and
-Step-DAD with Myopic, an optimized fixed sequence, and random probing
-under matched observation models and probe budgets. The study asks
-whether learned sequential policies obtain more parameter information
-and how their offline and online computational costs compare.
-The contribution is this grid-probing formulation and comparative
-evaluation of existing design methods.
+buses, respectively: electrical connection points for lines, generation,
+or demand~\cite{zimmerman2011matpower}. The reduced models retain coupled
+machine dynamics, and physical state carries between probes. Our
+contribution is the sequential grid-probing formulation and a matched
+comparison of DAD, RL-sBOED, Step-DAD, Myopic, an optimized fixed sequence,
+and random probing. We evaluate the information obtained at equal probe
+budgets and separately measure offline training and online decision costs.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm,
+ box/.style={draw=black!65,rounded corners=2pt,align=center,
+ font=\small,inner sep=5pt,minimum height=1.15cm,text width=4.0cm},
+ flow/.style={-{Latex[length=2mm]},thick,draw=black!75},
+ note/.style={font=\footnotesize,align=center,fill=white,inner sep=2pt}]
+\node[box,fill=blue!5] (select) at (0,0)
+ {Choose design $\xi_t$ (select $D_t$)\\Selected design method\\Start at $t=1$, $h_0=\varnothing$};
+\node[box,fill=blue!5] (grid) at (5.8,0)
+ {Apply pulse to the power grid\\Unknown, fixed $\theta=(\mathbf M,\mathbf K)$\\Physical state carries between probes};
+\node[box,fill=blue!5] (observe) at (11.6,0)
+ {Measure the response\\Observe noisy endpoint RoCoF $y_{\mathrm{obs},t}$\\Response depends on $\theta$};
+\node[box,fill=gray!5] (history) at (11.6,-1.9)
+ {Append design and observation\\$h_t=(h_{t-1},(\xi_t,y_{\mathrm{obs},t}))$\\History retains all preceding probes};
+\node[box,fill=green!5,minimum height=1.5cm] (posterior) at (5.8,-1.9)
+ {Update parameter uncertainty\\$p(\theta\mid h_t)\propto$\\
+ $p(y_{\mathrm{obs},t}\mid\theta,h_{t-1},\xi_t)$\\$\times\,p(\theta\mid h_{t-1})$\\Initial belief: $p_0(\theta)$};
+\node[box,fill=orange!6,minimum height=1.5cm] (next) at (0,-1.9)
+ {Next adaptive design\\DAD, RL-sBOED: history\\Myopic, Step-DAD: history\\and particle posterior};
+\draw[flow] (select) -- (grid);
+\draw[flow] (grid) -- (observe);
+\draw[flow] (observe) -- (history);
+\draw[flow] (history) -- (posterior);
+\draw[flow] (posterior) -- node[note,above,text width=1.1cm] {Posterior} (next);
+\draw[flow] (history.south) -- (11.6,-3.2)
+ -- node[note,pos=.5] {Observed history $h_t$} (0,-3.2) -- (next.south);
+\draw[flow] (next.north) -- node[note,left] {$t\leftarrow t+1$} (select.south);
+\node[note,anchor=north] at (5.8,-3.55)
+ {Repeat while $t<T$. Aim: greater expected reduction in uncertainty about $M$ and $K$ at the same probe budget.};
+\end{tikzpicture}
+\caption{Sequential probing with physical state carried between experiments.
+Observations update the design history and parameter uncertainty.
+DAD/RL-sBOED use history directly; Myopic/Step-DAD additionally maintain
+a particle posterior. Fixed and Random bypass observation feedback.
+The loop ends after $T$ measurements.}
+\label{fig:probing}
+\end{figure*}
 
 \section{Problem Formulation}\label{sec:problem}
 We seek to reduce uncertainty in $M$ and $K$ through informative probes
@@ -234,8 +266,7 @@ Each observation becomes available at window end. Decision latency is
 idealized as zero in simulated time.
 
 \subsection{Sequential Decisions and Bayesian Updating}
-The observation model connects the physical experiment to inference and
-subsequent decisions. The data after step $t$ are the ordered design--observation
+Figure~\ref{fig:probing} summarizes the experiment--inference loop. The data after step $t$ are the ordered design--observation
 history $h_t=((\xi_k,y_{\mathrm{obs},k}))_{k=1}^{t}$, with $h_0=\varnothing$.
 A policy $\pi$ selects $\xi_t$ using only observed history $h_{t-1}$,
 with amplitude and bus fixed as above. It has no access to true parameters
@@ -271,6 +302,8 @@ the observed designs to evaluate the likelihood. Conditional on the
 history, design selection provides no additional knowledge of $\theta$;
 policy probabilities therefore cancel from the Bayesian update.
 
+
+
 \subsection{Expected Information Gain and Design Objective}
 To compare possible design policies, we quantify the uncertainty reduction
 produced by their observations using the Kullback--Leibler divergence
@@ -289,11 +322,11 @@ The sequential Bayesian design problem is
 \pi^\star\in\operatorname*{arg\,max}_{\pi\in\Pi}\mathcal I_T(\pi).
 \label{eq:design_problem}
 \end{equation}
-Thus all methods receive the same number of probes and seek greater
-expected reduction in parameter uncertainty. Offline and online
-computation are measured separately from this information objective.
+Equation~\eqref{eq:design_problem} defines the common information objective;
+the methods below differ in how they approximate or forgo its optimization.
+All receive the same number of probes. Computation is assessed separately.
 
-Exact EIG requires intractable marginal likelihoods. We use the sequential
+Exact EIG requires marginal likelihoods that are costly to evaluate here. We use the sequential
 prior-contrastive (sPCE) lower bound~\cite{foster2021dad} for training and
 evaluation. Let $\theta^{(0)}\sim p_0$ generate the observed history and
 let $\theta^{(1)},\ldots,\theta^{(L)}$ be independent prior contrasts.
@@ -310,25 +343,20 @@ The sampled information score is then
 {\frac{1}{L+1}\sum_{\ell=0}^{L}\mathcal L_t(\theta^{(\ell)})}.
 \label{eq:spce}
 \end{equation}
-Likelihoods are evaluated in the log domain. Averaging $\widehat I_T$
-over simulated sequences estimates a lower bound on $\mathcal I_T(\pi)$;
-For IEEE9 and IEEE14, reported EIG values are estimated using this sPCE
-lower bound; they are not exact EIG values. Individual scores can be negative but
-cannot exceed $\log(L+1)$. With $L=128$, this ceiling is 4.8598 nats,
-so near-ceiling scores can conceal differences in true EIG.
-The generating parameter is used only by the evaluator, never supplied
-to an online planner.
+Likelihoods are evaluated in the log domain.
+Averaging $\widehat I_T$ estimates the sPCE lower bound on
+$\mathcal I_T(\pi)$, not exact EIG. Individual scores can be negative
+but cannot exceed $\log(L+1)$. With $L=128$, the ceiling is 4.8598 nats;
+near-ceiling scores can conceal differences in EIG. We report these
+estimated lower-bound values as information scores throughout the results.
+The generating parameters are used in simulated scoring, never as policy inputs.
 
 \section{Compared Design Methods}
-The objective in~\eqref{eq:design_problem} motivates three comparisons:
-optimized versus random probing, adaptive versus fixed designs, and
-offline policy learning versus online optimization. The six existing
-methods below select $\xi_t=(0.05,1,D_t)$ using the same feasible
-duration interval~\eqref{eq:bounds} and observation model.
-Table~\ref{tab:methods} distinguishes adaptation to observations from
-myopic optimization of only the next probe. Fixed optimizes the full
-sequence without observation feedback. Random optimizes no information
-objective, so its myopia entry is N/A.
+All six methods use the same observation model and feasible duration
+interval~\eqref{eq:bounds}. Table~\ref{tab:methods} distinguishes observation
+feedback from greedy optimization: an adaptive method need not be myopic,
+and a fixed sequence can be optimized for the full horizon. The algorithms
+are adaptations of existing methods to the carried-state grid simulator.
 
 \begin{table}[t]
 \caption{Comparison of experimental design methods}
@@ -344,9 +372,6 @@ Step-DAD~\cite{hedman2025stepdad} & Yes & No & Both\\
 \bottomrule\end{tabular*}
 \end{table}
 
-
-
-
 \subsection{Nonadaptive Designs: Random and Fixed}
 Random draws $z_t\sim\mathcal U(0,1)$ independently at each step and
 sets $D_t=D_t^{\min}+(D_t^{\max}-D_t^{\min})z_t$.
@@ -357,7 +382,7 @@ It ignores observations and requires no offline training.
 
 Fixed is a static Bayesian design: all durations are optimized jointly
 before observations are collected~\cite[Sec.~2.4]{huan2016sequential}.
-Our implementation optimizes the ordered sequence using EIG for the full sequence.
+The ordered sequence is optimized using the full-sequence sPCE objective.
 It compares short, central, long and spread interior initializations
 using validation, then optimizes the selected initialization. Each
 training seed yields a separately fitted sequence. During evaluation,
@@ -386,17 +411,16 @@ At evaluation, a forward pass produces the action without online
 optimization or an explicit particle-posterior update.
 
 DAD~\cite{foster2021dad} uses a deterministic two-layer, 64-unit tanh network, a trainable
-stage bias and a sigmoid action map. Offline training maximizes EIG by differentiating through the complete simulated sequence,
+stage bias and a sigmoid action map. Offline training maximizes sPCE by differentiating through the complete simulated sequence,
 including observations and carried states. In the joint Fixed/DAD
 campaign, validation selects between random and interior Fixed-based
-initialization. The reported DAD stage timer excludes the preceding
-Fixed training; the full workflow incurs both costs.
+initialization. The corresponding initialization cost is accounted for in Section~\ref{sec:cost}.
 
-RL-sBOED~\cite{blau2022rlsboed} uses a REDQ-style actor--critic adaptation with ten critics
+RL-sBOED~\cite{blau2022rlsboed} uses a REDQ-style ensemble actor--critic adaptation with ten critics
 and five replay updates per trajectory batch. The actor has two
 128-unit ReLU layers. Its per-step information rewards are
 $R_t=\widehat I_t-\widehat I_{t-1}$, with $\widehat I_0=0$ and
-discount $\gamma=1$, so their sum estimates full-sequence EIG. Training therefore
+discount $\gamma=1$, so their sum equals the terminal sPCE score. Training therefore
 accounts for future design steps without differentiating through the
 simulator. Entropy regularization uses normalized tanh actions and
 target entropy $-1$; reported information scores exclude entropy bonuses.
@@ -419,64 +443,15 @@ the next design step within the episode, but not to another episode.
 The total refinement budget is $4(T-1)$ updates: 8, 12 and 16 for
 $T=3,4,5$. The planner never receives the evaluator's true parameters.
 
-For both Myopic and Step-DAD, assimilation is performed only when a
-subsequent decision requires it. No final planner update is needed
-after $y_{\mathrm{obs},T}$ for this EIG experiment; terminal information is computed
-separately by the evaluator using~\eqref{eq:spce}.
+For both Myopic and Step-DAD, assimilation
+is required only before subsequent decisions; neither planner needs a
+terminal update for the separately evaluated information score.
 
 \section{Experimental Settings}
-To assess these design strategies at equal measurement budgets, we
-compare all six methods at $T=3,4,5$ design steps on IEEE9 and IEEE14.
-Each step applies one probe and collects one observation. The systems
-share sensor and design constraints but use separate physical parameters
-and trained policies.
-
-Figure~\ref{fig:probing} connects probing to inference: observations
-reweight candidate parameters through their likelihoods, and adaptive
-designs use the resulting history to select later probes.
-
-\begin{figure*}[t]
-\centering
-\begin{tikzpicture}[x=1cm,y=1cm,
- box/.style={draw=black!65,rounded corners=2pt,align=center,
- font=\small,inner sep=5pt,minimum height=1.15cm,text width=4.0cm},
- flow/.style={-{Latex[length=2mm]},thick,draw=black!75},
- note/.style={font=\footnotesize,align=center,fill=white,inner sep=2pt}]
-\node[box,fill=blue!5] (select) at (0,0)
- {Choose design $\xi_t$ (select $D_t$)\\Selected design method\\Start at $t=1$, $h_0=\varnothing$};
-\node[box,fill=blue!5] (grid) at (5.8,0)
- {Apply pulse to the power grid\\Unknown, fixed $\theta=(\mathbf M,\mathbf K)$\\Physical state carries between probes};
-\node[box,fill=blue!5] (observe) at (11.6,0)
- {Measure the response\\Observe noisy endpoint RoCoF $y_{\mathrm{obs},t}$\\Response depends on $\theta$};
-\node[box,fill=gray!5] (history) at (11.6,-2.3)
- {Append design and observation\\$h_t=(h_{t-1},(\xi_t,y_{\mathrm{obs},t}))$\\History retains all preceding probes};
-\node[box,fill=green!5,minimum height=1.5cm] (posterior) at (5.8,-2.3)
- {Update parameter uncertainty\\$p(\theta\mid h_t)\propto$\\
- $p(y_{\mathrm{obs},t}\mid\theta,h_{t-1},\xi_t)$\\$\times\,p(\theta\mid h_{t-1})$\\Initial belief: $p_0(\theta)$};
-\node[box,fill=orange!6,minimum height=1.5cm] (next) at (0,-2.3)
- {Next adaptive design\\DAD, RL-sBOED: history\\Myopic, Step-DAD: history\\and particle posterior};
-\draw[flow] (select) -- (grid);
-\draw[flow] (grid) -- (observe);
-\draw[flow] (observe) -- (history);
-\draw[flow] (history) -- (posterior);
-\draw[flow] (posterior) -- node[note,above,text width=1.1cm] {Posterior} (next);
-\draw[flow] (history.south) -- (11.6,-3.65)
- -- node[note,pos=.5] {Observed history $h_t$} (0,-3.65) -- (next.south);
-\draw[flow] (next.north) -- node[note,left] {$t\leftarrow t+1$} (select.south);
-\node[note,anchor=north] at (5.8,-4.05)
- {Repeat while $t<T$. Aim: greater expected reduction in uncertainty about $M$ and $K$ at the same probe budget.};
-\end{tikzpicture}
-\caption{Sequential probing and information feedback. Each response extends
-the history, which determines the posterior through the likelihood.
-The next adaptive design uses this history directly (DAD/RL-sBOED), or
-the history and its particle posterior for online planning (Myopic/Step-DAD).
-DAD/RL-sBOED do not explicitly compute a posterior. Random and Fixed use
-the same physical experiment but bypass adaptive feedback. Stop after
-$T$ observations; EIG is estimated separately, without requiring a
-final planner update. Uncertainty reduction is expected over experiments,
-not guaranteed for every observation.}
-\label{fig:probing}
-\end{figure*}
+\subsection{Simulation and Training Protocol}
+We compare $T=3,4,5$ probes on each network, with one observation per
+probe. Networks share sensor and design constraints but use separate
+physical parameters and policies.
 
 The swing equations are integrated by RK4 with step $1/640$ s.
 Numerical state/duration Jacobians use perturbations of $10^{-5}$
@@ -499,6 +474,7 @@ a separate random stream. Random/Myopic have no training-seed dependence
 under these streams, so identical evaluations can be shared across training
 seeds. Fixed remains independently optimized for each training seed.
 
+\subsection{Evaluation and Computational Measurements}
 For trained methods, we average evaluation-seed means within each training
 seed and report mean $\pm$ sample standard deviation across three trainings.
 Random/Myopic report mean $\pm$ sample SD of evaluation-seed means,
@@ -510,21 +486,19 @@ online timings use RTX 5080 except Step-DAD $T=5$, training seed 303,
 which ran on A100. IEEE14 timings use A100. These recorded workflow
 costs do not provide a controlled runtime comparison between networks.
 Configurations, source hashes and checkpoints preserve provenance.
-Code: \url{https://github.com/alexschmidt123/tpec2027_power_grid}.
+Code and supplementary historical SIR-ODE results are available at
+\url{https://github.com/alexschmidt123/tpec2027_power_grid}.
 
 % Complete results under the accepted three-evaluation-seed grid protocol.
 \section{Results and Discussion}
 \label{sec:results}
-We first compare information acquired at equal probe budgets, then examine
-the computation required to obtain it. Optimization diagnostics and
-estimator limitations qualify the resulting comparisons.
+\subsection{Information Acquired at Equal Probe Budgets}
+Tables~\ref{tab:ieee9} and~\ref{tab:ieee14} report mean sPCE information
+scores in nats, with the seed-level standard deviations defined above.
+All three learned methods exceed Random, Fixed, and Myopic in mean score
+on both networks at every tested horizon.
 
-\subsection{Information Versus Number of Design Steps}
-Tables~\ref{tab:ieee9} and~\ref{tab:ieee14} report EIG in
-nats as mean $\pm$ sample SD. Trained methods use three training-seed
-means; Random and Myopic use three evaluation-seed means. Both networks
-use $L=128$ contrasts, giving a 4.8598-nat estimator ceiling.
-\begin{table}[!ht]\caption{IEEE9 EIG}\label{tab:ieee9}\papertablestyle
+\begin{table}[!ht]\caption{IEEE9 information score (sPCE, nats)}\label{tab:ieee9}\papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
 Random & $0.4321\pm0.0310$ & $0.4924\pm0.0342$ & $0.5392\pm0.0471$\\
 Fixed & $2.0112\pm0.0116$ & $2.3192\pm0.0004$ & $2.5066\pm0.0013$\\
@@ -535,7 +509,7 @@ Step-DAD & $2.1471\pm0.0110$ & $2.4382\pm0.0048$ & $2.6621\pm0.0145$\\
 \bottomrule\end{tabular*}\end{table}
 
 \begin{table}[!ht]
-\caption{IEEE14 EIG}
+\caption{IEEE14 information score (sPCE, nats)}
 \label{tab:ieee14}
 \papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
@@ -547,55 +521,38 @@ DAD & $4.7576\pm0.0362$ & $4.8325\pm0.0047$ & $4.8443\pm0.0026$\\
 RL-sBOED & $4.7445\pm0.0022$ & $4.8275\pm0.0112$ & $4.8383\pm0.0108$\\
 Step-DAD & $4.7527\pm0.0275$ & $4.8297\pm0.0067$ & $4.8446\pm0.0042$\\
 \bottomrule\end{tabular*}\end{table}
-On IEEE9, DAD exceeds Fixed by 0.1253, 0.0903 and 0.1286 nats
-at $T=3,4,5$, respectively. The observed Step-DAD gains over DAD
-are 0.0105, 0.0287 and 0.0269 nats at $T=3,4,5$, respectively.
-These are modest mean gains; their computational cost is examined below.
-IEEE9 scores remain well below the estimator ceiling.
+On IEEE9, DAD exceeds Fixed
+by 0.1253, 0.0903, and 0.1286 nats at $T=3,4,5$, respectively.
+Step-DAD improves the DAD mean by 0.0105, 0.0287, and 0.0269 nats.
+Thus online refinement yields modest additional information in this
+network, where scores remain well below the estimator ceiling.
 
+On IEEE14, DAD exceeds Myopic by 0.4669 nats and Fixed by 0.4953 nats
+at $T=3$. Fixed exceeds Myopic at $T=4,5$, illustrating that observation
+feedback alone does not guarantee a stronger design when optimization
+is restricted to next-step gain. The learned methods combine feedback
+with a full-sequence objective, although this comparison does not isolate
+the contribution of each mechanism.
 
+Differences among learned policies on IEEE14 are small: Step-DAD changes
+the DAD mean by $-0.0049$, $-0.0028$, and $+0.0003$ nats at $T=3,4,5$.
+At $T=5$, DAD is only 0.0155 nats below the 4.8598-nat ceiling.
+The results therefore show no consistent benefit from refinement and
+cannot establish a reliable ranking of the learned policies' exact EIG.
 
-For IEEE14, Table~\ref{tab:ieee14} shows higher mean EIG for
-DAD, RL-sBOED and Step-DAD than for Random, Fixed or Myopic at
-every design-step count. At $T=3$, DAD exceeds Myopic by 0.4669 nats
-and Fixed by 0.4953 nats. The comparison fixes the number of probes,
-so the gain comes from selecting more informative experiments within
-the same probe budget. Fixed exceeds Myopic at $T=4,5$; observation
-adaptation alone therefore does not guarantee a stronger design.
-
-The DAD-family means are close to one another. Step-DAD changes the
-DAD mean by $-0.0049$, $-0.0028$ and $+0.0003$ nats for
-$T=3,4,5$, respectively. These small differences do not establish an
-advantage for online refinement. At $T=5$, DAD lies only 0.0155 nats
-below the 4.8598-nat estimator ceiling. Finite-contrast saturation can
-compress method differences; these scores neither measure exact EIG
-nor establish a reliable ranking within the DAD family. The SDs
-describe distinct sources of variation: retraining for learned/fitted
-methods and repeated evaluation for Random/Myopic.
 \subsection{Measured Computational Cost}\label{sec:cost}
-Higher information scores are useful only in relation to the resources
-required to select the probes. We therefore separate the cost of learning
-a reusable policy from the cost incurred during each experiment.
-Tables~\ref{tab:ieee9_offline} and~\ref{tab:ieee14_offline} report offline
-training in hours; Tables~\ref{tab:ieee9_online} and~\ref{tab:ieee14_online}
-report online computation in milliseconds per complete sequence.
-Online cost is the wall-clock time summed over all $T$ decisions in
-one experimental sequence. For each evaluation seed, we average 512
-episodes per trained policy and then average the three training seeds
-where applicable. Tables report the mean and sample SD across the three
-evaluation-seed means; this SD describes evaluation variability, not
-retraining variability or episode-level dispersion. Online cost includes action selection, posterior
-updates needed for subsequent decisions, Myopic search and Step-DAD
-refinement. It excludes the simulated physical response, observation
-acquisition and EIG estimation. These are computational timings,
-not end-to-end physical experiment durations.
-
-
-
-
+Tables~\ref{tab:ieee9_offline}--\ref{tab:ieee14_online} separate offline
+training hours from online decision milliseconds per complete sequence.
+Online timing sums all $T$ decisions, including posterior updates,
+Myopic search, and Step-DAD refinement where applicable. It excludes
+physical response simulation, observation acquisition, and information
+scoring. For each evaluation seed, times are averaged over 512 episodes
+and then over training seeds where applicable; the reported mean and
+sample SD use the three evaluation-seed means. These are computational
+costs, not end-to-end experimental durations.
 
 \begin{table}[!ht]
-\caption{IEEE9 offline training time}
+\caption{IEEE9 offline training time (hours)}
 \label{tab:ieee9_offline}
 \papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
@@ -610,7 +567,7 @@ Step-DAD & $0.957\pm0.342$ & $1.393\pm0.509$ & $1.831\pm0.654$\\
 \end{table}
 
 \begin{table}[!ht]
-\caption{IEEE14 offline training time}
+\caption{IEEE14 offline training time (hours)}
 \label{tab:ieee14_offline}
 \papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
@@ -625,7 +582,7 @@ Step-DAD & $1.894\pm0.032$ & $2.725\pm0.018$ & $3.626\pm0.068$\\
 \end{table}
 
 \begin{table}[!ht]
-\caption{IEEE9 online computation time}
+\caption{IEEE9 online decision time (ms per sequence)}
 \label{tab:ieee9_online}
 \papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
@@ -640,7 +597,7 @@ Step-DAD & $6342\pm2$ & $15808\pm9$ & $24350\pm50$\\
 \end{table}
 
 \begin{table}[!ht]
-\caption{IEEE14 online computation time}
+\caption{IEEE14 online decision time (ms per sequence)}
 \label{tab:ieee14_online}
 \papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
@@ -653,8 +610,6 @@ RL-sBOED & $1.68\pm0.29$ & $3.31\pm1.33$ & $2.71\pm0.69$\\
 Step-DAD & $9113\pm7$ & $23243\pm24$ & $44693\pm32$\\
 \bottomrule\end{tabular*}
 \end{table}
-
-
 
 The offline timer includes initialization selection, optimization,
 periodic validation and checkpoint writes. DAD's reported stage time
@@ -671,75 +626,43 @@ At $T=5$, DAD requires 1.93 ms online per sequence, compared with
 have markedly different computational costs. Offline training amortizes
 design computation over repeated experiments, but this benefit depends
 on how often a trained policy is reused and on the physical deadline.
-The current simulation assumes zero decision latency; it does not
-demonstrate real-time feasibility for the online planners.
+
 
 \subsection{Optimization and Estimator Diagnostics}
-The information--computation comparison also depends on policy optimization
-and the numerical information estimator. Evaluation uses the best validation checkpoint; histories are retained
-in the result collection. DAD's update count excludes Fixed initialization
-training, whose cost is reported separately.
-
-For IEEE14 training seed 101, the DAD and RL-sBOED checkpoints
-occur at updates 1,200 and 1,000, respectively, whereas Fixed selects
-update 2,000. Later updates need not improve validation utility.
-Neither a fixed update budget nor the recorded validation histories establish convergence.
-Contrast-count and planner-particle sensitivity remain to be tested;
-being below the estimator ceiling does not establish estimator accuracy.
+Evaluation uses checkpoints selected by validation, rather than the final
+training update. A common update budget establishes neither equal
+convergence nor equal computational effort; DAD
+initialization selection also uses a separately trained Fixed sequence. Validation histories and source
+provenance are retained in the repository. Contrast-count and
+planner-particle sensitivity remain to be established, and a score below
+the sPCE ceiling does not itself demonstrate estimator accuracy.
 
 \subsection{Scope and Limitations}
-Beyond these numerical considerations, the reduced lossless network, independent priors and scalar sensor restrict
-the conclusions to the stated simulation model. Parameter distributions
-match between training and evaluation; robustness to prior shift, sensor
-bias and unmodeled dynamics is not established by this protocol. Equal update budgets imply neither equal convergence nor equal computation.
-
-Finite-contrast scoring and finite-particle inference introduce approximation
-errors distinct from ODE integration error. Information gain establishes
-neither terminal-control safety nor field performance.
+The conclusions apply to the reduced lossless dynamics, independent
+parameter priors, and scalar sensor specified here. Training and evaluation
+share the same parameter distribution; robustness to prior shift, sensor
+bias, or unmodeled dynamics has not been established. Evaluation seed 1001
+informed development, so the aggregate results are not wholly independent
+confirmation. Finite-contrast scoring and particle inference introduce
+errors distinct from ODE integration error. Finally, the zero-latency
+simulation does not establish online planners' real-time feasibility,
+and greater information gain does not by itself demonstrate safer control.
 
 \section{Conclusion}
-Under the specified IEEE9 and IEEE14 models, DAD, RL-sBOED and
-Step-DAD achieve higher mean EIG than Random, Fixed and Myopic at
-equal budgets of three to five probes. Offline-trained DAD and RL-sBOED
-also require low online computation. Four-update Step-DAD gives modest
-mean gains over DAD on IEEE9, but no consistent improvement on IEEE14,
-while adding substantial online cost.
-
-These findings support adaptive probing to reduce parameter uncertainty
-as a step toward better informed operation; improved stability or control
-performance is not evaluated here. Near-ceiling IEEE14 scores prevent strong rankings within the
-DAD family, and development use of evaluation seed 1001 limits independent
-validation. Larger contrast counts, model mismatch and decision latency
-are priorities for further evaluation. Optional MoE-sBOED development
-remains outside this six-method comparison.
+Sequential policy learning uses observation feedback to select informative
+power-system probes. Its full-sequence objective accounts for the value
+of later experiments, while offline training shifts design optimization
+away from execution. On the studied reduced
+IEEE9 and IEEE14 models, DAD, RL-sBOED, and Step-DAD achieve higher mean
+information scores than Random, Fixed, and Myopic with three to five
+probes. Offline-trained DAD and RL-sBOED also greatly reduce online
+decision cost. Step-DAD offers modest additional gains on IEEE9 but
+no consistent improvement on IEEE14, with substantially greater online
+computation. These findings support adaptive probing for parameter
+identification; direct stability and control benefits remain to be tested.
+Future work should assess estimator sensitivity, model mismatch, and
+nonzero decision latency before drawing deployment conclusions.
 
 \bibliographystyle{IEEEtran}
 \bibliography{conference_refs}
-\appendix[SIR-ODE Benchmark]\label{app:sir}
-These historical results are retained for reference only; they do not
-support the power-grid conclusions. SIR-ODE uses a population of 500,
-two initial infections, 100 candidate measurement times, observation
-noise SD 1.0, and a precomputed simulation bank. The objective remains
-EIG, estimated here by averaging prior-to-posterior entropy reductions
-over a 1,024-particle representation. This estimator has ceiling
-$\log(1024)=6.9315$ nats; the grid experiments instead use sPCE.
-
-Table~\ref{tab:sir} reports EIG as mean $\pm$ sample SD in nats.
-DAD/RL-sBOED/Step-DAD use three training-seed means; Random/Myopic/Fixed
-use five evaluation-seed means after deduplication. Each evaluation
-uses 512 systems; Random averages 32 design replicates per system.
-Fixed is calibrated once. Historical training uses a behavioral-cloning
-warm start, different optimizers, and checkpoint selection with a
-sequence-diversity preference. Full settings, models and results remain
-in the companion collection.
-\par\medskip\noindent\begin{minipage}{\columnwidth}\makeatletter\def\@captype{table}\makeatother\caption{SIR-ODE EIG}\label{tab:sir}\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
-Random & $3.7783\pm0.0167$ & $3.8593\pm0.0167$ & $3.9241\pm0.0167$\\
-Fixed & $6.2816\pm0.0101$ & $6.4501\pm0.0091$ & $6.5360\pm0.0044$\\
-Myopic & $6.7108\pm0.0125$ & $6.7437\pm0.0124$ & $6.7596\pm0.0135$\\
-DAD & $6.8394\pm0.0087$ & $6.8591\pm0.0039$ & $6.8658\pm0.0077$\\
-RL-sBOED & $6.8494\pm0.0029$ & $6.8674\pm0.0020$ & $6.8814\pm0.0015$\\
-Step-DAD & $6.8438\pm0.0095$ & $6.8679\pm0.0011$ & $6.8761\pm0.0109$\\
-\bottomrule\end{tabular*}\end{minipage}\par\medskip
-
 \end{document}

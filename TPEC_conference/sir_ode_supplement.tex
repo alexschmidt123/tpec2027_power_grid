@@ -1,0 +1,35 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,booktabs}
+\newcommand{\papertablestyle}{\centering\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.05}}
+\title{Supplementary Historical SIR-ODE Benchmark}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+These historical results are retained for reference only; they do not
+support the power-grid conclusions. SIR-ODE uses a population of 500,
+two initial infections, 100 candidate measurement times, observation
+noise SD 1.0, and a precomputed simulation bank. The objective remains
+EIG, estimated here by averaging prior-to-posterior entropy reductions
+over a 1,024-particle representation. This estimator has ceiling
+$\log(1024)=6.9315$ nats; the grid experiments instead use sPCE.
+
+Table~\ref{tab:sir} reports EIG as mean $\pm$ sample SD in nats.
+DAD/RL-sBOED/Step-DAD use three training-seed means; Random/Myopic/Fixed
+use five evaluation-seed means after deduplication. Each evaluation
+uses 512 systems; Random averages 32 design replicates per system.
+Fixed is calibrated once. Historical training uses a behavioral-cloning
+warm start, different optimizers, and checkpoint selection with a
+sequence-diversity preference. Full settings, models and results remain
+in the companion collection.
+\par\medskip\noindent\begin{minipage}{\columnwidth}\makeatletter\def\@captype{table}\makeatother\caption{SIR-ODE EIG}\label{tab:sir}\papertablestyle
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
+Random & $3.7783\pm0.0167$ & $3.8593\pm0.0167$ & $3.9241\pm0.0167$\\
+Fixed & $6.2816\pm0.0101$ & $6.4501\pm0.0091$ & $6.5360\pm0.0044$\\
+Myopic & $6.7108\pm0.0125$ & $6.7437\pm0.0124$ & $6.7596\pm0.0135$\\
+DAD & $6.8394\pm0.0087$ & $6.8591\pm0.0039$ & $6.8658\pm0.0077$\\
+RL-sBOED & $6.8494\pm0.0029$ & $6.8674\pm0.0020$ & $6.8814\pm0.0015$\\
+Step-DAD & $6.8438\pm0.0095$ & $6.8679\pm0.0011$ & $6.8761\pm0.0109$\\
+\bottomrule\end{tabular*}\end{minipage}\par\medskip
+\end{document}

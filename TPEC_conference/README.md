@@ -5,18 +5,18 @@ Build from this folder with pdfLaTeX, BibTeX, then pdfLaTeX twice. The source us
 
 ## Paper organization
 
-The paper flows naturally across six pages, without forced page or column breaks. IEEEtran margins and font sizes remain unchanged; display spacing is not stretched to fill columns, and the last page uses balanced columns.
+The main paper is six pages in standard IEEEtran conference format, including references. It preserves the default margins, two columns, and font sizes. The final-page columns are balanced without stretching text to fill the page.
 
-- Methods: nonadaptive Random/Fixed, online Myopic, offline-trained DAD/RL-sBOED, and online-refined Step-DAD. Figure 1 explains probe selection, physical excitation, noisy observation, adaptive history feedback, and Bayesian reduction of parameter uncertainty. It replaces the pseudocode.
-- The workflow diagram distinguishes history-based policy decisions from conceptual Bayesian inference. Its density sketches are illustrative, and reduced uncertainty is an expected objective rather than a per-observation guarantee. The underlying evaluation order was checked against the archived IEEE14 conference `continuous_eig.py` (`evaluate`, `refine`, `myopic_duration`) and the current implementation. Planner assimilation occurs before the next action; no terminal planner update is required for EIG. Step-DAD retains within-episode refinements and starts each episode from DAD.
-- Final-page columns are balanced. Unused space below the final text is intentional; no margins, fonts or equation spacing are enlarged to fill it.
-- Problem formulation: unknown M/K and grid dynamics, probe/observation model, feasible adaptive policies, then EIG and its finite-contrast approximation.
-- Results: aligned IEEE9/IEEE14 information tables and measured online/offline computation, followed by limitations and the supplementary SIR-ODE comparison.
-- All eight tables use the same full IEEE-column width, small font, row spacing and booktabs rules. Complete EIG tables cover IEEE9, IEEE14 and SIR-ODE; four computation tables report offline hours and online seconds for IEEE9/IEEE14 at T=3,4,5. The former computation figures have been removed.
-- Hardware details are confined to the experimental-settings paragraph, not figures or tables. LabPC reports RTX 4090 (not RTX 4090 Ti). The paragraph distinguishes project development hardware from reported timing runs and notes that the aggregate timing is not a controlled runtime comparison between networks.
-- Optional [validation histories](results/diagnostics/validation_histories.pdf) remain in the local result collection, outside the main paper.
+- The abstract summarizes the motivation, approach, and findings. The introduction explains frequency dynamics, uncertain M/K, probing experiments, Bayesian design, and expected information gain before stating the research questions.
+- The formulation specifies the reduced networks, carried physical state, pulse-duration constraints, noisy endpoint RoCoF observations, and sequential information objective. Figure 1 appears on page 2 and distinguishes history-based decisions from explicit particle-posterior planning.
+- The method comparison separates observation feedback, optimization horizon, and offline versus online computation. These are adaptations of existing algorithms, not newly proposed algorithms.
+- Experimental settings distinguish independent training seeds, repeated evaluations, checkpoint selection, and hardware used for timing.
+- Results contain eight tables: physical parameters, method properties, two information-score tables, and four timing tables. Numerical entries are unchanged by the editorial revision. Grid information scores estimate the sPCE lower bound on EIG; they are not exact EIG.
+- Discussion distinguishes information acquisition from demonstrated stability or control benefits, and retains initialization-cost, estimator-saturation, development-data, and zero-latency limitations.
 
-All result tables use Random, Fixed, Myopic, DAD, RL-sBOED, Step-DAD row order and T=3,4,5 columns. IEEE9 and IEEE14 are complete, including Step-DAD T=5. The accepted grid protocol requires evaluation seeds 1001–1003; 1004/1005 are not required. SIR has five evaluation seeds and a different finite-particle entropy estimator and historical training protocol, explicitly disclosed in the supplementary subsection. SIR Fixed uses evaluation-seed SD; grid Fixed uses training-seed SD.
+The unrelated historical SIR-ODE appendix is preserved as a separate [supplement](sir_ode_supplement.tex), with a [compiled PDF](output/pdf/sir_ode_supplement.pdf). Its numerical results and methodological qualifications are unchanged. Build it with pdfLaTeX twice. It does not count toward the six-page main paper or support its power-grid conclusions.
+
+Author names, affiliations, and email addresses remain placeholders and must be supplied before submission.
 
 ## Result collection on LabPC
 
@@ -30,6 +30,6 @@ Each benchmark has `01_results`, `02_configuration`, `03_models`, `04_runs`, and
 
 This public repository includes the complete conference results, saved models and rendered paper. Tables and the workflow diagram are embedded in the LaTeX. The PDF is `output/pdf/eig_power_grid_conference.pdf`. The broader project manuscript is outside this conference repository.
 
-The complete result collection includes 54 grid and 18 SIR saved model files, raw evaluations, configurations, training histories, saved configuration snapshots, source-hash records, checksum records, and aggregate EIG/online/offline summaries. IEEE9 Step-DAD T=5 is 2.6621 ± 0.0145 nats across three training-seed means. The six-page draft incorporates the completed results; author placeholders remain.
+The complete result collection includes 54 grid and 18 SIR saved model files, raw evaluations, configurations, training histories, saved configuration snapshots, source-hash records, checksum records, and aggregate EIG/online/offline summaries. IEEE9 Step-DAD T=5 is 2.6621 ± 0.0145 nats across three training-seed means. The six-page main paper incorporates the completed grid results; historical SIR results remain in the separate supplement.
 
 The paper code link points to https://github.com/alexschmidt123/tpec2027_power_grid. Historical mixed-objective executable snapshots were omitted; see `../provenance/migration.json` and the root README. Raw numerical records are unchanged.
