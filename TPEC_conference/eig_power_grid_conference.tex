@@ -36,8 +36,8 @@ Understanding latent parameters, including inertia $M$ and effective frequency
 response $K$, helps predict disturbance responses and inform stability control.
 Active probing reduces parameter uncertainty through small injected signals
 and measured responses. However, selecting all probes in advance prevents
-adaptation to new measurements, while optimizing one probe at a time incurs
-substantial online computation and overlooks future information gains.
+adaptation to new measurements, while greedy optimization focuses only on the next step,
+incurring substantial online computation and overlooking future information gains.
 We apply adaptive sequential Bayesian optimal experimental design to address
 these limitations by selecting probe durations from accumulated observations
 while accounting for the information obtainable from the remaining probes.
