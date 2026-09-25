@@ -53,40 +53,75 @@ expected information gain, rate of change of frequency.
 \end{IEEEkeywords}
 
 \section{Introduction}
-Power-grid stability is vital to industry and daily life. Stability
-assessment and control require understanding disturbance responses,
-which depend on uncertain inertia $M$ and effective frequency response
-$K$. Identifying these parameters supports informed operating
-decisions~\cite{peng2024probing}.
+An electrical power grid connects generators and consumers through a
+network of transmission lines. Its operation requires a continuous balance
+between power generation and demand: disturbances to this balance produce
+changes in grid frequency. Understanding these changes is important for
+maintaining the reliable electricity supply on which industry, public
+services, and households depend. Inertia determines how strongly the
+system resists rapid frequency changes, while frequency-response mechanisms
+adjust power in response to frequency deviations~\cite{peng2024probing}.
+In the reduced models studied here, these effects are represented by
+inertia $M$ and effective frequency-response coefficients $K$. Their
+values are latent: they are not observed directly, but must be inferred
+from the system's measured behavior. Uncertainty in these parameters
+therefore limits the information available for stability assessment
+and control.
 
-Active probing obtains parameter information by injecting small,
-controlled signals and measuring frequency responses~\cite{peng2024probing}.
-The signal design determines what can be learned. We seek more
-information from a limited probing budget by selecting pulse durations
-while retaining physical state between experiments.
+Active probing provides a way to obtain that information under controlled
+excitation. A probing experiment injects a small, known power signal and
+records the resulting frequency response. Different parameter values
+produce different responses, allowing measurements to distinguish among
+plausible values of $M$ and $K$~\cite{peng2024probing}. The experiment's
+informativeness depends on the chosen signal. For example, changing the
+duration of a power pulse changes the transient response and thus the
+evidence available for identification. The design problem is consequently
+to select informative probes within a limited experimental budget.
 
-Predetermined sequences cannot adapt to incoming measurements. Myopic
-Bayesian optimization uses feedback but greedily maximizes only next-step
-information gain, ignoring subsequent learning
-opportunities~\cite{huan2016sequential}, and requires repeated online
-search. The gap is efficient adaptation that considers the complete
-probing sequence.
+Bayesian optimal experimental design (BOED) formalizes this selection
+problem~\cite{huan2016sequential}. A prior distribution represents
+uncertainty about the parameters before an experiment; Bayes' rule combines
+this prior with a measurement model and observed data to obtain a posterior
+distribution. Expected information gain (EIG) measures the average
+information that an experiment is expected to provide about the parameters,
+averaging over possible parameters and noisy observations. Maximizing EIG
+therefore selects experiments for their expected reduction of parameter
+uncertainty, before their outcomes are known.
 
-We apply adaptive sequential Bayesian optimal experimental design.
-Policies use observed responses to guide later probes, while full-sequence
-optimization accounts for how early measurements inform subsequent choices.
-DAD~\cite{foster2021dad} and RL-sBOED~\cite{blau2022rlsboed} learn policies
-offline, replacing online optimization with policy evaluation.
-Step-DAD~\cite{hedman2025stepdad} adds refinement using the observed history.
+For multiple experiments, the key question is how to use information as
+it arrives. A fixed design selects the complete probing sequence in
+advance and cannot revise it after observing a response. A greedy, or
+myopic, design incorporates new measurements but maximizes only the next
+step's EIG, without considering how the current choice affects later
+learning opportunities~\cite{huan2016sequential}. Computing and optimizing
+that objective during the experiment can also be expensive. These
+limitations motivate policies that adapt to observations, account for
+the complete sequence, and support inexpensive online decisions.
 
-Our contribution is the grid-probing formulation and matched evaluation
-of these existing methods on reduced IEEE9 and IEEE14 models.
-At equal probe budgets, all three learned methods achieve higher mean
-estimated information gain than Myopic, an optimized fixed sequence,
-and random probing at every tested horizon. DAD and RL-sBOED also
-substantially reduce online decision time relative to Myopic.
-These results demonstrate improved information acquisition for the
-broader purpose of informed stability assessment and control.
+Sequential BOED provides this policy perspective. Early measurements can
+guide later probes toward the uncertainty that remains, while training
+over complete sequences accounts for the value of those future choices.
+Deep adaptive design (DAD)~\cite{foster2021dad} and reinforcement-learning-based
+sequential BOED (RL-sBOED)~\cite{blau2022rlsboed} learn such policies from
+simulated experiments. Offline training amortizes optimization: the learned
+mapping from past designs and observations to the next design is reused
+during execution. Step-DAD~\cite{hedman2025stepdad} additionally refines a
+pretrained policy as observations arrive, allowing us to examine the value
+and cost of further online adaptation.
+
+This paper applies these methods to probe-duration selection on reduced
+IEEE9 and IEEE14 models. These benchmark networks have nine and fourteen
+buses, respectively, where a bus is an electrical connection point for
+lines, generation, or demand~\cite{zimmerman2011matpower}. Our reduced
+models retain coupled machine dynamics while simplifying the network
+representation. Successive probes share the evolving physical state,
+rather than restarting from equilibrium. We compare DAD, RL-sBOED, and
+Step-DAD with Myopic, an optimized fixed sequence, and random probing
+under matched observation models and probe budgets. The study asks
+whether learned sequential policies obtain more parameter information
+and how their offline and online computational costs compare.
+The contribution is this grid-probing formulation and comparative
+evaluation of existing design methods.
 
 \section{Problem Formulation}\label{sec:problem}
 We seek to reduce uncertainty in $M$ and $K$ through informative probes
