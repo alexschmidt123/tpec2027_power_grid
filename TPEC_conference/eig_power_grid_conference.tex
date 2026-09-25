@@ -31,24 +31,21 @@ email@example.com}}
 \raggedbottom
 \maketitle
 \begin{abstract}
-Reducing uncertainty in latent parameters, such as inertia $M$ and effective
-frequency response $K$, supports power-system stability assessment and control.
-Active probing identifies these parameters by injecting small perturbations
-and measuring the resulting system response. Conventional design strategies
-considered here include fixed probing and myopic Bayesian design. Fixed
-strategies prescribe the probing sequence in advance and cannot adapt
-subsequent probes to observed system dynamics. Myopic methods incorporate
-new measurements but require repeated online optimization and maximize only
-the next probe's expected information gain. To address these limitations,
-we apply adaptive sequential Bayesian optimal experimental design to select
-probe durations from previous designs and observations, aiming to maximize
-expected information gain over the complete probing sequence. On reduced
-IEEE9 and IEEE14 models, we compare offline-trained adaptive policies
-(DAD and RL-sBOED) and online policy refinement (Step-DAD) against Myopic,
-an optimized fixed sequence, and random probing. All three learned methods
-achieve higher estimated expected information gain than the three baselines.
-DAD and RL-sBOED also require substantially less online decision time than
-Myopic by amortizing design optimization through offline training.
+Power-grid stability is vital to industrial operations and daily life.
+Understanding latent parameters, including inertia $M$ and effective frequency
+response $K$, helps predict disturbance responses and inform stability control.
+Active probing reduces parameter uncertainty through small injected signals
+and measured responses. However, selecting all probes in advance prevents
+adaptation to new measurements, while optimizing one probe at a time incurs
+substantial online computation and overlooks future information gains.
+We apply adaptive sequential Bayesian optimal experimental design to address
+these limitations by selecting probe durations from accumulated observations
+while accounting for the information obtainable from the remaining probes.
+On reduced IEEE9 and IEEE14 models, we compare DAD, RL-sBOED, and Step-DAD
+with Myopic, an optimized fixed sequence, and random probing. All three
+learned methods achieve higher estimated expected information gain than the
+baselines. DAD and RL-sBOED also substantially reduce online decision time
+relative to Myopic by learning adaptive policies offline.
 \end{abstract}
 \begin{IEEEkeywords}
 Bayesian experimental design, power-system identification, adaptive probing,
