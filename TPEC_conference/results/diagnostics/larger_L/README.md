@@ -2,6 +2,16 @@
 
 September 29, 2026. This is an evaluation pilot and runtime study, not a replacement for the conference results. No policy was retrained or rerun, and no experimental table was changed.
 
+## Production run started September 30, 2026
+
+Full archived IEEE 14-bus rescoring is now running on LabPC's RTX 4090 at L=100,000, retaining nested L=10,000 results as a convergence diagnostic. Scope: 64,512 histories, all six methods, T=3/4/5, training seeds 101/202/303 where applicable, and evaluation seeds 1001/1002/1003. No policy retraining, new policy rollouts, or constraint changes.
+
+Results and logs: `experiments/20260930_ieee14_L100000/results/` and `experiments/20260930_ieee14_L100000/run.log`. The launched scorer is frozen under that job's `source/tools/` directory. `launch.json` stores the PID and exact launch/resume commands. `results/progress.json` updates after the first history and every ten histories; `results/scores.jsonl` contains each completed history. Completion requires `summary.json` and progress status `complete`.
+
+Restart support is implemented and tested: `--resume` requires matching code, input checksums, and settings, validates saved records, and skips completed identities. Five unit tests pass; a six-history GPU integration run resumed without adding duplicate rows. The original roughly five-day runtime estimate remains preliminary. Initial production histories reproduced archived scores/states and were processed successfully. Final updated paper results are pending; L=100,000 does not itself certify convergence.
+
+The remainder records the September 29 pilot; statements below about a full run not yet being started describe that earlier state.
+
 ## Completed
 
 - Finished a line-by-line copyediting pass on the author-edited manuscript, with 39 targeted corrections to grammar, wording, and unnecessary repetition. Rebuilt and inspected all six PDF pages; the final build has no unresolved references or overfull boxes. All eight numerical tables are unchanged.

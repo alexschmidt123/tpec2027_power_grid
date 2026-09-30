@@ -124,6 +124,35 @@ def make_observer(metadata, simulator_root):
     return observer
 
 
+def result_key(row):
+    key = (row['T'], row['method'], row['evaluation_seed'], row['system'])
+    return key if row['method'] in ('random', 'myopic') else key + (row['training_seed'],)
+
+
+def load_completed_results(path, levels):
+    if not path.exists():
+        return []
+    results = [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+    keys = set()
+    for row in results:
+        key = result_key(row)
+        if key in keys:
+            raise ValueError('Duplicate completed result: ' + str(key))
+        if sorted(score['L'] for score in row['scores']) != sorted(set(levels)):
+            raise ValueError('Completed result contrast levels differ')
+        if not all(np.isfinite(score[field]) for score in row['scores']
+                   for field in ('spce_nats', 'snmc_nats')):
+            raise ValueError('Nonfinite completed score')
+        keys.add(key)
+    return results
+
+
+def atomic_json(path, value):
+    temporary = path.with_suffix(path.suffix + '.tmp')
+    temporary.write_text(json.dumps(value, indent=2) + '\n')
+    temporary.replace(path)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--simulator-root', type=Path, default=ROOT,
@@ -134,6 +163,7 @@ def main():
     parser.add_argument('--chunk-size', type=int, default=10000)
     parser.add_argument('--pilot-per-method', type=int, default=2,
                         help='0 scores all archived histories; positive values select a timing pilot')
+    parser.add_argument('--resume', action='store_true', help='Resume only a matching manifest and valid complete records')
     parser.add_argument('--rescore-seed', type=int, default=20260929)
     args = parser.parse_args()
     levels = [int(v) for v in args.levels.split(',')]
@@ -145,8 +175,24 @@ def main():
     package = types.ModuleType("src")
     package.__path__ = [str(args.simulator_root.resolve() / "src")]
     sys.modules["src"] = package
-    args.output.mkdir(parents=True, exist_ok=False)
-    all_results = []
+    manifest = {'runs': [{
+        'path':str(run.resolve()),
+        'run_config_sha256':hashlib.sha256((run/'run_config.json').read_bytes()).hexdigest(),
+        'rollouts_sha256':hashlib.sha256((run/'rollouts.json').read_bytes()).hexdigest()}
+        for run in args.runs], 'levels':sorted(set(levels)),
+        'chunk_size':args.chunk_size, 'rescore_seed':args.rescore_seed,
+        'pilot_per_method':args.pilot_per_method, 'simulator_root':str(args.simulator_root.resolve()),
+        'scorer_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+    if args.resume:
+        if json.loads((args.output/'manifest.json').read_text()) != manifest:
+            raise ValueError('Resume manifest mismatch: settings, code, or inputs changed')
+    else:
+        args.output.mkdir(parents=True, exist_ok=False)
+        atomic_json(args.output/'manifest.json', manifest)
+    all_results = load_completed_results(args.output/'scores.jsonl', levels)
+    completed_keys = {result_key(row) for row in all_results}
+    completed_at_start = len(all_results)
+    print(json.dumps({'resuming':args.resume, 'already_completed':completed_at_start}), flush=True)
     inventory = []
     seen = {}
     overall_start = time.perf_counter()
@@ -175,6 +221,11 @@ def main():
             'run_config_sha256': hashlib.sha256((run/'run_config.json').read_bytes()).hexdigest(),
             'rollouts_sha256': hashlib.sha256((run/'rollouts.json').read_bytes()).hexdigest()})
         for row in selected:
+            key = (metadata['settings']['T'], row['method'], row['evaluation_seed'], row['system'])
+            if row['method'] not in ('random', 'myopic'):
+                key += (metadata['settings']['seed'],)
+            if key in completed_keys:
+                continue
             history_start = time.perf_counter()
             check = reproduce_archived_score(observer, metadata, row)
             result = score_history(observer, metadata, row, levels, args.chunk_size, args.rescore_seed)
@@ -184,9 +235,18 @@ def main():
             with (args.output/'scores.jsonl').open('a') as stream:
                 stream.write(json.dumps(result)+'\n')
             all_results.append(result)
+            completed_keys.add(key)
+            if len(all_results) % 10 == 0 or len(all_results) == 1:
+                atomic_json(args.output/'progress.json', {
+                    'status':'running', 'histories_completed':len(all_results),
+                    'histories_added_this_session':len(all_results)-completed_at_start,
+                    'session_elapsed_seconds':time.perf_counter()-overall_start,
+                    'last_history':list(key), 'updated_unix':time.time()})
             print(json.dumps({'T':result['T'], 'method':result['method'], 'system':result['system'],
                 'L':result['scores'][-1]['L'], 'seconds':result['scores'][-1]['cumulative_scoring_seconds'],
                 'spce':result['scores'][-1]['spce_nats'], 'snmc':result['scores'][-1]['snmc_nats']}), flush=True)
+    if completed_keys != set(seen):
+        raise ValueError('Completed history identities do not match selected archive')
     summary = {'pilot_only': bool(args.pilot_per_method), 'levels': levels,
         'chunk_size':args.chunk_size, 'rescore_seed':args.rescore_seed,
         'simulator_root':str(args.simulator_root),
@@ -201,7 +261,10 @@ def main():
             'min_seconds_per_history':float(min(next(s['cumulative_scoring_seconds'] for s in r['scores'] if s['L']==level) for r in group)),
             'max_seconds_per_history':float(max(next(s['cumulative_scoring_seconds'] for s in r['scores'] if s['L']==level) for r in group))}
             for level in levels}
-    (args.output/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+    atomic_json(args.output/'summary.json', summary)
+    atomic_json(args.output/'progress.json', {
+        'status':'complete', 'histories_completed':len(all_results),
+        'session_elapsed_seconds':time.perf_counter()-overall_start, 'updated_unix':time.time()})
     print(json.dumps(summary), flush=True)
 
 

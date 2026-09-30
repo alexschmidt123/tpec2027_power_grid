@@ -1,9 +1,12 @@
 """Independent checks of archived-history likelihood and chunked bounds."""
 import unittest
+import json
+import tempfile
+from pathlib import Path
 from types import SimpleNamespace
 import numpy as np
 from scipy.special import logsumexp
-from tools.rescore_saved_histories import history_likelihood, information_bounds, score_history
+from tools.rescore_saved_histories import history_likelihood, information_bounds, score_history, load_completed_results
 
 
 class LinearCarryObserver:
@@ -48,6 +51,20 @@ class TestSavedHistoryScoring(unittest.TestCase):
         for left, right in zip(a['scores'], b['scores']):
             self.assertAlmostEqual(left['spce_nats'], right['spce_nats'], places=12)
             self.assertAlmostEqual(left['snmc_nats'], right['snmc_nats'], places=12)
+
+
+    def test_resume_rejects_duplicates_and_wrong_levels(self):
+        row = {'T':5, 'method':'dad', 'evaluation_seed':1001, 'system':0,
+               'training_seed':101, 'scores':[{'L':1024, 'spce_nats':5., 'snmc_nats':6.}]}
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory)/'scores.jsonl'
+            path.write_text(json.dumps(row)+'\n')
+            self.assertEqual(len(load_completed_results(path, [1024])), 1)
+            with self.assertRaises(ValueError):
+                load_completed_results(path, [10000])
+            path.write_text((json.dumps(row)+'\n')*2)
+            with self.assertRaises(ValueError):
+                load_completed_results(path, [1024])
 
 
 if __name__ == '__main__':
