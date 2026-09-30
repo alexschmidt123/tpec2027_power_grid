@@ -18,3 +18,7 @@ Completed: corrected email and grammar; removed invalid apostrophe control chara
 - Huan--Marzouk publication request: no published version of the exact 2016 sequential paper was verified. The authors' MIT publication list labels it a preprint (https://uqgroup.mit.edu/publications/), and a 2026 SIAM article still cites the arXiv version (https://epubs.siam.org/doi/10.1137/25M1771946). Retain the accurate citation pending discussion. A distinct published 2024 review exists, but it is not the same paper.
 
 No new experiments or retraining were started. These revisions are being committed and pushed at the user's subsequent request.
+
+## Subsequent copyediting and larger-L feasibility pass
+
+Completed a full manuscript copyediting pass with 39 targeted wording corrections, preserving all eight numerical tables. The rebuilt PDF remains six pages and was visually checked. Added an evaluation-only rescorer with four passing numerical tests. Thirty saved IEEE 14-bus histories were scored through L=100,000 and 18 repeated histories used for an isolated L=10,000 runtime measurement. Full-archive evaluation and retraining were not launched. See [the feasibility report](results/diagnostics/larger_L/README.md) for exact requirements, pilot records, validation, and projected runtime.
