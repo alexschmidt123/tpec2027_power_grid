@@ -36,7 +36,7 @@ bjyoon@tamu.edu
 \maketitle
 \begin{abstract}
 
-Knowledge of latent grid parameters, including inertia and frequency-response coefficients, is important for assessing power-system stability. Active probing identifies these parameters from responses to injected signals. Fixed strategies predefine the probes without incorporating new measurements, while myopic strategies optimize one probe at a time and can require expensive online computation. We formulate active probing as a sequential Bayesian experimental design problem and use learned adaptive policies to maximize information about the latent parameters. In experiments on reduced IEEE 9-bus and IEEE 14-bus models, deep adaptive design (DAD), Step-DAD, and reinforcement learning (RL-sBOED) achieve higher mean sPCE lower-bound information scores than myopic, optimized fixed-sequence, and random probing under the same probe budget. On the IEEE 9-bus model, DAD exceeds Fixed by 0.09--0.13 nats in mean sPCE score. Offline-trained DAD and RL-sBOED require less online decision time than Myopic and Step-DAD; on the IEEE 14-bus model with five probes, DAD takes 1.93 ms per sequence, compared with 16.94 s for Myopic and 44.69 s for Step-DAD under the recorded timing conditions. These results support further study of learned sequential policies for informative grid probing.
+Knowledge of latent grid parameters, including inertia and frequency-response coefficients, is important for assessing power-system stability. Active probing identifies these parameters from responses to injected signals. Fixed strategies predefine the probes without incorporating new measurements, while myopic strategies optimize one probe at a time and can require expensive online computation. We formulate active probing as a sequential Bayesian experimental design problem and use learned adaptive policies to maximize information about the latent parameters. In experiments on reduced IEEE 9-bus and IEEE 14-bus models, deep adaptive design (DAD), Step-DAD, and reinforcement learning (RL-sBOED) achieve higher mean sPCE lower-bound information scores than myopic, optimized fixed-sequence, and random probing under the same probe budget. On the IEEE 9-bus model, DAD exceeds Fixed by 0.09--0.13 nats in mean sPCE score. DAD and RL-sBOED select probes with trained network evaluations, whereas Myopic and Step-DAD require additional online simulation and optimization. These results support further study of learned sequential policies for informative grid probing.
 
 \end{abstract}
 \begin{IEEEkeywords}
@@ -51,7 +51,7 @@ The design of informative excitation is a central problem in system identificati
 
 Sequential Bayesian optimal experimental design provides a framework for this tradeoff~\cite{huan2016sequential}. A fixed sequence cannot respond to incoming measurements, whereas a myopic design optimizes only the next observation. Deep adaptive design (DAD)~\cite{foster2021dad} and reinforcement-learning-based sequential design (RL-sBOED)~\cite{blau2022rlsboed} learn history-dependent policies using a full-sequence information objective. Step-DAD~\cite{hedman2025stepdad} additionally refines a pretrained policy during the experiment, trading online computation for further adaptation.
 
-We formulate duration selection for reduced IEEE 9-bus and IEEE 14-bus swing models with unknown machine inertia and effective frequency-response coefficients. Our contributions are a carried-state Bayesian probing formulation, a comparison of six methods under a common restricted duration space and probe count, and an analysis of information scores, selected durations, and computational costs. The study evaluates the transfer of sequential-design methods to this grid benchmark; it does not establish unrestricted optimal probing, operational safety, or complete identification from a single sensor.
+We formulate duration selection for reduced IEEE 9-bus and IEEE 14-bus swing models with unknown machine inertia and effective frequency-response coefficients. Our contributions are a carried-state Bayesian probing formulation, a comparison of six methods under a common restricted duration space and probe count, and an analysis of information scores, selected durations, and algorithmic computational requirements. The study evaluates the transfer of sequential-design methods to this grid benchmark; it does not establish unrestricted optimal probing, operational safety, or complete identification from a single sensor.
 
 \section{Problem Formulation}\label{sec:problem}
 We seek to reduce uncertainty about grid parameters using active probing within a budget of $T$ design steps. Here $t=1,\ldots,T$ indexes design steps, $d$ denotes elapsed time within each probe window, and $D_t$ is the selected pulse duration.
@@ -207,10 +207,10 @@ The fourth-order Runge-Kutta (RK4) method is used to integrate the swing equatio
 
 Offline training uses 2000 updates, a batch size of 32, and three independent training seeds (101, 202, and 303). The DAD and Fixed learning rates are both $10^{-3}$. Validation is carried out using 128 systems every 100 updates. For the sPCE objective, 128 contrastive samples are used in the training, validation, and evaluation phases. The Myopic and Step-DAD methods each use 128 particles for online posterior planning, and Step-DAD carries out four refinement updates after each observation so long as design steps remain. The evaluation comprises seeds 1001, 1002, and 1003, with 512 simulated experimental sequences per evaluation seed. Validation cases are not used for gradient updates. Each trained policy is assessed over 1536 episodes. The draws for parameters and measurement noise are paired across the different methods, whereas the online planner makes use of its own separate random stream. Since the Random and Myopic methods show no dependence on the training seed under these streams, identical evaluations can be obtained for all training seeds. Fixed is optimized independently for each training seed.
 
-\subsection{Evaluation and Computational Measurements}
+\subsection{Evaluation Protocol}
 For trained methods, we average the evaluation-seed means within each training seed and report the mean $\pm$ sample standard deviation across the three training seeds. For Random and Myopic, we report the mean $\pm$ sample standard deviation across evaluation-seed means rather than episode-level dispersion. Evaluation seed 1001 was used during development, so the evaluation is not fully independent.
 
-The experiments use NVIDIA RTX 5080 and A100 GPUs, with the RTX 4090 used for development. IEEE 9-bus offline timings include RTX 5080 and A100 runs. Its online timings use the RTX 5080, except for Step-DAD at $T=5$ with training seed 303, which used an A100. IEEE 14-bus timings use the A100. These measurements do not support a controlled runtime comparison between networks. Code and saved results are available at \url{https://github.com/alexschmidt123/tpec2027_power_grid}.
+Training and evaluation used NVIDIA RTX 5080, A100, and RTX 4090 GPUs. We analyze algorithmic work rather than comparing wall-clock times across these devices. Code and saved results are available at \url{https://github.com/alexschmidt123/tpec2027_power_grid}.
 
 % Complete results under the accepted three-evaluation-seed grid protocol.
 \section{Results and Discussion}
@@ -287,72 +287,46 @@ legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=2,draw=non
 \end{figure}
 At $T=5$, DAD and Step-DAD select median final durations of 0.369 and 0.376 s, versus 1.114 s for Fixed (Fig.~\ref{fig:durations}). RL-sBOED has a short median but a wider pooled range, including training-seed variation. The same probe count thus permits different energy allocations. Increasing trends follow the constraint; these summaries do not isolate feedback benefits from seed variation. Unrestricted and energy-matched comparisons remain open.
 
-\subsection{Measured Computational Cost}\label{sec:cost}
-Tables~\ref{tab:ieee9_offline}--\ref{tab:ieee14_online} report offline training-stage time in hours and online decision time in milliseconds per complete sequence. Online timing sums all $T$ decisions, including posterior updates, Myopic search, and Step-DAD refinement where applicable. It excludes physical response simulation, observation acquisition, and information scoring. For each evaluation seed, we report the average time over 512 episodes and, where applicable, over training seeds; the reported mean and sample SD use the three evaluation-seed means.
-\begin{table}[!ht]
-\caption{IEEE 9-bus offline stage time (hours)}
-\label{tab:ieee9_offline}
-\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
-\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
-Random & 0 & 0 & 0\\
-Fixed & $0.960\pm0.352$ & $1.396\pm0.515$ & $1.827\pm0.662$\\
-Myopic & 0 & 0 & 0\\
-DAD & $0.957\pm0.342$ & $1.393\pm0.509$ & $1.831\pm0.654$\\
-RL-sBOED & $0.120\pm0.017$ & $0.152\pm0.030$ & $0.180\pm0.045$\\
-Step-DAD & $0.957\pm0.342$ & $1.393\pm0.509$ & $1.831\pm0.654$\\
-\bottomrule\end{tabular*}
-\end{table}
+\subsection{Algorithmic Computational Requirements}\label{sec:cost}
+We distinguish physical observation acquisition, policy decisions, and information scoring. Let $C_s$ denote the work to propagate one candidate parameter state through one observation window, and $C_\pi$ one policy forward pass. For a dense $m$-machine swing model integrated over $N$ RK4 steps, $C_s=O(Nm^2)$. A dense network forward pass is proportional to its layer connection count; $C_\pi$ includes the fixed-horizon history input. These operation counts do not determine elapsed time, which also depends on batching, hardware, and implementation.
 
 \begin{table}[!ht]
-\caption{IEEE 14-bus offline stage time (hours)}
-\label{tab:ieee14_offline}
-\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
-\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
-Random & 0 & 0 & 0\\
-Fixed & $1.877\pm0.011$ & $2.750\pm0.002$ & $3.691\pm0.050$\\
-Myopic & 0 & 0 & 0\\
-DAD & $1.894\pm0.032$ & $2.725\pm0.018$ & $3.626\pm0.068$\\
-RL-sBOED & $0.170\pm0.008$ & $0.204\pm0.001$ & $0.248\pm0.001$\\
-Step-DAD & $1.894\pm0.032$ & $2.725\pm0.018$ & $3.626\pm0.068$\\
+\caption{Online decision work per $T$-probe sequence}
+\label{tab:complexity}\papertablestyle
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}ll@{}}
+\toprule Method & Dominant work\\\midrule
+Random, Fixed & $O(T)$ duration generation/readout\\
+DAD, RL-sBOED & $O(TC_\pi)$ policy evaluation\\
+Myopic & $O(TQC_e+TP C_s)$\\
+Step-DAD & $O(TC_\pi+TP C_s+UBC_gT^2)$\\
 \bottomrule\end{tabular*}
 \end{table}
+Here $P=128$ is the posterior particle count, $Q$ the number of candidate objectives evaluated per decision, and $C_e$ the work for one candidate's one-step information objective, including its simulated observations and likelihood calculations. Myopic uses 16 proposals and three search rounds with 32 simulated observations per proposal. The $TP C_s$ term accounts for particle propagation during assimilation; resampling and weight updates add lower-order work for fixed state dimension.
+
+For Step-DAD, $U=4$ updates per refinement, $B=32$ trajectories per update, and $C_g$ denotes per-window simulation, likelihood, and gradient work per trajectory at a fixed contrast count and model dimension. Refinements cover remaining horizons $T-1,\ldots,1$, whose sum is $T(T-1)/2$. Thus the dominant refinement work scales quadratically with $T$ when other budgets are fixed. Conditional validation adds the same horizon dependence at a fixed validation budget. The $C_g$ term includes the numerical Jacobians used here; it is not assumed equal to $C_s$.
+
+\paragraph{Offline work}
+Let $J_F,J_D,J_R$ be the update counts for Fixed, DAD, and RL-sBOED, $B$ the trajectory batch size, and $L$ the training contrast count. With $C_g$ also covering the per-window differentiation used by Fixed and DAD, their training-stage work scales as $J B(L+1)TC_g$. Write $W_F$ for the complete Fixed preparation stage, including initialization selection, optimization, and validation. DAD requires $W_F+O(J_DB(L+1)TC_g)$ plus its validation work; Step-DAD inherits this total. Random and Myopic have no offline optimization. RL-sBOED requires $O(J_RB(L+1)TC_s)$ trajectory simulation plus actor--critic and validation work. If $r$ replay updates per trajectory batch train $E$ critics with replay batch size $B_R$, the neural update term is $O(J_RrB_REC_{\mathrm{nn}})$, where $C_{\mathrm{nn}}$ denotes per-sample network update work. These counts describe complete workflows, not elapsed training time.
+
+\paragraph{Memory requirements}
+Let $S$ be the number of scalar storage entries per simulated candidate-window, including any stored integration states and Jacobians. A conservative bound that retains all trajectory windows is $H(b,c,k)=O(bckS)$ for $b$ trajectories, $c$ simultaneously resident parameter candidates, and $k$ windows. Streaming can reduce this bound. Let $W$ count the parameters of one policy and $d_h$ the stored history size. Neural training needs $O(W)$ additional parameter, gradient, and optimizer storage, together with activation storage. Particle planners additionally retain $O(Pm)$ physical states and particle parameters. Table~\ref{tab:memory} gives the dominant storage terms; $c=L+1$ if contrasts are stored together, or the chunk size when the implementation streams them.
 
 \begin{table}[!ht]
-\caption{IEEE 9-bus online decision time (ms per sequence)}
-\label{tab:ieee9_online}
-\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
-\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
-Random & $0.0715\pm0.0001$ & $0.09445\pm0.00003$ & $0.121\pm0.001$\\
-Fixed & $0.523\pm0.038$ & $0.623\pm0.002$ & $0.766\pm0.002$\\
-Myopic & $9308\pm4$ & $12577\pm2$ & $15892\pm2$\\
-DAD & $0.537\pm0.002$ & $0.683\pm0.002$ & $0.838\pm0.004$\\
-RL-sBOED & $0.492\pm0.003$ & $0.626\pm0.001$ & $0.764\pm0.002$\\
-Step-DAD & $6342\pm2$ & $15808\pm9$ & $24350\pm50$\\
+\caption{Dominant memory terms (scalar storage entries)}
+\label{tab:memory}\papertablestyle
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lll@{}}
+\toprule Method & Offline & Online\\\midrule
+Random & $O(1)$ & $O(T)$\\
+Fixed & $H(B,c,T)+O(T)$ & $O(T)$\\
+DAD & $H(B,c,T)+O(W)$ & $O(W+d_h)$\\
+RL-sBOED & See text & $O(W+d_h)$\\
+Myopic & $O(1)$ & $H(b_e,c_e,1)+M_P$\\
+Step-DAD & Same as DAD & $H(B,c,T)+O(W)+M_P$\\
 \bottomrule\end{tabular*}
 \end{table}
+Here $M_P=O(Pm+d_h)$ denotes posterior and history storage. For Myopic, $b_e$ and $c_e$ denote the simultaneously batched simulated observations and likelihood candidates; sequential proposal processing does not require storing all $Q$ proposals. RL-sBOED offline storage includes the simulation batch, replay buffer, critic ensemble, and training activations: $H(B,c,T)+O(N_Rd_R+EW)$, using replay capacity $N_R$, transition size $d_R$, and representative network size $W$. Fixed/DAD activations and conditional validation may add batch-dependent storage; the table emphasizes simulator and persistent state. Step-DAD uses a conservative full-remaining-horizon bound, including the policy gradients and optimizer. Multiplication by bytes per scalar converts these counts to storage units, but measured GPU occupancy also includes allocator and framework overhead.
 
-\begin{table}[!ht]
-\caption{IEEE 14-bus online decision time (ms per sequence)}
-\label{tab:ieee14_online}
-\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
-\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
-Random & $0.161\pm0.004$ & $0.209\pm0.002$ & $0.309\pm0.049$\\
-Fixed & $1.16\pm0.14$ & $1.48\pm0.04$ & $2.75\pm1.73$\\
-Myopic & $10000\pm2$ & $13437\pm9$ & $16935\pm35$\\
-DAD & $1.22\pm0.09$ & $1.42\pm0.02$ & $1.93\pm0.20$\\
-RL-sBOED & $1.68\pm0.29$ & $3.31\pm1.33$ & $2.71\pm0.69$\\
-Step-DAD & $9113\pm7$ & $23243\pm24$ & $44693\pm32$\\
-\bottomrule\end{tabular*}
-\end{table}
-
-Offline timing includes initialization, optimization, periodic validation, and checkpoint writes. The DAD entries report its training stage only and exclude the separately incurred Fixed initialization cost; the total Fixed--DAD workflow requires both stages. Step-DAD reuses the corresponding DAD model, so its offline entries repeat the DAD stage cost; refinement costs are incurred online. Offline means and sample standard deviations are computed across three training seeds. Since Random and Myopic need no offline training, their entries are zero.
-
-At $T=5$, DAD needs 1.93 ms per sequence online, whereas Myopic requires 16.94 s and Step-DAD needs 44.69 s (as shown in Table~\ref{tab:ieee14_online}). Although the DAD and Step-DAD scores are nearly the same, their computational costs are very different. Offline training spreads design computation over repeated experiments. Its benefit depends on how often the policy is reused and on the time available between measurements.
-
+Re-evaluating $n$ saved histories with sPCE requires $O(n(L+1)TC_s)$ simulation work and $O(nLT)$ likelihood arithmetic. Contrastive states can be processed in chunks, so increasing $L$ need not require storing every state simultaneously. This changes scoring cost without changing the trained policies. The analysis explains the source of online work but establishes neither measured speedups nor real-time feasibility.
 
 \subsection{Estimator Sensitivity}
 The ceiling $\log(L+1)$ limits sPCE, not EIG. A mean below it can conceal saturated histories. Larger-$L$ evaluation of the same saved histories is needed to assess this bias without retraining.
@@ -370,7 +344,7 @@ $T=3,4,5$; $L=10^4,10^5$}}
 These conclusions apply to the specified reduced lossless dynamics, independent parameter priors, and scalar sensor. IEEE 14-bus has ten unknown parameters but only three to five scalar observations. The prior and nonlinear likelihood can reduce joint uncertainty, but the information score does not establish accurate identification of each $M_i$ or $K_i$. Parameter-wise posterior error, interval width, and coverage are needed for that assessment. Monotonic durations, fixed probe location, and the endpoint sensor further restrict the conclusions. The same parameter distribution is used during both training and evaluation; we have not demonstrated robustness with respect to prior shift, sensor bias, or unmodelled dynamics. Evaluation seed 1001 was used during development, so the results do not provide fully independent confirmation. The errors introduced by finite-contrast scoring and particle inference are different from those caused by ODE integration. Lastly, the zero-latency simulation does not prove that online planners are feasible in real time, and increased information gain on its own does not show that control is safer.
 
 \section{Conclusion}
-Learned adaptive policies use observation history to select probes over the experimental sequence. When three to five probes are used on the reduced IEEE 9-bus and IEEE 14-bus models, DAD, RL-sBOED, and Step-DAD obtain higher mean sPCE information scores than Random, Fixed, and Myopic. Estimator saturation limits comparisons among learned policies on the IEEE 14-bus model. DAD and RL-sBOED, trained offline, amortize the cost of online decisions, while Step-DAD incurs a considerably higher cost even though it provides only modest additional gains on the IEEE 9-bus model and shows no consistent improvement on the IEEE 14-bus model. Before concluding that these methods are ready for deployment, future work should evaluate estimator sensitivity, model mismatch, and decision latency.
+Learned adaptive policies use observation history to select probes over the experimental sequence. When three to five probes are used on the reduced IEEE 9-bus and IEEE 14-bus models, DAD, RL-sBOED, and Step-DAD obtain higher mean sPCE information scores than Random, Fixed, and Myopic. Estimator saturation limits comparisons among learned policies on the IEEE 14-bus model. DAD and RL-sBOED replace online planning with policy forward passes. Step-DAD adds simulation and gradient refinement, with modest score gains on IEEE 9-bus and no consistent improvement on IEEE 14-bus under the original estimator. Before concluding that these methods are ready for deployment, future work should evaluate estimator sensitivity, model mismatch, and decision latency.
 
 \bibliographystyle{IEEEtran}
 \bibliography{conference_refs}
