@@ -249,58 +249,118 @@ On IEEE 14-bus, learned-policy scores approach the 4.8598-nat ceiling, preventin
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\begin{semilogyaxis}[width=\columnwidth,height=4.8cm,
+\begin{semilogyaxis}[width=\columnwidth,height=6.0cm,
 xmin=0.7,xmax=5.3,ymin=0.18,ymax=3.15,xtick={1,2,3,4,5},
 ytick={0.2,0.3,0.5,1,2,3},yticklabels={0.2,0.3,0.5,1,2,3},
 xlabel={Probe stage},ylabel={Duration (s; log scale)},
-tick label style={font=\small},label style={font=\small},
-grid=major,grid style={gray!20},mark size=2pt,
-legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=3,draw=none}]
-\addplot+[color=black,mark=square*,solid,thick] coordinates {(0.85,0.2828679026357658) (1.85,0.44174800663973723) (2.85,0.6248914148623391) (3.85,0.8502420862900666) (4.85,1.1138050693458)};\addlegendentry{Fixed}
-\draw[black] (axis cs:0.85,0.28043540003219924) -- (axis cs:0.85,0.28407994948463416);
-\draw[black] (axis cs:1.85,0.4368882675825554) -- (axis cs:1.85,0.4442662399049329);
-\draw[black] (axis cs:2.85,0.6213276254712479) -- (axis cs:2.85,0.6308005604712162);
-\draw[black] (axis cs:3.85,0.8293291586102614) -- (axis cs:3.85,0.8514718534589947);
-\draw[black] (axis cs:4.85,1.1016864966430364) -- (axis cs:4.85,1.1337509493484184);
-\addplot+[color=blue!75!black,mark=*,solid,thick] coordinates {(0.91,0.21060972398826466) (1.91,0.237196318709802) (2.91,0.26736997313645894) (3.91,0.30545846848903146) (4.91,0.3687135420032292)};\addlegendentry{DAD}
-\draw[blue!75!black] (axis cs:0.91,0.20910896907497187) -- (axis cs:0.91,0.21076482938125188);
-\draw[blue!75!black] (axis cs:1.91,0.23261459552264124) -- (axis cs:1.91,0.23937861952380685);
-\draw[blue!75!black] (axis cs:2.91,0.2590983730697771) -- (axis cs:2.91,0.2759990326784988);
-\draw[blue!75!black] (axis cs:3.91,0.2883274511510281) -- (axis cs:3.91,0.3248943519856942);
-\draw[blue!75!black] (axis cs:4.91,0.3345896845467188) -- (axis cs:4.91,0.41526081035118145);
-\addplot+[color=orange!85!black,mark=triangle*,dashed,thick] coordinates {(0.97,0.20279108954574707) (1.97,0.2213873047905987) (2.97,0.2516969953178171) (3.97,0.3114745911061245) (4.97,0.3809106818801803)};\addlegendentry{RL-sBOED}
-\draw[orange!85!black] (axis cs:0.97,0.20243450957839) -- (axis cs:0.97,0.2062270233060863);
-\draw[orange!85!black] (axis cs:1.97,0.21989159565774144) -- (axis cs:1.97,0.251871194290457);
-\draw[orange!85!black] (axis cs:2.97,0.2464984452883346) -- (axis cs:2.97,0.6102599670558644);
-\draw[orange!85!black] (axis cs:3.97,0.2863826457899334) -- (axis cs:3.97,1.7028184426236677);
-\draw[orange!85!black] (axis cs:4.97,0.3343104608320108) -- (axis cs:4.97,2.317078600796312);
-\addplot+[color=green!40!black,mark=diamond*,dotted,thick] coordinates {(1.03,0.21060972398826466) (2.03,0.23676399281661037) (3.03,0.26828737847458334) (4.03,0.3074697081686477) (5.03,0.376172019896189)};\addlegendentry{Step-DAD}
-\draw[green!40!black] (axis cs:1.03,0.20910896907497187) -- (axis cs:1.03,0.21076482938125188);
-\draw[green!40!black] (axis cs:2.03,0.23296759685299065) -- (axis cs:2.03,0.24076675795896954);
-\draw[green!40!black] (axis cs:3.03,0.26017541126668586) -- (axis cs:3.03,0.278777467662094);
-\draw[green!40!black] (axis cs:4.03,0.29090942336732073) -- (axis cs:4.03,0.3306335629732281);
-\draw[green!40!black] (axis cs:5.03,0.3391228648222772) -- (axis cs:5.03,0.43086174557199725);
-\addplot+[color=violet,mark=pentagon*,dashdotted,thick] coordinates {(1.09,0.21876707604641582) (2.09,0.5336385898566286) (3.09,0.9429868260033785) (4.09,1.5331955876201433) (5.09,2.2829829078381705)};\addlegendentry{Myopic}
-\draw[violet] (axis cs:1.09,0.2) -- (axis cs:1.09,0.33446707021961586);
-\draw[violet] (axis cs:2.09,0.3746601435709681) -- (axis cs:2.09,0.7955902435437878);
-\draw[violet] (axis cs:3.09,0.6539449392075672) -- (axis cs:3.09,1.6296861563037368);
-\draw[violet] (axis cs:4.09,0.9605423834948006) -- (axis cs:4.09,2.714638083320892);
-\draw[violet] (axis cs:5.09,1.3774404844316497) -- (axis cs:5.09,2.9090273984129436);
-\addplot+[color=gray,mark=x,dashed,thick] coordinates {(1.15,1.5535451738318748) (2.15,2.4404267491860714) (3.15,2.793833561506081) (4.15,2.9317136051439237) (5.15,2.9787286610378403)};\addlegendentry{Random}
-\draw[gray] (axis cs:1.15,0.9303239868396407) -- (axis cs:1.15,2.2557478022292115);
-\draw[gray] (axis cs:2.15,1.9232738086447416) -- (axis cs:2.15,2.8047310817594426);
-\draw[gray] (axis cs:3.15,2.4983195368171667) -- (axis cs:3.15,2.930488226558058);
-\draw[gray] (axis cs:4.15,2.7687829046044348) -- (axis cs:4.15,2.9755621728040733);
-\draw[gray] (axis cs:5.15,2.9120330271971855) -- (axis cs:5.15,2.9957194607930453);
+tick label style={font=\normalsize},label style={font=\normalsize},
+grid=major,grid style={gray!15},mark size=2.7pt,
+legend style={font=\normalsize,at={(0.5,1.03)},anchor=south,legend columns=3,draw=none}]
+\addplot+[color=black,mark=square*,solid,line width=1pt] coordinates {(0.85,0.2828679026357658) (1.85,0.44174800663973723) (2.85,0.6248914148623391) (3.85,0.8502420862900666) (4.85,1.1138050693458)};\addlegendentry{Fixed}
+\draw[black,line width=0.65pt] (axis cs:0.85,0.28043540003219924) -- (axis cs:0.85,0.28407994948463416);
+\draw[black,line width=0.65pt] (axis cs:0.815,0.28043540003219924) -- (axis cs:0.885,0.28043540003219924);
+\draw[black,line width=0.65pt] (axis cs:0.815,0.28407994948463416) -- (axis cs:0.885,0.28407994948463416);
+\draw[black,line width=0.65pt] (axis cs:1.85,0.4368882675825554) -- (axis cs:1.85,0.4442662399049329);
+\draw[black,line width=0.65pt] (axis cs:1.8150000000000002,0.4368882675825554) -- (axis cs:1.885,0.4368882675825554);
+\draw[black,line width=0.65pt] (axis cs:1.8150000000000002,0.4442662399049329) -- (axis cs:1.885,0.4442662399049329);
+\draw[black,line width=0.65pt] (axis cs:2.85,0.6213276254712479) -- (axis cs:2.85,0.6308005604712162);
+\draw[black,line width=0.65pt] (axis cs:2.815,0.6213276254712479) -- (axis cs:2.8850000000000002,0.6213276254712479);
+\draw[black,line width=0.65pt] (axis cs:2.815,0.6308005604712162) -- (axis cs:2.8850000000000002,0.6308005604712162);
+\draw[black,line width=0.65pt] (axis cs:3.85,0.8293291586102614) -- (axis cs:3.85,0.8514718534589947);
+\draw[black,line width=0.65pt] (axis cs:3.815,0.8293291586102614) -- (axis cs:3.8850000000000002,0.8293291586102614);
+\draw[black,line width=0.65pt] (axis cs:3.815,0.8514718534589947) -- (axis cs:3.8850000000000002,0.8514718534589947);
+\draw[black,line width=0.65pt] (axis cs:4.85,1.1016864966430364) -- (axis cs:4.85,1.1337509493484184);
+\draw[black,line width=0.65pt] (axis cs:4.8149999999999995,1.1016864966430364) -- (axis cs:4.885,1.1016864966430364);
+\draw[black,line width=0.65pt] (axis cs:4.8149999999999995,1.1337509493484184) -- (axis cs:4.885,1.1337509493484184);
+\addplot+[color=blue!75!black,mark=*,solid,line width=1pt] coordinates {(0.91,0.21060972398826466) (1.91,0.237196318709802) (2.91,0.26736997313645894) (3.91,0.30545846848903146) (4.91,0.3687135420032292)};\addlegendentry{DAD}
+\draw[blue!75!black,line width=0.65pt] (axis cs:0.91,0.20910896907497187) -- (axis cs:0.91,0.21076482938125188);
+\draw[blue!75!black,line width=0.65pt] (axis cs:0.875,0.20910896907497187) -- (axis cs:0.9450000000000001,0.20910896907497187);
+\draw[blue!75!black,line width=0.65pt] (axis cs:0.875,0.21076482938125188) -- (axis cs:0.9450000000000001,0.21076482938125188);
+\draw[blue!75!black,line width=0.65pt] (axis cs:1.91,0.23261459552264124) -- (axis cs:1.91,0.23937861952380685);
+\draw[blue!75!black,line width=0.65pt] (axis cs:1.875,0.23261459552264124) -- (axis cs:1.9449999999999998,0.23261459552264124);
+\draw[blue!75!black,line width=0.65pt] (axis cs:1.875,0.23937861952380685) -- (axis cs:1.9449999999999998,0.23937861952380685);
+\draw[blue!75!black,line width=0.65pt] (axis cs:2.91,0.2590983730697771) -- (axis cs:2.91,0.2759990326784988);
+\draw[blue!75!black,line width=0.65pt] (axis cs:2.875,0.2590983730697771) -- (axis cs:2.9450000000000003,0.2590983730697771);
+\draw[blue!75!black,line width=0.65pt] (axis cs:2.875,0.2759990326784988) -- (axis cs:2.9450000000000003,0.2759990326784988);
+\draw[blue!75!black,line width=0.65pt] (axis cs:3.91,0.2883274511510281) -- (axis cs:3.91,0.3248943519856942);
+\draw[blue!75!black,line width=0.65pt] (axis cs:3.875,0.2883274511510281) -- (axis cs:3.9450000000000003,0.2883274511510281);
+\draw[blue!75!black,line width=0.65pt] (axis cs:3.875,0.3248943519856942) -- (axis cs:3.9450000000000003,0.3248943519856942);
+\draw[blue!75!black,line width=0.65pt] (axis cs:4.91,0.3345896845467188) -- (axis cs:4.91,0.41526081035118145);
+\draw[blue!75!black,line width=0.65pt] (axis cs:4.875,0.3345896845467188) -- (axis cs:4.945,0.3345896845467188);
+\draw[blue!75!black,line width=0.65pt] (axis cs:4.875,0.41526081035118145) -- (axis cs:4.945,0.41526081035118145);
+\addplot+[color=orange!85!black,mark=triangle*,dashed,line width=1pt] coordinates {(0.97,0.20279108954574707) (1.97,0.2213873047905987) (2.97,0.2516969953178171) (3.97,0.3114745911061245) (4.97,0.3809106818801803)};\addlegendentry{RL-sBOED}
+\draw[orange!85!black,line width=0.65pt] (axis cs:0.97,0.20243450957839) -- (axis cs:0.97,0.2062270233060863);
+\draw[orange!85!black,line width=0.65pt] (axis cs:0.9349999999999999,0.20243450957839) -- (axis cs:1.005,0.20243450957839);
+\draw[orange!85!black,line width=0.65pt] (axis cs:0.9349999999999999,0.2062270233060863) -- (axis cs:1.005,0.2062270233060863);
+\draw[orange!85!black,line width=0.65pt] (axis cs:1.97,0.21989159565774144) -- (axis cs:1.97,0.251871194290457);
+\draw[orange!85!black,line width=0.65pt] (axis cs:1.935,0.21989159565774144) -- (axis cs:2.005,0.21989159565774144);
+\draw[orange!85!black,line width=0.65pt] (axis cs:1.935,0.251871194290457) -- (axis cs:2.005,0.251871194290457);
+\draw[orange!85!black,line width=0.65pt] (axis cs:2.97,0.2464984452883346) -- (axis cs:2.97,0.6102599670558644);
+\draw[orange!85!black,line width=0.65pt] (axis cs:2.935,0.2464984452883346) -- (axis cs:3.0050000000000003,0.2464984452883346);
+\draw[orange!85!black,line width=0.65pt] (axis cs:2.935,0.6102599670558644) -- (axis cs:3.0050000000000003,0.6102599670558644);
+\draw[orange!85!black,line width=0.65pt] (axis cs:3.97,0.2863826457899334) -- (axis cs:3.97,1.7028184426236677);
+\draw[orange!85!black,line width=0.65pt] (axis cs:3.935,0.2863826457899334) -- (axis cs:4.005,0.2863826457899334);
+\draw[orange!85!black,line width=0.65pt] (axis cs:3.935,1.7028184426236677) -- (axis cs:4.005,1.7028184426236677);
+\draw[orange!85!black,line width=0.65pt] (axis cs:4.97,0.3343104608320108) -- (axis cs:4.97,2.317078600796312);
+\draw[orange!85!black,line width=0.65pt] (axis cs:4.935,0.3343104608320108) -- (axis cs:5.005,0.3343104608320108);
+\draw[orange!85!black,line width=0.65pt] (axis cs:4.935,2.317078600796312) -- (axis cs:5.005,2.317078600796312);
+\addplot+[color=green!40!black,mark=diamond*,dotted,line width=1pt] coordinates {(1.03,0.21060972398826466) (2.03,0.23676399281661037) (3.03,0.26828737847458334) (4.03,0.3074697081686477) (5.03,0.376172019896189)};\addlegendentry{Step-DAD}
+\draw[green!40!black,line width=0.65pt] (axis cs:1.03,0.20910896907497187) -- (axis cs:1.03,0.21076482938125188);
+\draw[green!40!black,line width=0.65pt] (axis cs:0.995,0.20910896907497187) -- (axis cs:1.065,0.20910896907497187);
+\draw[green!40!black,line width=0.65pt] (axis cs:0.995,0.21076482938125188) -- (axis cs:1.065,0.21076482938125188);
+\draw[green!40!black,line width=0.65pt] (axis cs:2.03,0.23296759685299065) -- (axis cs:2.03,0.24076675795896954);
+\draw[green!40!black,line width=0.65pt] (axis cs:1.9949999999999999,0.23296759685299065) -- (axis cs:2.065,0.23296759685299065);
+\draw[green!40!black,line width=0.65pt] (axis cs:1.9949999999999999,0.24076675795896954) -- (axis cs:2.065,0.24076675795896954);
+\draw[green!40!black,line width=0.65pt] (axis cs:3.03,0.26017541126668586) -- (axis cs:3.03,0.278777467662094);
+\draw[green!40!black,line width=0.65pt] (axis cs:2.9949999999999997,0.26017541126668586) -- (axis cs:3.065,0.26017541126668586);
+\draw[green!40!black,line width=0.65pt] (axis cs:2.9949999999999997,0.278777467662094) -- (axis cs:3.065,0.278777467662094);
+\draw[green!40!black,line width=0.65pt] (axis cs:4.03,0.29090942336732073) -- (axis cs:4.03,0.3306335629732281);
+\draw[green!40!black,line width=0.65pt] (axis cs:3.995,0.29090942336732073) -- (axis cs:4.065,0.29090942336732073);
+\draw[green!40!black,line width=0.65pt] (axis cs:3.995,0.3306335629732281) -- (axis cs:4.065,0.3306335629732281);
+\draw[green!40!black,line width=0.65pt] (axis cs:5.03,0.3391228648222772) -- (axis cs:5.03,0.43086174557199725);
+\draw[green!40!black,line width=0.65pt] (axis cs:4.995,0.3391228648222772) -- (axis cs:5.065,0.3391228648222772);
+\draw[green!40!black,line width=0.65pt] (axis cs:4.995,0.43086174557199725) -- (axis cs:5.065,0.43086174557199725);
+\addplot+[color=violet,mark=pentagon*,dashdotted,line width=1pt] coordinates {(1.09,0.21876707604641582) (2.09,0.5336385898566286) (3.09,0.9429868260033785) (4.09,1.5331955876201433) (5.09,2.2829829078381705)};\addlegendentry{Myopic}
+\draw[violet,line width=0.65pt] (axis cs:1.09,0.2) -- (axis cs:1.09,0.33446707021961586);
+\draw[violet,line width=0.65pt] (axis cs:1.0550000000000002,0.2) -- (axis cs:1.125,0.2);
+\draw[violet,line width=0.65pt] (axis cs:1.0550000000000002,0.33446707021961586) -- (axis cs:1.125,0.33446707021961586);
+\draw[violet,line width=0.65pt] (axis cs:2.09,0.3746601435709681) -- (axis cs:2.09,0.7955902435437878);
+\draw[violet,line width=0.65pt] (axis cs:2.0549999999999997,0.3746601435709681) -- (axis cs:2.125,0.3746601435709681);
+\draw[violet,line width=0.65pt] (axis cs:2.0549999999999997,0.7955902435437878) -- (axis cs:2.125,0.7955902435437878);
+\draw[violet,line width=0.65pt] (axis cs:3.09,0.6539449392075672) -- (axis cs:3.09,1.6296861563037368);
+\draw[violet,line width=0.65pt] (axis cs:3.0549999999999997,0.6539449392075672) -- (axis cs:3.125,0.6539449392075672);
+\draw[violet,line width=0.65pt] (axis cs:3.0549999999999997,1.6296861563037368) -- (axis cs:3.125,1.6296861563037368);
+\draw[violet,line width=0.65pt] (axis cs:4.09,0.9605423834948006) -- (axis cs:4.09,2.714638083320892);
+\draw[violet,line width=0.65pt] (axis cs:4.055,0.9605423834948006) -- (axis cs:4.125,0.9605423834948006);
+\draw[violet,line width=0.65pt] (axis cs:4.055,2.714638083320892) -- (axis cs:4.125,2.714638083320892);
+\draw[violet,line width=0.65pt] (axis cs:5.09,1.3774404844316497) -- (axis cs:5.09,2.9090273984129436);
+\draw[violet,line width=0.65pt] (axis cs:5.055,1.3774404844316497) -- (axis cs:5.125,1.3774404844316497);
+\draw[violet,line width=0.65pt] (axis cs:5.055,2.9090273984129436) -- (axis cs:5.125,2.9090273984129436);
+\addplot+[color=black!65,mark=x,dashed,line width=1pt] coordinates {(1.15,1.5535451738318748) (2.15,2.4404267491860714) (3.15,2.793833561506081) (4.15,2.9317136051439237) (5.15,2.9787286610378403)};\addlegendentry{Random}
+\draw[black!65,line width=0.65pt] (axis cs:1.15,0.9303239868396407) -- (axis cs:1.15,2.2557478022292115);
+\draw[black!65,line width=0.65pt] (axis cs:1.115,0.9303239868396407) -- (axis cs:1.1849999999999998,0.9303239868396407);
+\draw[black!65,line width=0.65pt] (axis cs:1.115,2.2557478022292115) -- (axis cs:1.1849999999999998,2.2557478022292115);
+\draw[black!65,line width=0.65pt] (axis cs:2.15,1.9232738086447416) -- (axis cs:2.15,2.8047310817594426);
+\draw[black!65,line width=0.65pt] (axis cs:2.1149999999999998,1.9232738086447416) -- (axis cs:2.185,1.9232738086447416);
+\draw[black!65,line width=0.65pt] (axis cs:2.1149999999999998,2.8047310817594426) -- (axis cs:2.185,2.8047310817594426);
+\draw[black!65,line width=0.65pt] (axis cs:3.15,2.4983195368171667) -- (axis cs:3.15,2.930488226558058);
+\draw[black!65,line width=0.65pt] (axis cs:3.1149999999999998,2.4983195368171667) -- (axis cs:3.185,2.4983195368171667);
+\draw[black!65,line width=0.65pt] (axis cs:3.1149999999999998,2.930488226558058) -- (axis cs:3.185,2.930488226558058);
+\draw[black!65,line width=0.65pt] (axis cs:4.15,2.7687829046044348) -- (axis cs:4.15,2.9755621728040733);
+\draw[black!65,line width=0.65pt] (axis cs:4.115,2.7687829046044348) -- (axis cs:4.1850000000000005,2.7687829046044348);
+\draw[black!65,line width=0.65pt] (axis cs:4.115,2.9755621728040733) -- (axis cs:4.1850000000000005,2.9755621728040733);
+\draw[black!65,line width=0.65pt] (axis cs:5.15,2.9120330271971855) -- (axis cs:5.15,2.9957194607930453);
+\draw[black!65,line width=0.65pt] (axis cs:5.115,2.9120330271971855) -- (axis cs:5.1850000000000005,2.9120330271971855);
+\draw[black!65,line width=0.65pt] (axis cs:5.115,2.9957194607930453) -- (axis cs:5.1850000000000005,2.9957194607930453);
 \end{semilogyaxis}
 \end{tikzpicture}
-\caption{IEEE 14-bus pulse durations at $T=5$: medians and interquartile ranges for all six methods. Fixed and learned policies pool 4608 histories across three equally weighted training seeds; Myopic and Random use 1536 distinct histories each. Small horizontal offsets separate overlapping methods. Variation includes seed differences and adaptive histories; ordering is imposed.}
+\caption{IEEE 14-bus pulse durations at $T=5$: medians and interquartile ranges for all six methods. Fixed and learned methods: 4608 histories over three seeds; Myopic and Random: 1536 each. Horizontal offsets separate methods. Bars show pooled variation, not confidence intervals; ordering is imposed.}
 \label{fig:durations}
 \end{figure}
 At $T=5$, median final durations are 0.369 s for DAD, 0.376 s for Step-DAD, 1.114 s for Fixed, 2.283 s for Myopic, and 2.979 s for Random (Fig.~\ref{fig:durations}). Random's sequential interval sampling concentrates later pulses near the upper bound. These patterns reflect different energy allocations, but do not isolate feedback effects from seed variation. Ordering is imposed; unrestricted and energy-matched comparisons remain open.
 
 \subsection{Algorithmic Computational Requirements}\label{sec:cost}
-We distinguish physical observation acquisition, policy decisions, and information scoring. Let $C_s$ denote the work to propagate one candidate parameter state through one observation window, and $C_\pi$ one policy forward pass. For a dense $m$-machine swing model integrated over $N$ RK4 steps, $C_s=O(Nm^2)$. A dense network forward pass is proportional to its layer connection count; $C_\pi$ includes the fixed-horizon history input. These operation counts do not determine elapsed time, which also depends on batching, hardware, and implementation.
+We distinguish physical observation acquisition, policy decisions, and information scoring. Let $C_s$ denote the work to propagate one candidate parameter state through one observation window, and $C_\pi$ one policy forward pass. For a dense $m$-machine swing model integrated over $N$ RK4 steps, $C_s=O(Nm^2)$. $C_\pi$ includes the fixed-horizon history input. These operation counts do not determine elapsed time.
 
 \begin{table}[!ht]
 \caption{Online decision work per $T$-probe sequence}
@@ -315,7 +375,7 @@ Step-DAD & $O(TC_\pi+TP C_s+UBC_gT^2)$\\
 \end{table}
 Here $P=128$ is the posterior particle count, $Q$ the number of candidate objectives evaluated per decision, and $C_e$ the work for one candidate's one-step information objective, including its simulated observations and likelihood calculations. Myopic uses 16 proposals and three search rounds with 32 simulated observations per proposal. The $TP C_s$ term accounts for particle propagation during assimilation; resampling and weight updates add lower-order work for fixed state dimension.
 
-For Step-DAD, $U=4$ updates per refinement, $B=32$ trajectories per update, and $C_g$ denotes per-window simulation, likelihood, and gradient work per trajectory at a fixed contrast count and model dimension. Refinements cover remaining horizons $T-1,\ldots,1$, whose sum is $T(T-1)/2$. Thus the dominant refinement work scales quadratically with $T$ when other budgets are fixed. Conditional validation adds the same horizon dependence at a fixed validation budget. The $C_g$ term includes the numerical Jacobians used here; it is not assumed equal to $C_s$.
+For Step-DAD, $U=4$ updates per refinement, $B=32$ trajectories per update, and $C_g$ denotes per-window simulation, likelihood, and gradient work per trajectory at a fixed contrast count and model dimension. Refinements cover remaining horizons $T-1,\ldots,1$, whose sum is $T(T-1)/2$. Thus the dominant refinement work scales quadratically with $T$ when other budgets are fixed. Validation has the same horizon dependence at fixed budget; $C_g$ includes numerical Jacobians.
 
 \paragraph{Offline work}
 Let $J_F,J_D,J_R$ be the update counts for Fixed, DAD, and RL-sBOED, $B$ the trajectory batch size, and $L$ the training contrast count. With $C_g$ also covering the per-window differentiation used by Fixed and DAD, their training-stage work scales as $J B(L+1)TC_g$. Write $W_F$ for the complete Fixed preparation stage, including initialization selection, optimization, and validation. DAD requires $W_F+O(J_DB(L+1)TC_g)$ plus its validation work; Step-DAD inherits this total. Random and Myopic have no offline optimization. RL-sBOED requires $O(J_RB(L+1)TC_s)$ trajectory simulation plus actor--critic and validation work. If $r$ replay updates per trajectory batch train $E$ critics with replay batch size $B_R$, the neural update term is $O(J_RrB_REC_{\mathrm{nn}})$, where $C_{\mathrm{nn}}$ denotes per-sample network update work. These counts describe complete workflows, not elapsed training time.
