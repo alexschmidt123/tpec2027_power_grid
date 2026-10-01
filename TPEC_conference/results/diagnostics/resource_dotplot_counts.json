@@ -1,0 +1,49 @@
+{
+  "settings": {
+    "T": 5,
+    "B": 32,
+    "L": 128,
+    "P": 128,
+    "m": 5
+  },
+  "methods": [
+    "Random",
+    "Fixed",
+    "DAD",
+    "RL-sBOED",
+    "Myopic",
+    "Step-DAD"
+  ],
+  "offline_forward_windows": [
+    0,
+    41280000,
+    82560000,
+    41280000,
+    0,
+    82560000
+  ],
+  "online_forward_windows": [
+    0,
+    0,
+    0,
+    0,
+    31232,
+    372032
+  ],
+  "offline_accounted_bytes": [
+    0,
+    698212,
+    783220,
+    18785640,
+    0,
+    783220
+  ],
+  "online_accounted_bytes": [
+    104,
+    4700,
+    25952,
+    75848,
+    21568,
+    804788
+  ]
+}
