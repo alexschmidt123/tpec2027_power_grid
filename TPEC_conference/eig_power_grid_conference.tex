@@ -43,55 +43,13 @@ expected information gain, rate of change of frequency.
 \end{IEEEkeywords}
 
 \section{Introduction}
-As inverter-based resources replace synchronous generation, reduced physical inertia makes frequency-response characterization increasingly important~\cite{denholm2020inertia}. Inertia mitigates rapid frequency changes, while frequency-response mechanisms adjust power in response to frequency deviations~\cite{peng2024probing}. In the reduced models considered in this study, inertia $M$ and effective frequency-response coefficients $K$ represent these effects. These parameters are latent and must be inferred from observed system behavior. Reducing their uncertainty improves predictions of disturbance responses and supports informed control decisions.
+As inverter-based resources displace synchronous generation, changing inertia and frequency response increase the need to characterize grid dynamics~\cite{denholm2020inertia}. Measurement-based inertia estimation uses frequency and active-power responses to disturbances~\cite{wall2014inertia}; controlled probing offers an alternative when naturally occurring events do not provide suitable excitation. Field tests on the western North American interconnection demonstrate that probing-signal design affects the quality of electromechanical-mode estimates~\cite{pierre2010probing}, and recent work applies probing to inertia and frequency-response estimation in systems with inverter-based resources~\cite{peng2024probing}.
 
-Active probing is a well-established method for obtaining such information. In this approach, a small, known power signal is injected into the system, and the resulting frequency response is measured~\cite{peng2024probing}. The observed response provides evidence for plausible parameter values; however, the information gained depends on the probing-signal design. For instance, pulse duration influences the transient response and the quality of evidence available for parameter identification. This raises an experimental design question: how should a limited number of probes be selected to maximize learning about the latent parameters?
+The design of informative excitation is a central problem in system identification~\cite{hjalmarsson2009identification}. Here, we study a narrower question: how should successive pulse durations adapt to measurements when each probe begins from the physical state left by the previous probe? Duration changes both the injected energy and the ensuing transient. Because the state is not reset, a decision also changes the conditions under which later measurements are collected. Selecting a sequence therefore requires accounting for both immediate information and future experiments.
 
-Bayesian optimal experimental design (BOED) serves as a formal framework for solving this question~\cite{huan2016sequential}. A prior distribution characterizes parameter uncertainty before experimentation. Bayes' rule then combines this prior with the measurement model and observed response to yield a posterior distribution. Expected information gain (EIG) quantifies the anticipated average reduction in uncertainty resulting from an experiment, accounting for both latent parameters and measurement noise. EIG thus serves as a criterion for selecting a probe prior to observing its response.
+Sequential Bayesian optimal experimental design provides a framework for this tradeoff~\cite{huan2016sequential}. A fixed sequence cannot respond to incoming measurements, whereas a myopic design optimizes only the next observation. Deep adaptive design (DAD)~\cite{foster2021dad} and reinforcement-learning-based sequential design (RL-sBOED)~\cite{blau2022rlsboed} learn history-dependent policies using a full-sequence information objective. Step-DAD~\cite{hedman2025stepdad} additionally refines a pretrained policy during the experiment, trading online computation for further adaptation.
 
-Fixed and myopic designs have distinct limitations. A fixed sequence does not use incoming measurements to select subsequent probes. A myopic design uses observation feedback but optimizes only the next step's EIG, neglecting future learning opportunities~\cite{huan2016sequential}. Additionally, repeated online optimization can make online decision-making computationally expensive. The central challenge is to integrate observation feedback with planning across the entire sequence while minimizing online computational costs.
-
-Policy-based sequential BOED addresses this challenge. Early measurements inform subsequent choices, and training over complete sequences incorporates the value of future experiments. Deep adaptive design (DAD)~\cite{foster2021dad} and reinforcement-learning-based sequential BOED (RL-sBOED)~\cite{blau2022rlsboed} learn a mapping from previous designs and observations to the next design. Offline training reduces optimization costs by reusing this mapping during experiments. Step-DAD~\cite{hedman2025stepdad} further refines a pretrained policy as new observations become available, balancing the value of additional adaptation against its online computational cost.
-
-We apply these methods to probe-duration selection in reduced IEEE 9-bus and IEEE 14-bus models. These test networks contain nine and fourteen buses, respectively, which serve as electrical connection points for lines, generation, or demand~\cite{zimmerman2011matpower}. The reduced models preserve coupled machine dynamics, and the physical state is maintained between probes. We contribute a sequential grid-probing formulation and a systematic comparison of DAD, RL-sBOED, Step-DAD, Myopic, an optimized fixed sequence, and random probing. We assess the information gained under equal probe budgets and separately quantify offline training costs and online decision-making costs.
-
-\begin{figure*}[t]
-\centering
-\begin{tikzpicture}[x=1cm,y=1cm,
- box/.style={draw=black!65,rounded corners=2pt,align=center,
- font=\small,inner sep=5pt,minimum height=1.15cm,text width=4.0cm},
- flow/.style={-{Latex[length=2mm]},thick,draw=black!75},
- note/.style={font=\footnotesize,align=center,fill=white,inner sep=2pt}]
-\node[box,fill=blue!5] (select) at (0,0)
- {Choose design $\xi_t$ (select $D_t$)\\Selected design method\\Start at $t=1$, $h_0=\varnothing$};
-\node[box,fill=blue!5] (grid) at (5.8,0)
- {Inject probe signal to the power grid\\ $\theta=(\mathbf M,\mathbf K)$};
-\node[box,fill=blue!5] (observe) at (11.6,0)
- {Measure  $y_{\mathrm{obs},t}$};
-\node[box,fill=gray!5] (history) at (11.6,-1.9)
- {Append design and observation\\$h_t=(h_{t-1},(\xi_t,y_{\mathrm{obs},t}))$};
-\node[box,fill=green!5,minimum height=1.5cm] (posterior) at (5.8,-1.9)
- {Update parameter uncertainty\\$p(\theta\mid h_t)\propto$
- $p(y_{\mathrm{obs},t}\mid\theta,h_{t-1},\xi_t)$$\times\,p(\theta\mid h_{t-1})$\\Initial belief: $p_0(\theta)$};
-\node[box,fill=orange!6,minimum height=1.5cm] (next) at (0,-1.9)
- {Next adaptive design};
-\draw[flow] (select) -- (grid);
-\draw[flow] (grid) -- (observe);
-\draw[flow] (observe) -- (history);
-\draw[flow] (history) -- (posterior);
-\draw[flow] (posterior) -- node[note,above,text width=1.1cm] {Posterior} (next);
-\draw[flow] (history.south) -- (11.6,-3.2)
- -- node[note,pos=.5] {Observed history $h_t$} (0,-3.2) -- (next.south);
-\draw[flow] (next.north) -- node[note,left] {$t\leftarrow t+1$} (select.south);
-\node[note,anchor=north] at (5.8,-3.55)
- {Repeat while $t<T$. Aim: greater expected reduction in uncertainty about $M$ and $K$ at the same probe budget.};
-\end{tikzpicture}
-\caption{Sequential probing with physical state carried between experiments.
-Observations update the design history and parameter uncertainty. For the next adaptive design, DAD/RL-sBOED use history directly, and Myopic/Step-DAD additionally maintain
-a particle posterior. Fixed and Random bypass observation feedback.
-The loop ends after $T$ measurements.}
-\label{fig:probing}
-\end{figure*}
+We formulate duration selection for reduced IEEE 9-bus and IEEE 14-bus swing models with unknown machine inertia and effective frequency-response coefficients. Our contributions are a carried-state Bayesian probing formulation, a comparison of six methods under a common restricted duration space and probe count, and an analysis of information scores, selected durations, and computational costs. The study evaluates the transfer of sequential-design methods to this grid benchmark; it does not establish unrestricted optimal probing, operational safety, or complete identification from a single sensor.
 
 \section{Problem Formulation}\label{sec:problem}
 We seek to reduce uncertainty about grid parameters using active probing within a budget of $T$ design steps. Here $t=1,\ldots,T$ indexes design steps, $d$ denotes elapsed time within each probe window, and $D_t$ is the selected pulse duration.
@@ -109,7 +67,7 @@ M_i\dot\omega_i
 \end{aligned}
 \label{eq:swing}
 \end{equation}
-Dots denote derivatives with respect to physical time $d$. The damping $D_i$ and network couplings $B_{ij}$ are known; frequency deviation is $\Delta f_i=\omega_i/(2\pi)$ in Hz. The units of $M_i$, $K_i$ and $D_i$ are pu$\,\mathrm{s}^2$/rad, pu/Hz and pu$\,\mathrm{s}$/rad, respectively, on a 100-MVA base at nominal frequency 60 Hz. All angles and speed deviations start at zero. Net mechanical injections are zero in this deviation model, making the initial unforced state an equilibrium.
+Dots denote derivatives with respect to physical time $d$. In~\eqref{eq:swing}, $M_i$ scales acceleration, while $K_i$ contributes a restoring power response proportional to frequency deviation. It is an effective coefficient, not an explicit turbine--governor model. The damping $D_i$ and network couplings $B_{ij}$ are known; frequency deviation is $\Delta f_i=\omega_i/(2\pi)$ in Hz. The units of $M_i$, $K_i$ and $D_i$ are pu$\,\mathrm{s}^2$/rad, pu/Hz and pu$\,\mathrm{s}$/rad, respectively, on a 100-MVA base at nominal frequency 60 Hz. All angles and speed deviations start at zero. Net mechanical injections are zero in this deviation model, making the initial unforced state an equilibrium.
 
 The reduced IEEE 9-bus model retains buses 1, 2, and 3; the reduced IEEE 14-bus model retains buses 1, 2, 3, 6, and 8. Test-case reactances~\cite{zimmerman2011matpower} define a lossless Laplacian $\mathbf L$. Eliminating algebraic buses $l$ while retaining machines $g$ gives $\mathbf L_{\mathrm{red}}=\mathbf L_{gg}-\mathbf L_{gl}\mathbf L_{ll}^{-1}\mathbf L_{lg}$, with $B_{ij}=-(\mathbf L_{\mathrm{red}})_{ij}$ for $i\ne j$ and $B_{ii}=0$. Resistance, voltage dynamics, and transformer tap effects are omitted. Table~\ref{tab:physical} summarizes the model parameterization. Nominal inertia is computed as $\bar M_i=2H_i/(2\pi f_0)$, with $f_0=60$ Hz. For IEEE 9-bus, $H=(23.64,6.40,3.01)$ s matches published machine data~\cite[Table~2]{kaur2016transient}. For IEEE 14-bus, $H=(4,6.5,5,5,5)$ s is prescribed at buses $(1,2,3,6,8)$ as assumed benchmark values. For both networks, $\bar K_i=K_{\mathrm{tot}}w_i$, with $K_{\mathrm{tot}}=0.5$ pu/Hz. The allocation weights are $w=(0.5875,0.2625,0.15)$ for IEEE 9-bus and $w=(8,13,10,10,10)/51$ for IEEE 14-bus. Fixed damping satisfies $D_i=(0.1\,\mathrm{s}^{-1})\bar M_i$. The response scales, damping values, and prior ranges are benchmark assumptions rather than validated operational grid parameters.
 \begin{table}[t]
@@ -135,7 +93,7 @@ u_{B_t,t}(d)
  =\frac{A_t}{2}\bigl[1-\cos(2\pi d/D_t)\bigr].
 \label{eq:probe}
 \end{equation}
-The input is zero for $D_t<d\le D_{\mathrm{obs}}$ and at all other buses. The observation window is $D_{\mathrm{obs}}=3.5$ s. The full angle and speed state at its end becomes the initial state of the next window, without resetting the system. Consequently, the response depends on the complete design sequence $\xi_{1:t}=(\xi_1,\ldots,\xi_t)$.
+The input is zero for $D_t<d\le D_{\mathrm{obs}}$ and at all other buses. Fixing amplitude and location isolates duration selection rather than joint actuator design. The pulse injects energy proportional to $A_tD_t/2$; equal probe counts therefore do not imply equal injected energy. The observation window is $D_{\mathrm{obs}}=3.5$ s. The full angle and speed state at its end becomes the initial state of the next window, without resetting the system. Consequently, the response depends on the complete design sequence $\xi_{1:t}=(\xi_1,\ldots,\xi_t)$.
 
 Write $\Delta f_{1,t}(d;\theta,\xi_{1:t})$ for the resulting bus-1 frequency deviation. The noise-free response is the signed endpoint rate of change of frequency (RoCoF), denoted by $y_t$:
 \begin{equation}
@@ -149,10 +107,10 @@ y_{\mathrm{obs},t}=y_t(\theta,\xi_{1:t})+\epsilon_t,
 \qquad \epsilon_t\sim\mathcal N(0,\sigma^2),
 \label{eq:noise}
 \end{equation}
-where $\sigma=0.005$ Hz/s and noise is independent across windows. Each observation becomes available at window end. Decision latency is idealized as zero in simulated time.
+where $\sigma=0.005$ Hz/s and noise is independent across windows. The endpoint measurement summarizes the post-pulse transient, rather than the initial inertial response. A single fixed sensor keeps the observation model simple and identical across methods, but discards information in the full frequency trajectory and at other buses. This is a benchmark choice, not an optimized sensor configuration. Each observation becomes available at window end. Decision latency is idealized as zero in simulated time.
 
 \subsection{Sequential Decisions and Bayesian Updating}
-Figure~\ref{fig:probing} summarizes the experiment--inference loop. The data after step $t$ are the ordered design--observation history $h_t=((\xi_k,y_{\mathrm{obs},k}))_{k=1}^{t}$, with $h_0=\varnothing$. A policy $\pi$ selects $\xi_t$ using only observed history $h_{t-1}$, with amplitude and bus fixed as above. It has no access to true parameters or physical state. Feasible durations satisfy
+The data after step $t$ are the ordered design--observation history $h_t=((\xi_k,y_{\mathrm{obs},k}))_{k=1}^{t}$, with $h_0=\varnothing$. A policy $\pi$ selects $\xi_t$ using only observed history $h_{t-1}$, with amplitude and bus fixed as above. It has no access to true parameters or physical state. Feasible durations satisfy
 \begin{equation}
 \begin{aligned}
 0.2&\le D_t\le3, &&t=1,\ldots,T,\\
@@ -160,7 +118,7 @@ D_t-D_{t-1}&\ge \Delta D_{\min}, &&t=2,\ldots,T,
 \end{aligned}
 \label{eq:bounds}
 \end{equation}
-Here, $\Delta D_{\min}=0.01$ s. At step $t$, the upper bound is $3-(T-t)\Delta D_{\min}$ to leave enough room for the remaining probes. The lower bound starts at 0.2 s and then becomes $D_{t-1}+\Delta D_{\min}$. All methods map a unit action to this interval without sorting or discretizing durations. Let $\Pi$ denote the set of policies that satisfy these constraints; the policy randomness remains independent of $\theta$.
+The increasing-duration restriction defines the benchmark design space; it is not a physical requirement of the swing equations. It was adopted to retain the ordered-design structure of an earlier sequential-design setup. Applying it to every method permits comparisons within this space, but excludes nonmonotonic sequences that may be more informative. Thus, optimality in~\eqref{eq:design_problem} is restricted to $\Pi$. Here, $\Delta D_{\min}=0.01$ s. At step $t$, the upper bound is $3-(T-t)\Delta D_{\min}$ to leave enough room for the remaining probes. The lower bound starts at 0.2 s and then becomes $D_{t-1}+\Delta D_{\min}$. All methods map a unit action to this interval without sorting or discretizing durations. Let $\Pi$ denote the set of policies that satisfy these constraints; the policy randomness remains independent of $\theta$.
 
 The Gaussian likelihood $p(y_{\mathrm{obs},t}\mid\theta,h_{t-1},\xi_t)$ has mean $y_t(\theta,\xi_{1:t})$ and variance $\sigma^2$. Bayes' rule updates parameter uncertainty after each measurement:
 \begin{equation}
@@ -235,12 +193,7 @@ DAD~\cite{foster2021dad} employs a deterministic two-layer, 64-unit tanh network
 RL-sBOED~\cite{blau2022rlsboed} uses a REDQ-style ensemble actor-critic framework with ten critics and five replay updates per trajectory batch. The actor consists of two 128-unit ReLU layers. Per-step information rewards are defined as $R_t=\widehat I_t-\widehat I_{t-1}$, with $\widehat I_0=0$ and a discount factor $\gamma=1$. As a result, the cumulative reward equals the terminal sPCE score. Offline training accounts for future design steps; online evaluation uses the trained actor without additional planning simulations. Entropy is regularized by normalized tanh actions and a target entropy of $-1$; reported information scores do not include entropy bonuses. We use the actor's deterministic output for evaluation.
 
 \subsection{Offline-Trained Online-Refined Adaptive Methods: Step-DAD}
-Step-DAD~\cite{hedman2025stepdad} evaluates whether adapting policy weights based on observed history yields improvements over offline training alone. Each episode starts with the corresponding selected DAD checkpoint, which remains unchanged for the initial probe. Prior to each subsequent decision, the latest observation is assimilated into a 128-particle posterior. The algorithm then samples candidate parameters and their associated carried states from this posterior to simulate the remaining design steps. These future simulations are conditioned on the actual observed history.
-
-At each refinement step, a new Adam optimizer performs four gradient updates with a batch size of 32 and a learning rate of $10^{-3}$. A fixed conditional validation batch is used to compare the unchanged policy with all updated candidates, and the best-performing candidate is retained. The retained weights are carried forward to the next design step within the same episode, but not across episodes. The total refinement budget is $4(T-1)$ updates, corresponding to 8, 12, and 16 updates for $T=3, 4, 5$, respectively.
-
-For both Myopic and Step-DAD, assimilation is required only before subsequent decisions; neither planner requires a terminal update of the separately evaluated information score.
-
+Step-DAD~\cite{hedman2025stepdad} starts each episode from its selected DAD checkpoint and leaves the first probe unchanged. Before subsequent decisions, a 128-particle posterior supplies candidate parameters and their carried states for simulations of the remaining sequence. A fresh Adam optimizer performs four updates per decision (batch size 32, learning rate $10^{-3}$). A fixed conditional validation batch selects the best candidate, including the unchanged policy. Retained weights persist within an episode only. The total refinement budget is $4(T-1)$ updates. Myopic and Step-DAD require posterior assimilation only before subsequent decisions; terminal information scoring is separate.
 
 \section{Experimental Settings}
 \subsection{Simulation and Training Protocol}
@@ -286,9 +239,68 @@ Step-DAD & $4.7527\pm0.0275$ & $4.8297\pm0.0067$ & $4.8446\pm0.0042$\\
 \bottomrule\end{tabular*}\end{table}
 On IEEE 9-bus, DAD exceeds Fixed by 0.1253, 0.0903, and 0.1286 nats at $T=3,4,5$, respectively. Step-DAD improves the DAD mean by 0.0105, 0.0287, and 0.0269 nats. These mean improvements are small; paired uncertainty estimates are needed to assess their reliability. The IEEE 9-bus information scores are well below the estimator ceiling.
 
-On IEEE 14-bus, DAD exceeds Myopic by 0.4669 nats and Fixed by 0.4953 nats at $T=3$. Fixed exceeds Myopic at $T=4,5$. This result shows that observation feedback alone does not guarantee a more informative design when optimization is myopic. The adaptive learned methods combine feedback with a full-sequence objective, although this comparison does not isolate the contribution of each mechanism.
+On IEEE 14-bus, DAD exceeds Myopic by 0.4669 nats and Fixed by 0.4953 nats at $T=3$. Fixed exceeds Myopic at $T=4,5$. Under the stated search budget, observation feedback alone does not yield the highest score; a larger Myopic search budget could change this comparison. The adaptive learned methods combine feedback with a full-sequence objective, although this comparison does not isolate the contribution of each mechanism.
 
 Differences among learned policies on IEEE 14-bus are small: Step-DAD changes the DAD mean by $-0.0049$, $-0.0028$, and $+0.0003$ nats at $T=3,4,5$. At $T=5$, DAD is only 0.0155 nats below the 4.8598-nat ceiling. The results therefore show no consistent benefit from refinement and cannot establish a reliable ranking of the learned policies' exact EIG.
+
+\subsection{Selected Probe Durations}
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[x=1.20cm,y=1.05cm,font=\footnotesize]
+\draw[->] (0.65,0) -- (5.55,0) node[below left] {Probe stage};
+\draw[->] (0.65,0) -- (0.65,3.25) node[above right] {Duration (s)};
+\foreach \x in {1,...,5} {\draw (\x,0) -- (\x,-0.06) node[below] {\x};}
+\foreach \y in {1,2,3} {\draw[gray!25] (0.65,\y) -- (5.3,\y);\node[left] at (0.65,\y) {\y};}
+\draw[thick,color=black] plot coordinates {(1,0.282868) (2,0.441748) (3,0.624891) (4,0.850242) (5,1.113805)};
+\draw[color=black] (1,0.280435) -- (1,0.284080);
+\fill[color=black] (1,0.282868) circle [radius=1.4pt];
+\draw[color=black] (2,0.436888) -- (2,0.444266);
+\fill[color=black] (2,0.441748) circle [radius=1.4pt];
+\draw[color=black] (3,0.621328) -- (3,0.630801);
+\fill[color=black] (3,0.624891) circle [radius=1.4pt];
+\draw[color=black] (4,0.829329) -- (4,0.851472);
+\fill[color=black] (4,0.850242) circle [radius=1.4pt];
+\draw[color=black] (5,1.101686) -- (5,1.133751);
+\fill[color=black] (5,1.113805) circle [radius=1.4pt];
+\draw[thick,color=blue!75!black] plot coordinates {(1,0.210610) (2,0.237196) (3,0.267370) (4,0.305458) (5,0.368714)};
+\draw[color=blue!75!black] (1,0.209109) -- (1,0.210765);
+\fill[color=blue!75!black] (1,0.210610) circle [radius=1.4pt];
+\draw[color=blue!75!black] (2,0.232615) -- (2,0.239379);
+\fill[color=blue!75!black] (2,0.237196) circle [radius=1.4pt];
+\draw[color=blue!75!black] (3,0.259098) -- (3,0.275999);
+\fill[color=blue!75!black] (3,0.267370) circle [radius=1.4pt];
+\draw[color=blue!75!black] (4,0.288327) -- (4,0.324894);
+\fill[color=blue!75!black] (4,0.305458) circle [radius=1.4pt];
+\draw[color=blue!75!black] (5,0.334590) -- (5,0.415261);
+\fill[color=blue!75!black] (5,0.368714) circle [radius=1.4pt];
+\draw[thick,color=orange!85!black] plot coordinates {(1,0.202791) (2,0.221387) (3,0.251697) (4,0.311475) (5,0.380911)};
+\draw[color=orange!85!black] (1,0.202435) -- (1,0.206227);
+\fill[color=orange!85!black] (1,0.202791) circle [radius=1.4pt];
+\draw[color=orange!85!black] (2,0.219892) -- (2,0.251871);
+\fill[color=orange!85!black] (2,0.221387) circle [radius=1.4pt];
+\draw[color=orange!85!black] (3,0.246498) -- (3,0.610260);
+\fill[color=orange!85!black] (3,0.251697) circle [radius=1.4pt];
+\draw[color=orange!85!black] (4,0.286383) -- (4,1.702818);
+\fill[color=orange!85!black] (4,0.311475) circle [radius=1.4pt];
+\draw[color=orange!85!black] (5,0.334310) -- (5,2.317079);
+\fill[color=orange!85!black] (5,0.380911) circle [radius=1.4pt];
+\draw[thick,color=green!50!black] plot coordinates {(1,0.210610) (2,0.236764) (3,0.268287) (4,0.307470) (5,0.376172)};
+\draw[color=green!50!black] (1,0.209109) -- (1,0.210765);
+\fill[color=green!50!black] (1,0.210610) circle [radius=1.4pt];
+\draw[color=green!50!black] (2,0.232968) -- (2,0.240767);
+\fill[color=green!50!black] (2,0.236764) circle [radius=1.4pt];
+\draw[color=green!50!black] (3,0.260175) -- (3,0.278777);
+\fill[color=green!50!black] (3,0.268287) circle [radius=1.4pt];
+\draw[color=green!50!black] (4,0.290909) -- (4,0.330634);
+\fill[color=green!50!black] (4,0.307470) circle [radius=1.4pt];
+\draw[color=green!50!black] (5,0.339123) -- (5,0.430862);
+\fill[color=green!50!black] (5,0.376172) circle [radius=1.4pt];
+\node[anchor=north west,align=left,fill=white,inner sep=2pt] at (0.85,3.15) {\textcolor{black}{Fixed}\quad\textcolor{blue!75!black}{DAD}\\\textcolor{orange!85!black}{RL-sBOED}\quad\textcolor{green!50!black}{Step-DAD}};
+\end{tikzpicture}
+\caption{Selected durations on IEEE 14-bus at $T=5$. Points show medians and vertical bars the interquartile range over 4608 histories per method, pooling three equally weighted training seeds. Variation includes training-seed differences and, for adaptive methods, observation histories. Increasing durations are imposed by the design constraint.}
+\label{fig:durations}
+\end{figure}
+Figure~\ref{fig:durations} shows the duration sequences selected by the learned policies and Fixed. DAD and Step-DAD select short pulses: their median final durations are 0.369 and 0.376 s, compared with 1.114 s for Fixed. RL-sBOED has a similarly short median but a substantially wider pooled range, which includes training-seed variation. Short pulses need not yield less information because the sensor records a post-pulse transient whose value depends on both duration and carried state. These summaries expose the physical actions behind the information scores: policies can allocate the same number of probes differently in duration and hence injected energy. The distributions do not isolate the benefit of feedback from training-seed variation, and increasing trends follow the imposed constraint. Comparisons with unrestricted sequences and energy-matched designs remain open.
 
 \subsection{Measured Computational Cost}\label{sec:cost}
 Tables~\ref{tab:ieee9_offline}--\ref{tab:ieee14_online} report offline training-stage time in hours and online decision time in milliseconds per complete sequence. Online timing sums all $T$ decisions, including posterior updates, Myopic search, and Step-DAD refinement where applicable. It excludes physical response simulation, observation acquisition, and information scoring. For each evaluation seed, we report the average time over 512 episodes and, where applicable, over training seeds; the reported mean and sample SD use the three evaluation-seed means.
@@ -358,10 +370,10 @@ At $T=5$, DAD needs 1.93 ms per sequence online, whereas Myopic requires 16.94 s
 
 
 \subsection{Optimization and Estimator Diagnostics}
-Evaluation uses validation-selected checkpoints. Equal update budgets do not guarantee equal convergence or computational effort, particularly because DAD initialization also uses a separately trained Fixed sequence.
+Evaluation uses validation-selected checkpoints. Equal update budgets do not guarantee equal convergence or computational effort, particularly because DAD initialization uses a separately trained Fixed sequence. The ceiling $\log(L+1)$ is a property of sPCE, not a physical limit on EIG. An average below this ceiling can still conceal saturated individual histories; precise method comparisons therefore require sensitivity to $L$, rather than additional outer evaluation draws alone.
 
 \subsection{Scope and Limitations}
-These conclusions apply to the specified reduced lossless dynamics, independent parameter priors, and scalar sensor. The same parameter distribution is used during both training and evaluation; we have not demonstrated robustness with respect to prior shift, sensor bias, or unmodelled dynamics. Evaluation seed 1001 was used during development, so the results do not provide fully independent confirmation. The errors introduced by finite-contrast scoring and particle inference are different from those caused by ODE integration. Lastly, the zero-latency simulation does not prove that online planners are feasible in real time, and increased information gain on its own does not show that control is safer.
+These conclusions apply to the specified reduced lossless dynamics, independent parameter priors, and scalar sensor. IEEE 14-bus has ten unknown parameters but only three to five scalar observations. The prior and nonlinear likelihood can reduce joint uncertainty, but the information score does not establish accurate identification of each $M_i$ or $K_i$. Parameter-wise posterior error, interval width, and coverage are needed for that assessment. Monotonic durations, fixed probe location, and the endpoint sensor further restrict the conclusions. The same parameter distribution is used during both training and evaluation; we have not demonstrated robustness with respect to prior shift, sensor bias, or unmodelled dynamics. Evaluation seed 1001 was used during development, so the results do not provide fully independent confirmation. The errors introduced by finite-contrast scoring and particle inference are different from those caused by ODE integration. Lastly, the zero-latency simulation does not prove that online planners are feasible in real time, and increased information gain on its own does not show that control is safer.
 
 \section{Conclusion}
 Learned adaptive policies use observation history to select probes over the experimental sequence. When three to five probes are used on the reduced IEEE 9-bus and IEEE 14-bus models, DAD, RL-sBOED, and Step-DAD obtain higher mean sPCE information scores than Random, Fixed, and Myopic. Estimator saturation limits comparisons among learned policies on the IEEE 14-bus model. DAD and RL-sBOED, trained offline, amortize the cost of online decisions, while Step-DAD incurs a considerably higher cost even though it provides only modest additional gains on the IEEE 9-bus model and shows no consistent improvement on the IEEE 14-bus model. Before concluding that these methods are ready for deployment, future work should evaluate estimator sensitivity, model mismatch, and decision latency.
