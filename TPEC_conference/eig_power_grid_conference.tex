@@ -360,71 +360,56 @@ legend style={font=\normalsize,at={(0.5,1.03)},anchor=south,legend columns=3,dra
 At $T=5$, median final durations are 0.369 s for DAD, 0.376 s for Step-DAD, 1.114 s for Fixed, 2.283 s for Myopic, and 2.979 s for Random (Fig.~\ref{fig:durations}). Random's sequential interval sampling concentrates later pulses near the upper bound. These patterns reflect different energy allocations, but do not isolate feedback effects from seed variation. Ordering is imposed; unrestricted and energy-matched comparisons remain open.
 
 \subsection{Computational Work and Memory}\label{sec:cost}
-Figure~\ref{fig:work} reports archived A100 times at $T=3,4,5$; Fig.~\ref{fig:memory} shows partial storage estimates at $T=5$. These are different types of evidence. Let $C_s$ be one candidate-window simulation cost and $C_\pi$ a policy forward pass. Dense $m$-machine RK4 integration over $N$ time steps gives $C_s=O(Nm^2)$. Per-stage network size and planning budgets are held fixed in the horizon comparison.
+Tables~\ref{tab:ieee9_a100} and~\ref{tab:ieee14_a100} report available A100 PCIe 40-GB timings at $T=3,4,5$, using seed 101 except the indicated IEEE 9-bus Step-DAD run. Offline times describe one preparation workflow. Online times average 1536 episodes and exclude physical simulation, observation acquisition, and information scoring. IEEE 9-bus and IEEE 14-bus use different CPU models and cluster nodes; these are descriptive hardware-specific measurements. Let $C_s$ be one candidate-window simulation cost and $C_\pi$ a policy forward pass. Dense $m$-machine RK4 integration over $N$ time steps gives $C_s=O(Nm^2)$. The theoretical expressions below identify the source of computational work.
 
 Online policy work is $O(T)$ for Random/Fixed and $O(TC_\pi)$ for DAD/RL-sBOED. Myopic uses $O(TQC_e+TP C_s)$, where $P=128$ particles and $Q$ candidate objectives of cost $C_e$. Step-DAD adds remaining-horizon refinement proportional to $UBT(T-1)/2$, with $U=4$ updates and $B=32$ trajectories per update; numerical Jacobians and validation add work.
 
-\begin{figure}[!ht]
-\centering
-\begin{tikzpicture}
-\begin{semilogxaxis}[at={(0,0cm)},anchor=north west,width=0.93\columnwidth,height=4.4cm,
-xmin=0.05,xmax=10,xtick={0.1,1,10},minor tick num=0,ymin=-0.55,ymax=5.55,y dir=reverse,
-ytick={0,1,2,3,4,5},yticklabels={Random,Fixed,DAD,RL-sBOED,Myopic,Step-DAD},
-label style={font=\small},tick label style={font=\small},grid=major,grid style={gray!15},
-xlabel={(a) Offline preparation (hours)},]
-\addplot[only marks,color=blue!75!black,mark=*,mark options={fill=blue!75!black},mark size=2.7pt] coordinates {(1.8795998277603132,0.8200000000000001) (3.81016918400406,1.82) (0.16326785403200322,2.82) (3.81016918400406,4.82)};
-\addplot[only marks,color=blue!75!black,mark=*,mark options={fill=white},mark size=2.7pt] coordinates {(0.5541760086356144,0.8200000000000001) (1.1160457652693407,1.82) (0.1000001461726303,2.82) (1.1160457652693407,4.82)};
-\addplot[only marks,color=orange!85!black,mark=square*,mark options={fill=orange!85!black},mark size=2.7pt] coordinates {(2.7500784196394186,1) (5.456647270610039,2) (0.2054909704144423,3) (5.456647270610039,5)};
-\addplot[only marks,color=orange!85!black,mark=square*,mark options={fill=white},mark size=2.7pt] coordinates {(0.8020008911947824,1) (1.6076185893727881,2) (0.1168989592195592,3) (1.6076185893727881,5)};
-\addplot[only marks,color=green!40!black,mark=triangle*,mark options={fill=green!40!black},mark size=2.7pt] coordinates {(3.7202331346770126,1.18) (7.417973273306464,2.18) (0.24886849614791573,3.18) (7.417973273306464,5.18)};
-\addplot[only marks,color=green!40!black,mark=triangle*,mark options={fill=white},mark size=2.7pt] coordinates {(1.0626173441137912,1.18) (2.139119361771607,2.18) (0.12863530480949623,3.18) (2.139119361771607,5.18)};
-\node[anchor=west,font=\small] at (axis cs:0.052500000000000005,0) {0 (no training)};
-\node[anchor=west,font=\small] at (axis cs:0.052500000000000005,4) {0 (no training)};
-\end{semilogxaxis}
-\begin{semilogxaxis}[at={(0,-4.7cm)},anchor=north west,width=0.93\columnwidth,height=4.4cm,
-xmin=0.0001,xmax=100,xtick={0.0001,0.01,1,100},minor tick num=0,ymin=-0.55,ymax=5.55,y dir=reverse,
-ytick={0,1,2,3,4,5},yticklabels={Random,Fixed,DAD,RL-sBOED,Myopic,Step-DAD},
-label style={font=\small},tick label style={font=\small},grid=major,grid style={gray!15},
-xlabel={(b) Online decisions (s/sequence)},]
-\addplot[only marks,color=blue!75!black,mark=*,mark options={fill=blue!75!black},mark size=2.7pt] coordinates {(0.00016081652696205614,-0.18) (0.0013767168056801893,0.8200000000000001) (9.999676711919165,3.82) (0.0012789068144532696,1.82) (0.0019628358058980666,2.82) (9.234150444162273,4.82)};
-\addplot[only marks,color=orange!85!black,mark=square*,mark options={fill=orange!85!black},mark size=2.7pt] coordinates {(0.0002091893293254543,0) (0.0018106280755697905,1) (13.437180911996014,4) (0.0015340732425102033,2) (0.005579257249337388,3) (23.35656008852675,5)};
-\addplot[only marks,color=green!40!black,mark=triangle*,mark options={fill=green!40!black},mark size=2.7pt] coordinates {(0.00030928604004050914,0.18) (0.004884509811139044,1.18) (16.9353540299453,4.18) (0.0018954297277862981,2.18) (0.002289892124584488,3.18) (45.100896960203194,5.18)};
-\addplot[only marks,color=green!40!black,mark=triangle*,mark options={fill=white},mark size=2.7pt] coordinates {(14.303500833410604,5.18)};
-\end{semilogxaxis}
-\end{tikzpicture}
-\par\small\textcolor{blue!75!black}{$\bullet$ $T=3$}\quad
-\textcolor{orange!85!black}{$\blacksquare$ $T=4$}\quad
-\textcolor{green!40!black}{$\blacktriangle$ $T=5$}\\
-\small Filled: IEEE 14-bus; open: IEEE 9-bus.
-\caption{Recorded A100 PCIe 40-GB timings using one training seed per setting. Seed 101 is used throughout except the open online Step-DAD point ($T=5$, seed 303). IEEE 9-bus has no other archived A100 online timings. DAD and Step-DAD offline costs include Fixed preparation. Online values average 1536 episodes; offline values are single observed workflows. CPU models differ between networks; these are descriptive timings, not controlled cross-network comparisons.}
-\label{fig:work}
-\end{figure}
+\begin{table}[!ht]\caption{IEEE 9-bus recorded A100 timings}\label{tab:ieee9_a100}\papertablestyle
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
+\toprule Method & $T=3$ & $T=4$ & $T=5$\\
+\midrule\multicolumn{4}{c}{Offline preparation (hours)}\\\midrule
+Random & 0 & 0 & 0\\
+Fixed & 0.554 & 0.802 & 1.063\\
+DAD & 1.116 & 1.608 & 2.139\\
+RL-sBOED & 0.100 & 0.117 & 0.129\\
+Myopic & 0 & 0 & 0\\
+Step-DAD & 1.116 & 1.608 & 2.139\\
+\midrule\multicolumn{4}{c}{Online decisions (ms per sequence)}\\\midrule
+Random & -- & -- & --\\
+Fixed & -- & -- & --\\
+DAD & -- & -- & --\\
+RL-sBOED & -- & -- & --\\
+Myopic & -- & -- & --\\
+Step-DAD & -- & -- & 14304$^{\dagger}$\\
+\bottomrule\end{tabular*}
+\par\smallskip\footnotesize Seed 101; DAD/Step-DAD include Fixed initialization.
+\par\footnotesize --: no archived A100 online measurement. $\dagger$: seed 303.
+\end{table}
+\begin{table}[!ht]\caption{IEEE 14-bus recorded A100 timings}\label{tab:ieee14_a100}\papertablestyle
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
+\toprule Method & $T=3$ & $T=4$ & $T=5$\\
+\midrule\multicolumn{4}{c}{Offline preparation (hours)}\\\midrule
+Random & 0 & 0 & 0\\
+Fixed & 1.880 & 2.750 & 3.720\\
+DAD & 3.810 & 5.457 & 7.418\\
+RL-sBOED & 0.163 & 0.205 & 0.249\\
+Myopic & 0 & 0 & 0\\
+Step-DAD & 3.810 & 5.457 & 7.418\\
+\midrule\multicolumn{4}{c}{Online decisions (ms per sequence)}\\\midrule
+Random & 0.161 & 0.209 & 0.309\\
+Fixed & 1.377 & 1.811 & 4.885\\
+DAD & 1.279 & 1.534 & 1.895\\
+RL-sBOED & 1.963 & 5.579 & 2.290\\
+Myopic & 10000 & 13437 & 16935\\
+Step-DAD & 9234 & 23357 & 45101\\
+\bottomrule\end{tabular*}
+\par\smallskip\footnotesize Seed 101; DAD/Step-DAD include Fixed initialization.
+\end{table}
+
 
 Let $C_g$ include per-window simulation and gradient work. Offline training with $J$ updates, batch size $B$, and $L$ contrasts requires $O(JB(L+1)TC_g)$ simulation/gradient work for Fixed and DAD. DAD's complete preparation includes the Fixed stage: $W_F+W_D$; Step-DAD inherits both. Random and Myopic need no offline training. RL-sBOED uses $O(JB(L+1)TC_s)$ simulated trajectory work plus actor--critic replay updates and validation. Offline training times are single-run observations, not seed-averaged estimates.
 
-For memory, define $H(b,c,k)=O(bckS)$, where $S$ is candidate-window state/Jacobian storage, $b$ trajectories, $c$ resident parameter candidates, and $k$ retained windows. This is a conservative retained-trajectory bound. With policy size $W$ and history size $d_h$, online storage is $O(T)$ for Random/Fixed, $O(W+d_h)$ for DAD/RL-sBOED, $H(b_e,c_e,1)+O(Pm+d_h)$ for Myopic, and $H(B,c,T)+O(W+Pm+d_h)$ for Step-DAD. Here $b_e,c_e$ are Myopic's resident observation and candidate batches.
-
-\begin{figure}[!ht]
-\centering
-\begin{tikzpicture}
-\begin{semilogxaxis}[width=0.96\columnwidth,height=5.5cm,
-xmin=1e-05,xmax=40,xtick={0.00001,0.001,0.1,10},
-ymin=-0.65,ymax=5.65,ytick={0,1,2,3,4,5},yticklabels={Random,Fixed,DAD,RL-sBOED,Myopic,Step-DAD},
-y dir=reverse,xlabel={Accounted storage (MiB)},
-label style={font=\small},tick label style={font=\small},
-grid=major,grid style={gray!15},
-legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=2,/tikz/column sep=7pt,draw=none}]
-\addplot[only marks,color=blue!75!black,mark=square*,mark size=2.8pt] coordinates {(1.1200000000000001e-05,-0.12) (0.6658668518066406,0.88) (0.7469367980957031,1.88) (17.915382385253906,2.88) (1.1200000000000001e-05,3.88) (0.7469367980957031,4.88)};\addlegendentry{Offline}
-\node[anchor=west,font=\footnotesize,text=blue!75!black] at (axis cs:1.3500000000000001e-05,-0.12) {0};
-\node[anchor=west,font=\footnotesize,text=blue!75!black] at (axis cs:1.3500000000000001e-05,3.88) {0};
-\addplot[only marks,color=orange!85!black,mark=*,mark size=2.8pt] coordinates {(9.918212890625e-05,0.12) (0.004482269287109375,1.12) (0.024749755859375,2.12) (0.07233428955078125,3.12) (0.02056884765625,4.12) (0.7675056457519531,5.12)};\addlegendentry{Online}
-\end{semilogxaxis}
-\end{tikzpicture}
-\caption{Accounted storage by method for IEEE 14-bus, $T=5$: parameter, state, and likelihood arrays, network weights, gradient/Adam arrays, and allocated replay/critic storage. Offline prerequisites are sequential, so memory uses a peak rather than a sum. Counts use float64 simulator arrays and float32 networks/replay. Temporary buffers, saved trajectories, activations, allocator overhead, and checkpoint copies are excluded: these are partial storage estimates, not measured peak memory. No offline arrays for Random/Myopic are plotted as labeled zeros.}
-\label{fig:memory}
-\end{figure}
-
-Random and Myopic need $O(1)$ offline storage. The other offline terms are $H(B,c,T)+O(T)$ for Fixed and $H(B,c,T)+O(W)$ for DAD and Step-DAD, with training activations added. RL-sBOED adds replay and ensemble storage: $H(B,c,T)+O(N_Rd_R+EW)$, with replay capacity $N_R$, transition size $d_R$, and $E$ critics of representative size $W$. Chunking replaces total contrast count by resident chunk size in $H$ when candidate calculations can be streamed. It does not eliminate policy activations or other persistent storage. Precision converts scalar counts to bytes; allocator overhead further affects GPU occupancy.
+Peak CPU RAM and GPU memory were not recorded in the checked run configurations, summaries, or completion files. We therefore omit numerical memory comparisons; GPU capacity is not process memory usage. The earlier core-array estimates are not experimental measurements.
 
 Rescoring $n$ histories costs $O(n(L+1)TC_s)$ simulation work plus $O(nLT)$ likelihood arithmetic, without retraining. The incomplete hardware-matched archive does not establish cross-network speedups or real-time feasibility.
 
