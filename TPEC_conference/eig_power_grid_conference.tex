@@ -360,57 +360,115 @@ legend style={font=\normalsize,at={(0.5,1.03)},anchor=south,legend columns=3,dra
 At $T=5$, median final durations are 0.369 s for DAD, 0.376 s for Step-DAD, 1.114 s for Fixed, 2.283 s for Myopic, and 2.979 s for Random (Fig.~\ref{fig:durations}). Random's sequential interval sampling concentrates later pulses near the upper bound. These patterns reflect different energy allocations, but do not isolate feedback effects from seed variation. Ordering is imposed; unrestricted and energy-matched comparisons remain open.
 
 \subsection{Computational Work and Memory}\label{sec:cost}
-Figures~\ref{fig:work} and~\ref{fig:memory} visualize analytic scaling rather than elapsed seconds or measured memory. Let $C_s$ be one candidate-window simulation cost and $C_\pi$ a policy forward pass. Dense $m$-machine RK4 integration over $N$ time steps gives $C_s=O(Nm^2)$. Per-stage network size and planning budgets are held fixed in the horizon comparison.
+Figures~\ref{fig:work} and~\ref{fig:memory} compare method-specific work and storage requirements rather than measured time or memory. Let $C_s$ be one candidate-window simulation cost and $C_\pi$ a policy forward pass. Dense $m$-machine RK4 integration over $N$ time steps gives $C_s=O(Nm^2)$. Per-stage network size and planning budgets are held fixed in the horizon comparison.
 
 Random and Fixed generate/read $T$ durations with $O(T)$ work. DAD and RL-sBOED use $O(TC_\pi)$ online policy work. Myopic requires $O(TQC_e+TP C_s)$, where $P=128$ posterior particles, $Q$ candidate objectives per decision, and $C_e$ one objective's simulation and likelihood work. Our search uses 16 proposals, three rounds, and 32 observations per proposal. Step-DAD adds $O(UBC_gT(T-1)/2)$ remaining-horizon refinement to policy and particle work, with $U=4$, $B=32$, and $C_g$ per-trajectory, per-window simulation/gradient work. Fixed-budget validation has the same horizon dependence.
 
 \begin{figure}[!ht]
 \centering
-\begin{tikzpicture}
-\begin{semilogyaxis}[width=\columnwidth,height=4.9cm,xmin=3,xmax=12,xtick={3,5,8,12},
-ymin=0.9,ymax=25,ytick={1,2,5,10,20},yticklabels={1,2,5,10,20},
-xlabel={Probe horizon $T$},ylabel={Work / work at $T=3$},
-label style={font=\small},tick label style={font=\small},grid=major,grid style={gray!15},
-legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=1,draw=none}]
-\addplot[blue!75!black,thick,mark=square*] coordinates {(3,1)(4,1.3333)(5,1.6667)(6,2)(8,2.6667)(10,3.3333)(12,4)};
-\addlegendentry{Offline trajectory simulation}
-\addplot[black,dashed,thick,mark=o,mark size=3pt] coordinates {(3,1)(4,1.3333)(5,1.6667)(6,2)(8,2.6667)(10,3.3333)(12,4)};
-\addlegendentry{Online selection / one-step search}
-\addplot[orange!85!black,thick,mark=triangle*] coordinates {(3,1)(4,2)(5,3.3333)(6,5)(8,9.3333)(10,15)(12,22)};
-\addlegendentry{Online Step-DAD refinement}
-\end{semilogyaxis}
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small,
+cell/.style={rounded corners=2pt,align=center,text width=2.65cm,minimum height=0.72cm,inner sep=3pt}]
+\node at (2.6,0.5) {Offline preparation};
+\node at (5.65,0.5) {Online ($T=5$)};
+\node[anchor=east] at (1.05,0.0) {Random};
+\node[cell,fill=gray!10] at (2.6,0.0) {None};
+\node[cell,fill=gray!10] at (5.65,0.0) {5 random draws};
+\node[anchor=east] at (1.05,-0.88) {Fixed};
+\node[cell,fill=blue!10] at (2.6,-0.88) {2000 sequence updates};
+\node[cell,fill=gray!10] at (5.65,-0.88) {5 duration readouts};
+\node[anchor=east] at (1.05,-1.76) {DAD};
+\node[cell,fill=blue!10] at (2.6,-1.76) {Fixed + 2000\\policy updates};
+\node[cell,fill=green!12] at (5.65,-1.76) {5 policy forward passes};
+\node[anchor=east] at (1.05,-2.64) {RL-sBOED};
+\node[cell,fill=blue!10] at (2.6,-2.64) {2000 batches\\+ replay updates};
+\node[cell,fill=green!12] at (5.65,-2.64) {5 policy forward passes};
+\node[anchor=east] at (1.05,-3.52) {Myopic};
+\node[cell,fill=gray!10] at (2.6,-3.52) {None};
+\node[cell,fill=orange!15] at (5.65,-3.52) {240 objectives\\+ particle update};
+\node[anchor=east] at (1.05,-4.4) {Step-DAD};
+\node[cell,fill=blue!10] at (2.6,-4.4) {Fixed + DAD\\preparation};
+\node[cell,fill=orange!15] at (5.65,-4.4) {16 refinements\\+ validation/particles};
 \end{tikzpicture}
-\caption{Analytic computation scaling with fixed per-stage model and algorithm budgets. Offline trajectory work and online selection/search scale as $T/3$ (overlapping curves); remaining-horizon refinement scales as $T(T-1)/6$. Each component is normalized separately, so these curves do not compare absolute costs across methods. Horizons beyond five illustrate the formulas, not additional experiments.}
+\caption{Method-specific computation at the implemented budgets. Offline updates use batch size 32 and 128 contrasts. Myopic evaluates $5\times16\times3=240$ candidate objectives, each using 32 simulated observations; Step-DAD performs $4(5-1)=16$ refinement updates. Counts denote different operations, not equivalent FLOPs or measured times. Fixed initialization is included for DAD and Step-DAD.}
 \label{fig:work}
 \end{figure}
 
-Offline training with $J$ updates, batch size $B$, and $L$ contrasts requires $O(JB(L+1)TC_g)$ simulation/gradient work for Fixed and DAD. DAD's complete preparation includes the Fixed stage: $W_F+W_D$; Step-DAD inherits both. Random and Myopic need no offline training. RL-sBOED uses $O(JB(L+1)TC_s)$ simulated trajectory work plus actor--critic replay updates and validation. The plotted linear offline component excludes horizon-dependent architecture changes and separate optimizer overhead.
+Offline training with $J$ updates, batch size $B$, and $L$ contrasts requires $O(JB(L+1)TC_g)$ simulation/gradient work for Fixed and DAD. DAD's complete preparation includes the Fixed stage: $W_F+W_D$; Step-DAD inherits both. Random and Myopic need no offline training. RL-sBOED uses $O(JB(L+1)TC_s)$ simulated trajectory work plus actor--critic replay updates and validation. Training and inference operations differ, so update counts are not interchangeable runtime units.
 
 For memory, define $H(b,c,k)=O(bckS)$, where $S$ is candidate-window state/Jacobian storage, $b$ trajectories, $c$ resident parameter candidates, and $k$ retained windows. This is a conservative retained-trajectory bound. With policy size $W$ and history size $d_h$, online storage is $O(T)$ for Random/Fixed, $O(W+d_h)$ for DAD/RL-sBOED, $H(b_e,c_e,1)+O(Pm+d_h)$ for Myopic, and $H(B,c,T)+O(W+Pm+d_h)$ for Step-DAD. Here $b_e,c_e$ are Myopic's resident observation and candidate batches.
 
 \begin{figure}[!ht]
 \centering
-\begin{tikzpicture}
-\begin{semilogyaxis}[width=\columnwidth,height=4.6cm,xmin=1,xmax=100,xtick={1,10,50,100},
-ymin=0.8,ymax=120,ytick={1,10,100},yticklabels={1,10,100},
-xlabel={Total candidate count / reference count},ylabel={Storage / reference storage},
-label style={font=\small},tick label style={font=\small},grid=major,grid style={gray!15},
-legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=1,draw=none}]
-\addplot[blue!75!black,thick,mark=square*] coordinates {(1,1)(10,10)(25,25)(50,50)(100,100)};
-\addlegendentry{Unchunked candidate-state storage}
-\addplot[orange!85!black,dashed,thick,mark=triangle*] coordinates {(1,1)(10,10)(25,10)(50,10)(100,10)};
-\addlegendentry{Candidate storage, chunk limit $10\times$}
-\addplot[black,dotted,thick,mark=o] coordinates {(1,1)(10,1)(25,1)(50,1)(100,1)};
-\addlegendentry{Fixed-size weights / particles / replay}
-\end{semilogyaxis}
+\begin{tikzpicture}[x=0.94cm,y=0.75cm,font=\small]
+\node[anchor=east] at (1.1,0) {Method};
+\node[align=center,font=\footnotesize] at (1.85,0) {Duration /\\history};
+\node[align=center,font=\footnotesize] at (3.0700000000000003,0) {Policy /\\optimizer};
+\node[align=center,font=\footnotesize] at (4.29,0) {Posterior\\particles};
+\node[align=center,font=\footnotesize] at (5.51,0) {Simulation\\batches};
+\node[align=center,font=\footnotesize] at (6.73,0) {Replay /\\critics};
+\node[anchor=east] at (1.1,-1) {Random};
+\draw[gray!25] (1.31,-1.4) rectangle (2.39,-0.6);
+\node[circle,fill=orange!85!black,text=white,inner sep=3pt,font=\footnotesize] at (1.85,-1) {N};
+\draw[gray!25] (2.5300000000000002,-1.4) rectangle (3.6100000000000003,-0.6);
+\draw[gray!25] (3.75,-1.4) rectangle (4.83,-0.6);
+\draw[gray!25] (4.97,-1.4) rectangle (6.05,-0.6);
+\draw[gray!25] (6.19,-1.4) rectangle (7.2700000000000005,-0.6);
+\node[anchor=east] at (1.1,-2) {Fixed};
+\draw[gray!25] (1.31,-2.4) rectangle (2.39,-1.6);
+\node[circle,fill=green!45!black,text=white,inner sep=3pt,font=\footnotesize] at (1.85,-2) {B};
+\draw[gray!25] (2.5300000000000002,-2.4) rectangle (3.6100000000000003,-1.6);
+\draw[gray!25] (3.75,-2.4) rectangle (4.83,-1.6);
+\draw[gray!25] (4.97,-2.4) rectangle (6.05,-1.6);
+\node[circle,fill=blue!65!black,text=white,inner sep=3pt,font=\footnotesize] at (5.51,-2) {F};
+\draw[gray!25] (6.19,-2.4) rectangle (7.2700000000000005,-1.6);
+\node[anchor=east] at (1.1,-3) {DAD};
+\draw[gray!25] (1.31,-3.4) rectangle (2.39,-2.6);
+\node[circle,fill=green!45!black,text=white,inner sep=3pt,font=\footnotesize] at (1.85,-3) {B};
+\draw[gray!25] (2.5300000000000002,-3.4) rectangle (3.6100000000000003,-2.6);
+\node[circle,fill=green!45!black,text=white,inner sep=3pt,font=\footnotesize] at (3.0700000000000003,-3) {B};
+\draw[gray!25] (3.75,-3.4) rectangle (4.83,-2.6);
+\draw[gray!25] (4.97,-3.4) rectangle (6.05,-2.6);
+\node[circle,fill=blue!65!black,text=white,inner sep=3pt,font=\footnotesize] at (5.51,-3) {F};
+\draw[gray!25] (6.19,-3.4) rectangle (7.2700000000000005,-2.6);
+\node[anchor=east] at (1.1,-4) {RL-sBOED};
+\draw[gray!25] (1.31,-4.4) rectangle (2.39,-3.6);
+\node[circle,fill=green!45!black,text=white,inner sep=3pt,font=\footnotesize] at (1.85,-4) {B};
+\draw[gray!25] (2.5300000000000002,-4.4) rectangle (3.6100000000000003,-3.6);
+\node[circle,fill=green!45!black,text=white,inner sep=3pt,font=\footnotesize] at (3.0700000000000003,-4) {B};
+\draw[gray!25] (3.75,-4.4) rectangle (4.83,-3.6);
+\draw[gray!25] (4.97,-4.4) rectangle (6.05,-3.6);
+\node[circle,fill=blue!65!black,text=white,inner sep=3pt,font=\footnotesize] at (5.51,-4) {F};
+\draw[gray!25] (6.19,-4.4) rectangle (7.2700000000000005,-3.6);
+\node[circle,fill=blue!65!black,text=white,inner sep=3pt,font=\footnotesize] at (6.73,-4) {F};
+\node[anchor=east] at (1.1,-5) {Myopic};
+\draw[gray!25] (1.31,-5.4) rectangle (2.39,-4.6);
+\node[circle,fill=orange!85!black,text=white,inner sep=3pt,font=\footnotesize] at (1.85,-5) {N};
+\draw[gray!25] (2.5300000000000002,-5.4) rectangle (3.6100000000000003,-4.6);
+\draw[gray!25] (3.75,-5.4) rectangle (4.83,-4.6);
+\node[circle,fill=orange!85!black,text=white,inner sep=3pt,font=\footnotesize] at (4.29,-5) {N};
+\draw[gray!25] (4.97,-5.4) rectangle (6.05,-4.6);
+\node[circle,fill=orange!85!black,text=white,inner sep=3pt,font=\footnotesize] at (5.51,-5) {N};
+\draw[gray!25] (6.19,-5.4) rectangle (7.2700000000000005,-4.6);
+\node[anchor=east] at (1.1,-6) {Step-DAD};
+\draw[gray!25] (1.31,-6.4) rectangle (2.39,-5.6);
+\node[circle,fill=green!45!black,text=white,inner sep=3pt,font=\footnotesize] at (1.85,-6) {B};
+\draw[gray!25] (2.5300000000000002,-6.4) rectangle (3.6100000000000003,-5.6);
+\node[circle,fill=green!45!black,text=white,inner sep=3pt,font=\footnotesize] at (3.0700000000000003,-6) {B};
+\draw[gray!25] (3.75,-6.4) rectangle (4.83,-5.6);
+\node[circle,fill=orange!85!black,text=white,inner sep=3pt,font=\footnotesize] at (4.29,-6) {N};
+\draw[gray!25] (4.97,-6.4) rectangle (6.05,-5.6);
+\node[circle,fill=green!45!black,text=white,inner sep=3pt,font=\footnotesize] at (5.51,-6) {B};
+\draw[gray!25] (6.19,-6.4) rectangle (7.2700000000000005,-5.6);
+\node[anchor=north,align=center,font=\footnotesize] at (4.1,-6.55)
+{F: offline\quad N: online\quad B: both phases\\Blank: resource not required};
 \end{tikzpicture}
-\caption{Analytic memory-component scaling at fixed horizon, batch size, model dimension, and replay capacity. Unchunked simulation storage grows with candidate count; a fixed chunk limit caps simultaneously resident candidate storage. Persistent components do not grow with contrast count. Reference storage is separate for each component; the illustrative $10\times$ cap is not measured GPU occupancy.}
+\caption{Memory resources by method and phase. Symbols indicate required storage, not equal quantities or measured occupancy. Policy optimizer state is needed during training/refinement; online DAD/RL-sBOED retain inference weights only. Fixed/DAD preparation uses simulated batches; Step-DAD also simulates during online refinement. Myopic and Step-DAD retain 128 posterior particles. RL-sBOED retains its replay buffer and ten critics offline.}
 \label{fig:memory}
 \end{figure}
 
 Random and Myopic need $O(1)$ offline storage. The other offline terms are $H(B,c,T)+O(T)$ for Fixed and $H(B,c,T)+O(W)$ for DAD and Step-DAD, with training activations added. RL-sBOED adds replay and ensemble storage: $H(B,c,T)+O(N_Rd_R+EW)$, with replay capacity $N_R$, transition size $d_R$, and $E$ critics of representative size $W$. Chunking replaces total contrast count by resident chunk size in $H$ when candidate calculations can be streamed. It does not eliminate policy activations or other persistent storage. Precision converts scalar counts to bytes; allocator overhead further affects GPU occupancy.
 
-Rescoring $n$ histories costs $O(n(L+1)TC_s)$ simulation work plus $O(nLT)$ likelihood arithmetic, without retraining. These scaling figures establish neither measured speedups nor real-time feasibility.
+Rescoring $n$ histories costs $O(n(L+1)TC_s)$ simulation work plus $O(nLT)$ likelihood arithmetic, without retraining. These resource comparisons establish neither measured speedups nor real-time feasibility.
 
 \subsection{Estimator Sensitivity}
 The ceiling $\log(L+1)$ limits sPCE, not EIG. A mean below it can conceal saturated histories. Larger-$L$ evaluation of the same saved histories is needed to assess this bias without retraining.
