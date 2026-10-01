@@ -239,9 +239,7 @@ Step-DAD & $4.7527\pm0.0275$ & $4.8297\pm0.0067$ & $4.8446\pm0.0042$\\
 \bottomrule\end{tabular*}\end{table}
 On IEEE 9-bus, DAD exceeds Fixed by 0.1253, 0.0903, and 0.1286 nats at $T=3,4,5$, respectively. Step-DAD improves the DAD mean by 0.0105, 0.0287, and 0.0269 nats. These mean improvements are small; paired uncertainty estimates are needed to assess their reliability. The IEEE 9-bus information scores are well below the estimator ceiling.
 
-On IEEE 14-bus, DAD exceeds Myopic by 0.4669 nats and Fixed by 0.4953 nats at $T=3$. Fixed exceeds Myopic at $T=4,5$. Under the stated search budget, observation feedback alone does not yield the highest score; a larger Myopic search budget could change this comparison. The adaptive learned methods combine feedback with a full-sequence objective, although this comparison does not isolate the contribution of each mechanism.
-
-Differences among learned policies on IEEE 14-bus are small: Step-DAD changes the DAD mean by $-0.0049$, $-0.0028$, and $+0.0003$ nats at $T=3,4,5$. At $T=5$, DAD is only 0.0155 nats below the 4.8598-nat ceiling. The results therefore show no consistent benefit from refinement and cannot establish a reliable ranking of the learned policies' exact EIG.
+On IEEE 14-bus, learned-policy scores approach the 4.8598-nat ceiling, preventing reliable EIG rankings. Step-DAD changes the DAD mean by $-0.0049$, $-0.0028$, and $+0.0003$ nats at $T=3,4,5$. Fixed exceeds Myopic at $T=4,5$ under the stated search budget; a larger Myopic budget could change this comparison.
 
 \subsection{Selected Probe Durations}
 \begin{figure}[t]
@@ -300,7 +298,7 @@ Differences among learned policies on IEEE 14-bus are small: Step-DAD changes th
 \caption{Selected durations on IEEE 14-bus at $T=5$. Points show medians and vertical bars the interquartile range over 4608 histories per method, pooling three equally weighted training seeds. Variation includes training-seed differences and, for adaptive methods, observation histories. Increasing durations are imposed by the design constraint.}
 \label{fig:durations}
 \end{figure}
-Figure~\ref{fig:durations} shows the duration sequences selected by the learned policies and Fixed. DAD and Step-DAD select short pulses: their median final durations are 0.369 and 0.376 s, compared with 1.114 s for Fixed. RL-sBOED has a similarly short median but a substantially wider pooled range, which includes training-seed variation. Short pulses need not yield less information because the sensor records a post-pulse transient whose value depends on both duration and carried state. These summaries expose the physical actions behind the information scores: policies can allocate the same number of probes differently in duration and hence injected energy. The distributions do not isolate the benefit of feedback from training-seed variation, and increasing trends follow the imposed constraint. Comparisons with unrestricted sequences and energy-matched designs remain open.
+At $T=5$, DAD and Step-DAD select median final durations of 0.369 and 0.376 s, versus 1.114 s for Fixed (Fig.~\ref{fig:durations}). RL-sBOED has a short median but a wider pooled range, including training-seed variation. The same probe count thus permits different energy allocations. Increasing trends follow the constraint; these summaries do not isolate feedback benefits from seed variation. Unrestricted and energy-matched comparisons remain open.
 
 \subsection{Measured Computational Cost}\label{sec:cost}
 Tables~\ref{tab:ieee9_offline}--\ref{tab:ieee14_online} report offline training-stage time in hours and online decision time in milliseconds per complete sequence. Online timing sums all $T$ decisions, including posterior updates, Myopic search, and Step-DAD refinement where applicable. It excludes physical response simulation, observation acquisition, and information scoring. For each evaluation seed, we report the average time over 512 episodes and, where applicable, over training seeds; the reported mean and sample SD use the three evaluation-seed means.
@@ -369,8 +367,17 @@ Offline timing includes initialization, optimization, periodic validation, and c
 At $T=5$, DAD needs 1.93 ms per sequence online, whereas Myopic requires 16.94 s and Step-DAD needs 44.69 s (as shown in Table~\ref{tab:ieee14_online}). Although the DAD and Step-DAD scores are nearly the same, their computational costs are very different. Offline training spreads design computation over repeated experiments. Its benefit depends on how often the policy is reused and on the time available between measurements.
 
 
-\subsection{Optimization and Estimator Diagnostics}
-Evaluation uses validation-selected checkpoints. Equal update budgets do not guarantee equal convergence or computational effort, particularly because DAD initialization uses a separately trained Fixed sequence. The ceiling $\log(L+1)$ is a property of sPCE, not a physical limit on EIG. An average below this ceiling can still conceal saturated individual histories; precise method comparisons therefore require sensitivity to $L$, rather than additional outer evaluation draws alone.
+\subsection{Estimator Sensitivity}
+The ceiling $\log(L+1)$ limits sPCE, not EIG. A mean below it can conceal saturated histories. Larger-$L$ evaluation of the same saved histories is needed to assess this bias without retraining.
+\begin{table}[t]
+\centering
+% Reserved for a compact 6-method table: T=3,4,5, each at L=10^4 and 10^5.
+% Expected header: Method | T=3 (10k,100k) | T=4 (10k,100k) | T=5 (10k,100k).
+% Include log(L+1) ceilings in the header/caption. Do not insert incomplete results.
+\fbox{\parbox[c][2.8cm][c]{0.94\columnwidth}{\centering\small
+Reserved for IEEE 14-bus\\larger-$L$ evaluation results\\[3pt]
+$T=3,4,5$; $L=10^4,10^5$}}
+\end{table}
 
 \subsection{Scope and Limitations}
 These conclusions apply to the specified reduced lossless dynamics, independent parameter priors, and scalar sensor. IEEE 14-bus has ten unknown parameters but only three to five scalar observations. The prior and nonlinear likelihood can reduce joint uncertainty, but the information score does not establish accurate identification of each $M_i$ or $K_i$. Parameter-wise posterior error, interval width, and coverage are needed for that assessment. Monotonic durations, fixed probe location, and the endpoint sensor further restrict the conclusions. The same parameter distribution is used during both training and evaluation; we have not demonstrated robustness with respect to prior shift, sensor bias, or unmodelled dynamics. Evaluation seed 1001 was used during development, so the results do not provide fully independent confirmation. The errors introduced by finite-contrast scoring and particle inference are different from those caused by ODE integration. Lastly, the zero-latency simulation does not prove that online planners are feasible in real time, and increased information gain on its own does not show that control is safer.
