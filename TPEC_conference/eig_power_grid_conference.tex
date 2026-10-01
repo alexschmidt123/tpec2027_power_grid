@@ -203,7 +203,7 @@ Offline training uses 2000 updates, a batch size of 32, and three independent tr
 \subsection{Evaluation Protocol}
 For trained methods, we average the evaluation-seed means within each training seed and report the mean $\pm$ sample standard deviation across the three training seeds. For Random and Myopic, we report the mean $\pm$ sample standard deviation across evaluation-seed means rather than episode-level dispersion. Evaluation seed 1001 was used during development, so the evaluation is not fully independent.
 
-Reported timing measurements use NVIDIA A100 PCIe 40-GB GPUs, with Xeon Platinum 8352Y CPUs for IEEE 9-bus and Xeon Gold 6248R CPUs for IEEE 14-bus. Only the A100 timing subset is reported; timing coverage is specified in Section~\ref{sec:cost}. Code and saved results are available at \url{https://github.com/alexschmidt123/tpec2027_power_grid}.
+Reported timing measurements use NVIDIA A100 PCIe 40-GB GPUs. IEEE 9-bus offline training used Xeon Platinum 8352Y CPUs; its new online timing measurements and the IEEE 14-bus measurements use Xeon Gold 6248R CPUs. Only the A100 timing subset is reported; timing coverage is specified in Section~\ref{sec:cost}. Code and saved results are available at \url{https://github.com/alexschmidt123/tpec2027_power_grid}.
 
 % Complete results under the accepted three-evaluation-seed grid protocol.
 \section{Results and Discussion}
@@ -353,7 +353,7 @@ legend style={font=\normalsize,at={(0.5,1.03)},anchor=south,legend columns=3,dra
 At $T=5$, median final durations are 0.369 s for DAD, 0.376 s for Step-DAD, 1.114 s for Fixed, 2.283 s for Myopic, and 2.979 s for Random (Fig.~\ref{fig:durations}). Random's sequential interval sampling concentrates later pulses near the upper bound. These patterns reflect different energy allocations, but do not isolate feedback effects from seed variation. Ordering is imposed; unrestricted and energy-matched comparisons remain open.
 
 \subsection{Computational Cost}\label{sec:cost}
-Tables~\ref{tab:ieee9_a100} and~\ref{tab:ieee14_a100} report available A100 PCIe 40-GB timings at $T=3,4,5$, using seed 101 except the indicated IEEE 9-bus Step-DAD run. Offline times describe one preparation workflow. Online times average 1536 episodes and exclude physical simulation, observation acquisition, and information scoring. IEEE 9-bus and IEEE 14-bus use different CPU models and cluster nodes; these are descriptive hardware-specific measurements. Let $C_s$ be one candidate-window simulation cost and $C_\pi$ a policy forward pass. Dense $m$-machine RK4 integration over $N$ time steps gives $C_s=O(Nm^2)$. The theoretical expressions below identify the source of computational work.
+Tables~\ref{tab:ieee9_a100} and~\ref{tab:ieee14_a100} report available A100 PCIe 40-GB timings at $T=3,4,5$, using training seed 101. Offline times describe one preparation workflow. IEEE 9-bus online times average 32 paired simulated episodes per method after one discarded warm-up episode; IEEE 14-bus online times use 1536 archived episodes. Online timing includes posterior updates and refinement but excludes true-system simulation, observation acquisition, and information scoring. Offline runs use different CPU models, and measurements span cluster nodes; these are descriptive hardware-specific measurements. Let $C_s$ be one candidate-window simulation cost and $C_\pi$ a policy forward pass. Dense $m$-machine RK4 integration over $N$ time steps gives $C_s=O(Nm^2)$. The theoretical expressions below identify the source of computational work.
 
 Online policy work is $O(T)$ for Random/Fixed and $O(TC_\pi)$ for DAD/RL-sBOED. Myopic uses $O(TQC_e+TP C_s)$, where $P=128$ particles and $Q$ candidate objectives of cost $C_e$. Step-DAD adds remaining-horizon refinement proportional to $UBT(T-1)/2$, with $U=4$ updates and $B=32$ trajectories per update; numerical Jacobians and validation add work.
 
@@ -368,15 +368,15 @@ RL-sBOED & 0.100 & 0.117 & 0.129\\
 Myopic & 0 & 0 & 0\\
 Step-DAD & 1.116 & 1.608 & 2.139\\
 \midrule\multicolumn{4}{c}{Online decisions (ms per sequence)}\\\midrule
-Random & -- & -- & --\\
-Fixed & -- & -- & --\\
-DAD & -- & -- & --\\
-RL-sBOED & -- & -- & --\\
-Myopic & -- & -- & --\\
-Step-DAD & -- & -- & 14304$^{\dagger}$\\
+Random & 0.172 & 0.263 & 0.325\\
+Fixed & 1.032 & 1.489 & 1.550\\
+DAD & 1.182 & 1.716 & 2.062\\
+RL-sBOED & 1.178 & 1.823 & 2.241\\
+Myopic & 4414 & 5955 & 7560\\
+Step-DAD & 3233 & 7952 & 14553\\
 \bottomrule\end{tabular*}
 \par\smallskip\footnotesize Seed 101; DAD/Step-DAD include Fixed initialization.
-\par\footnotesize --: no archived A100 online measurement. $\dagger$: seed 303.
+\par\footnotesize Online: 32 episodes per method after one discarded warm-up.
 \end{table}
 \begin{table}[!ht]\caption{IEEE 14-bus recorded A100 timings}\label{tab:ieee14_a100}\papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
@@ -402,7 +402,7 @@ Step-DAD & 9234 & 23357 & 45101\\
 
 Let $C_g$ include per-window simulation and gradient work. Offline training with $J$ updates, batch size $B$, and $L$ contrasts requires $O(JB(L+1)TC_g)$ simulation/gradient work for Fixed and DAD. DAD's complete preparation includes the Fixed stage: $W_F+W_D$; Step-DAD inherits both. Random and Myopic need no offline training. RL-sBOED uses $O(JB(L+1)TC_s)$ simulated trajectory work plus actor--critic replay updates and validation. Offline training times are single-run observations, not seed-averaged estimates.
 
-Rescoring $n$ histories costs $O(n(L+1)TC_s)$ simulation work plus $O(nLT)$ likelihood arithmetic, without retraining. The incomplete hardware-matched archive does not establish cross-network speedups or real-time feasibility.
+Rescoring $n$ histories costs $O(n(L+1)TC_s)$ simulation work plus $O(nLT)$ likelihood arithmetic, without retraining. These hardware-specific timings do not establish real-time feasibility; offline training uses different CPU models and online evaluation uses different sample sizes.
 
 \subsection{Estimator Sensitivity}
 The ceiling $\log(L+1)$ limits sPCE, not EIG. A mean below it can conceal saturated histories. Larger-$L$ evaluation of the same saved histories is needed to assess this bias without retraining.

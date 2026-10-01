@@ -1,0 +1,110 @@
+[
+  {
+    "network": "ieee9",
+    "T": 5,
+    "method": "random",
+    "phase": "online",
+    "seed": 101,
+    "seconds": 0.0003247989807277918,
+    "sd_seconds": 3.482410594855837e-05,
+    "systems": 32,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g002",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_final_step4/T5/manifest.json"
+  },
+  {
+    "network": "ieee9",
+    "T": 5,
+    "method": "fixed",
+    "phase": "online",
+    "seed": 101,
+    "seconds": 0.0015501351444981992,
+    "sd_seconds": 0.0001721248647679093,
+    "systems": 32,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g002",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_final_step4/T5/manifest.json"
+  },
+  {
+    "network": "ieee9",
+    "T": 5,
+    "method": "dad",
+    "phase": "online",
+    "seed": 101,
+    "seconds": 0.0020618014968931675,
+    "sd_seconds": 0.00016636610701494916,
+    "systems": 32,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g002",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_final_step4/T5/manifest.json"
+  },
+  {
+    "network": "ieee9",
+    "T": 5,
+    "method": "rl_sboed",
+    "phase": "online",
+    "seed": 101,
+    "seconds": 0.0022413902333937585,
+    "sd_seconds": 0.00025466196084042393,
+    "systems": 32,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g002",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_final_step4/T5/manifest.json"
+  },
+  {
+    "network": "ieee9",
+    "T": 5,
+    "method": "myopic",
+    "phase": "online",
+    "seed": 101,
+    "seconds": 7.559852412960026,
+    "sd_seconds": 0.15638078492891588,
+    "systems": 32,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g002",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_final_step4/T5/manifest.json"
+  },
+  {
+    "network": "ieee9",
+    "T": 5,
+    "method": "step_dad",
+    "phase": "online",
+    "seed": 101,
+    "seconds": 14.553349124733359,
+    "sd_seconds": 1.7107864855417279,
+    "systems": 32,
+    "hardware": {
+      "execution_site": "hprc",
+      "cluster": "grace",
+      "computer_name": "g002",
+      "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+      "gpu_model": "NVIDIA A100-PCIE-40GB"
+    },
+    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_final_step4/T5/manifest.json"
+  }
+]
