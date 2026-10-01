@@ -359,46 +359,58 @@ legend style={font=\normalsize,at={(0.5,1.03)},anchor=south,legend columns=3,dra
 \end{figure}
 At $T=5$, median final durations are 0.369 s for DAD, 0.376 s for Step-DAD, 1.114 s for Fixed, 2.283 s for Myopic, and 2.979 s for Random (Fig.~\ref{fig:durations}). Random's sequential interval sampling concentrates later pulses near the upper bound. These patterns reflect different energy allocations, but do not isolate feedback effects from seed variation. Ordering is imposed; unrestricted and energy-matched comparisons remain open.
 
-\subsection{Algorithmic Computational Requirements}\label{sec:cost}
-We distinguish physical observation acquisition, policy decisions, and information scoring. Let $C_s$ denote the work to propagate one candidate parameter state through one observation window, and $C_\pi$ one policy forward pass. For a dense $m$-machine swing model integrated over $N$ RK4 steps, $C_s=O(Nm^2)$. $C_\pi$ includes the fixed-horizon history input. These operation counts do not determine elapsed time.
+\subsection{Computational Work and Memory}\label{sec:cost}
+Figures~\ref{fig:work} and~\ref{fig:memory} visualize analytic scaling rather than elapsed seconds or measured memory. Let $C_s$ be one candidate-window simulation cost and $C_\pi$ a policy forward pass. Dense $m$-machine RK4 integration over $N$ time steps gives $C_s=O(Nm^2)$. Per-stage network size and planning budgets are held fixed in the horizon comparison.
 
-\begin{table}[!ht]
-\caption{Online decision work per $T$-probe sequence}
-\label{tab:complexity}\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}ll@{}}
-\toprule Method & Dominant work\\\midrule
-Random, Fixed & $O(T)$ duration generation/readout\\
-DAD, RL-sBOED & $O(TC_\pi)$ policy evaluation\\
-Myopic & $O(TQC_e+TP C_s)$\\
-Step-DAD & $O(TC_\pi+TP C_s+UBC_gT^2)$\\
-\bottomrule\end{tabular*}
-\end{table}
-Here $P=128$ is the posterior particle count, $Q$ the number of candidate objectives evaluated per decision, and $C_e$ the work for one candidate's one-step information objective, including its simulated observations and likelihood calculations. Myopic uses 16 proposals and three search rounds with 32 simulated observations per proposal. The $TP C_s$ term accounts for particle propagation during assimilation; resampling and weight updates add lower-order work for fixed state dimension.
+Random and Fixed generate/read $T$ durations with $O(T)$ work. DAD and RL-sBOED use $O(TC_\pi)$ online policy work. Myopic requires $O(TQC_e+TP C_s)$, where $P=128$ posterior particles, $Q$ candidate objectives per decision, and $C_e$ one objective's simulation and likelihood work. Our search uses 16 proposals, three rounds, and 32 observations per proposal. Step-DAD adds $O(UBC_gT(T-1)/2)$ remaining-horizon refinement to policy and particle work, with $U=4$, $B=32$, and $C_g$ per-trajectory, per-window simulation/gradient work. Fixed-budget validation has the same horizon dependence.
 
-For Step-DAD, $U=4$ updates per refinement, $B=32$ trajectories per update, and $C_g$ denotes per-window simulation, likelihood, and gradient work per trajectory at a fixed contrast count and model dimension. Refinements cover remaining horizons $T-1,\ldots,1$, whose sum is $T(T-1)/2$. Thus the dominant refinement work scales quadratically with $T$ when other budgets are fixed. Validation has the same horizon dependence at fixed budget; $C_g$ includes numerical Jacobians.
+\begin{figure}[!ht]
+\centering
+\begin{tikzpicture}
+\begin{semilogyaxis}[width=\columnwidth,height=4.9cm,xmin=3,xmax=12,xtick={3,5,8,12},
+ymin=0.9,ymax=25,ytick={1,2,5,10,20},yticklabels={1,2,5,10,20},
+xlabel={Probe horizon $T$},ylabel={Work / work at $T=3$},
+label style={font=\small},tick label style={font=\small},grid=major,grid style={gray!15},
+legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=1,draw=none}]
+\addplot[blue!75!black,thick,mark=square*] coordinates {(3,1)(4,1.3333)(5,1.6667)(6,2)(8,2.6667)(10,3.3333)(12,4)};
+\addlegendentry{Offline trajectory simulation}
+\addplot[black,dashed,thick,mark=o,mark size=3pt] coordinates {(3,1)(4,1.3333)(5,1.6667)(6,2)(8,2.6667)(10,3.3333)(12,4)};
+\addlegendentry{Online selection / one-step search}
+\addplot[orange!85!black,thick,mark=triangle*] coordinates {(3,1)(4,2)(5,3.3333)(6,5)(8,9.3333)(10,15)(12,22)};
+\addlegendentry{Online Step-DAD refinement}
+\end{semilogyaxis}
+\end{tikzpicture}
+\caption{Analytic computation scaling with fixed per-stage model and algorithm budgets. Offline trajectory work and online selection/search scale as $T/3$ (overlapping curves); remaining-horizon refinement scales as $T(T-1)/6$. Each component is normalized separately, so these curves do not compare absolute costs across methods. Horizons beyond five illustrate the formulas, not additional experiments.}
+\label{fig:work}
+\end{figure}
 
-\paragraph{Offline work}
-Let $J_F,J_D,J_R$ be the update counts for Fixed, DAD, and RL-sBOED, $B$ the trajectory batch size, and $L$ the training contrast count. With $C_g$ also covering the per-window differentiation used by Fixed and DAD, their training-stage work scales as $J B(L+1)TC_g$. Write $W_F$ for the complete Fixed preparation stage, including initialization selection, optimization, and validation. DAD requires $W_F+O(J_DB(L+1)TC_g)$ plus its validation work; Step-DAD inherits this total. Random and Myopic have no offline optimization. RL-sBOED requires $O(J_RB(L+1)TC_s)$ trajectory simulation plus actor--critic and validation work. If $r$ replay updates per trajectory batch train $E$ critics with replay batch size $B_R$, the neural update term is $O(J_RrB_REC_{\mathrm{nn}})$, where $C_{\mathrm{nn}}$ denotes per-sample network update work. These counts describe complete workflows, not elapsed training time.
+Offline training with $J$ updates, batch size $B$, and $L$ contrasts requires $O(JB(L+1)TC_g)$ simulation/gradient work for Fixed and DAD. DAD's complete preparation includes the Fixed stage: $W_F+W_D$; Step-DAD inherits both. Random and Myopic need no offline training. RL-sBOED uses $O(JB(L+1)TC_s)$ simulated trajectory work plus actor--critic replay updates and validation. The plotted linear offline component excludes horizon-dependent architecture changes and separate optimizer overhead.
 
-\paragraph{Memory requirements}
-Let $S$ be the number of scalar storage entries per simulated candidate-window, including any stored integration states and Jacobians. A conservative bound that retains all trajectory windows is $H(b,c,k)=O(bckS)$ for $b$ trajectories, $c$ simultaneously resident parameter candidates, and $k$ windows. Streaming can reduce this bound. Let $W$ count the parameters of one policy and $d_h$ the stored history size. Neural training needs $O(W)$ additional parameter, gradient, and optimizer storage, together with activation storage. Particle planners additionally retain $O(Pm)$ physical states and particle parameters. Table~\ref{tab:memory} gives the dominant storage terms; $c=L+1$ if contrasts are stored together, or the chunk size when the implementation streams them.
+For memory, define $H(b,c,k)=O(bckS)$, where $S$ is candidate-window state/Jacobian storage, $b$ trajectories, $c$ resident parameter candidates, and $k$ retained windows. This is a conservative retained-trajectory bound. With policy size $W$ and history size $d_h$, online storage is $O(T)$ for Random/Fixed, $O(W+d_h)$ for DAD/RL-sBOED, $H(b_e,c_e,1)+O(Pm+d_h)$ for Myopic, and $H(B,c,T)+O(W+Pm+d_h)$ for Step-DAD. Here $b_e,c_e$ are Myopic's resident observation and candidate batches.
 
-\begin{table}[!ht]
-\caption{Dominant memory terms (scalar storage entries)}
-\label{tab:memory}\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lll@{}}
-\toprule Method & Offline & Online\\\midrule
-Random & $O(1)$ & $O(T)$\\
-Fixed & $H(B,c,T)+O(T)$ & $O(T)$\\
-DAD & $H(B,c,T)+O(W)$ & $O(W+d_h)$\\
-RL-sBOED & \shortstack[l]{$H(B,c,T)$\\$+O(N_Rd_R+EW)$} & $O(W+d_h)$\\
-Myopic & $O(1)$ & $H(b_e,c_e,1)+M_P$\\
-Step-DAD & $H(B,c,T)+O(W)$ & $H(B,c,T)+O(W)+M_P$\\
-\bottomrule\end{tabular*}
-\end{table}
-Here $M_P=O(Pm+d_h)$ denotes posterior and history storage. For Myopic, $b_e$ and $c_e$ denote the simultaneously batched simulated observations and likelihood candidates; sequential proposal processing does not require storing all $Q$ proposals. RL-sBOED offline storage includes the simulation batch, replay buffer, critic ensemble, and training activations: $H(B,c,T)+O(N_Rd_R+EW)$, using replay capacity $N_R$, transition size $d_R$, and representative network size $W$. Training activations and validation add batch-dependent storage. Step-DAD's bound includes gradients and optimizer state. Storage bytes depend on precision; measured GPU occupancy additionally includes framework and allocator overhead.
+\begin{figure}[!ht]
+\centering
+\begin{tikzpicture}
+\begin{semilogyaxis}[width=\columnwidth,height=4.6cm,xmin=1,xmax=100,xtick={1,10,50,100},
+ymin=0.8,ymax=120,ytick={1,10,100},yticklabels={1,10,100},
+xlabel={Total candidate count / reference count},ylabel={Storage / reference storage},
+label style={font=\small},tick label style={font=\small},grid=major,grid style={gray!15},
+legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=1,draw=none}]
+\addplot[blue!75!black,thick,mark=square*] coordinates {(1,1)(10,10)(25,25)(50,50)(100,100)};
+\addlegendentry{Unchunked candidate-state storage}
+\addplot[orange!85!black,dashed,thick,mark=triangle*] coordinates {(1,1)(10,10)(25,10)(50,10)(100,10)};
+\addlegendentry{Candidate storage, chunk limit $10\times$}
+\addplot[black,dotted,thick,mark=o] coordinates {(1,1)(10,1)(25,1)(50,1)(100,1)};
+\addlegendentry{Fixed-size weights / particles / replay}
+\end{semilogyaxis}
+\end{tikzpicture}
+\caption{Analytic memory-component scaling at fixed horizon, batch size, model dimension, and replay capacity. Unchunked simulation storage grows with candidate count; a fixed chunk limit caps simultaneously resident candidate storage. Persistent components do not grow with contrast count. Reference storage is separate for each component; the illustrative $10\times$ cap is not measured GPU occupancy.}
+\label{fig:memory}
+\end{figure}
 
-Re-evaluating $n$ saved histories with sPCE requires $O(n(L+1)TC_s)$ simulation work and $O(nLT)$ likelihood arithmetic. Contrastive states can be processed in chunks, so increasing $L$ need not require storing every state simultaneously. This changes scoring cost without changing the trained policies. The analysis explains the source of online work but establishes neither measured speedups nor real-time feasibility.
+Random and Myopic need $O(1)$ offline storage. The other offline terms are $H(B,c,T)+O(T)$ for Fixed and $H(B,c,T)+O(W)$ for DAD and Step-DAD, with training activations added. RL-sBOED adds replay and ensemble storage: $H(B,c,T)+O(N_Rd_R+EW)$, with replay capacity $N_R$, transition size $d_R$, and $E$ critics of representative size $W$. Chunking replaces total contrast count by resident chunk size in $H$ when candidate calculations can be streamed. It does not eliminate policy activations or other persistent storage. Precision converts scalar counts to bytes; allocator overhead further affects GPU occupancy.
+
+Rescoring $n$ histories costs $O(n(L+1)TC_s)$ simulation work plus $O(nLT)$ likelihood arithmetic, without retraining. These scaling figures establish neither measured speedups nor real-time feasibility.
 
 \subsection{Estimator Sensitivity}
 The ceiling $\log(L+1)$ limits sPCE, not EIG. A mean below it can conceal saturated histories. Larger-$L$ evaluation of the same saved histories is needed to assess this bias without retraining.
