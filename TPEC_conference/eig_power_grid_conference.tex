@@ -1,6 +1,8 @@
 \documentclass[conference]{IEEEtran}
-\usepackage{cite,tikz}
-\usepackage[nospread]{flushend}
+\usepackage{cite,tikz,pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{float}
+% Natural last-page columns avoid float/bibliography balancing artifacts.
 \usepackage{amsmath,amssymb,amsfonts,booktabs,graphicx,textcomp,xcolor}
 \usepackage[hidelinks]{hyperref}
 \usetikzlibrary{arrows.meta,positioning,calc}
@@ -29,8 +31,8 @@ bjyoon@tamu.edu
 }
 }
 \begin{document}
-\raggedbottom
-\brokenpenalty=10000
+\flushbottom
+\brokenpenalty=100
 \maketitle
 \begin{abstract}
 
@@ -53,6 +55,20 @@ We formulate duration selection for reduced IEEE 9-bus and IEEE 14-bus swing mod
 
 \section{Problem Formulation}\label{sec:problem}
 We seek to reduce uncertainty about grid parameters using active probing within a budget of $T$ design steps. Here $t=1,\ldots,T$ indexes design steps, $d$ denotes elapsed time within each probe window, and $D_t$ is the selected pulse duration.
+
+\begin{figure}[!ht]
+\centering
+\begin{tikzpicture}[font=\footnotesize,>=Latex,
+box/.style={draw,rounded corners=1pt,align=center,minimum height=0.70cm,text width=2.15cm,inner sep=3pt}]
+\node[box] (choose) at (0,0) {Select duration $D_t$\\from history $h_{t-1}$};
+\node[box] (probe) at (2.75,0) {Apply pulse; evolve\\carried grid state};
+\node[box] (sense) at (5.5,0) {Measure endpoint\\RoCoF $y_{\mathrm{obs},t}$};
+\draw[->] (choose)--(probe);\draw[->] (probe)--(sense);
+\draw[->] (sense.south)--(5.5,-0.8)--node[below,align=center]{Append $(D_t,y_{\mathrm{obs},t})$ to history; update belief if required\\Carry physical state forward; repeat for $t<T$}(0,-0.8)--(choose.south);
+\end{tikzpicture}
+\caption{Sequential probing loop. Adaptive methods use observation history; Fixed and Random select durations without observation feedback.}
+\label{fig:workflow}
+\end{figure}
 
 \subsection{Latent Parameters and Power-System Model}
 For a reduced network with $m$ machines, the latent parameter vector is $\theta=(M_1,\ldots,M_m,K_1,\ldots,K_m)$, where $M_i$ and $K_i$ are inertia and effective frequency-response coefficients. The prior $p_0(\theta)$ has independent components $M_i\sim\mathcal U(0.7\bar M_i,1.3\bar M_i)$ and $K_i\sim\mathcal U(0.1\bar K_i,\bar K_i)$. One draw of $\theta$ remains fixed throughout all $T$ probes.
@@ -161,21 +177,9 @@ Likelihoods are evaluated in the log domain. Averaging $\widehat I_T$ estimates 
 
 \section{Compared Design Methods}
 All six methods use the same observation model and feasible duration
-interval~\eqref{eq:bounds}. Table~\ref{tab:methods} distinguishes observation feedback from greedy optimization: an adaptive method need not be myopic, and a fixed sequence can be optimized for the full horizon. The algorithms are adaptations of existing methods to the carried-state grid simulator.
+interval~\eqref{eq:bounds}. an adaptive method need not be myopic, and a fixed sequence can be optimized for the full horizon. The algorithms are adaptations of existing methods to the carried-state grid simulator.
 
-\begin{table}[t]
-\caption{Comparison of experimental design methods}
-\label{tab:methods}\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
-\toprule Method & Adaptive & Myopic & Optimization\\\midrule
-Random & No & N/A & None\\
-Fixed~\cite{huan2016sequential} & No & No & Offline\\
-Myopic~\cite{huan2016sequential} & Yes & Yes & Online\\
-DAD~\cite{foster2021dad} & Yes & No & Offline\\
-RL-sBOED~\cite{blau2022rlsboed} & Yes & No & Offline\\
-Step-DAD~\cite{hedman2025stepdad} & Yes & No & Both\\
-\bottomrule\end{tabular*}
-\end{table}
+
 
 \subsection{Nonadaptive Designs: Random and Fixed}
 Random samples $z_t\sim\mathcal U(0,1)$ independently at each step and sets $D_t=D_t^{\min}+(D_t^{\max}-D_t^{\min})z_t$. Here $D_1^{\min}=0.2$, $D_t^{\min}=D_{t-1}+\Delta D_{\min}$ for $t>1$, and $D_t^{\max}=3-(T-t)\Delta D_{\min}$. Thus, random samples are uniform within the remaining feasible interval and are not uniform over feasible complete sequences. Random does not use observations and needs no offline training.
@@ -242,60 +246,43 @@ On IEEE 9-bus, DAD exceeds Fixed by 0.1253, 0.0903, and 0.1286 nats at $T=3,4,5$
 On IEEE 14-bus, learned-policy scores approach the 4.8598-nat ceiling, preventing reliable EIG rankings. Step-DAD changes the DAD mean by $-0.0049$, $-0.0028$, and $+0.0003$ nats at $T=3,4,5$. Fixed exceeds Myopic at $T=4,5$ under the stated search budget; a larger Myopic budget could change this comparison.
 
 \subsection{Selected Probe Durations}
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
-\begin{tikzpicture}[x=1.20cm,y=1.05cm,font=\footnotesize]
-\draw[->] (0.65,0) -- (5.55,0) node[below left] {Probe stage};
-\draw[->] (0.65,0) -- (0.65,3.25) node[above right] {Duration (s)};
-\foreach \x in {1,...,5} {\draw (\x,0) -- (\x,-0.06) node[below] {\x};}
-\foreach \y in {1,2,3} {\draw[gray!25] (0.65,\y) -- (5.3,\y);\node[left] at (0.65,\y) {\y};}
-\draw[thick,color=black] plot coordinates {(1,0.282868) (2,0.441748) (3,0.624891) (4,0.850242) (5,1.113805)};
-\draw[color=black] (1,0.280435) -- (1,0.284080);
-\fill[color=black] (1,0.282868) circle [radius=1.4pt];
-\draw[color=black] (2,0.436888) -- (2,0.444266);
-\fill[color=black] (2,0.441748) circle [radius=1.4pt];
-\draw[color=black] (3,0.621328) -- (3,0.630801);
-\fill[color=black] (3,0.624891) circle [radius=1.4pt];
-\draw[color=black] (4,0.829329) -- (4,0.851472);
-\fill[color=black] (4,0.850242) circle [radius=1.4pt];
-\draw[color=black] (5,1.101686) -- (5,1.133751);
-\fill[color=black] (5,1.113805) circle [radius=1.4pt];
-\draw[thick,color=blue!75!black] plot coordinates {(1,0.210610) (2,0.237196) (3,0.267370) (4,0.305458) (5,0.368714)};
-\draw[color=blue!75!black] (1,0.209109) -- (1,0.210765);
-\fill[color=blue!75!black] (1,0.210610) circle [radius=1.4pt];
-\draw[color=blue!75!black] (2,0.232615) -- (2,0.239379);
-\fill[color=blue!75!black] (2,0.237196) circle [radius=1.4pt];
-\draw[color=blue!75!black] (3,0.259098) -- (3,0.275999);
-\fill[color=blue!75!black] (3,0.267370) circle [radius=1.4pt];
-\draw[color=blue!75!black] (4,0.288327) -- (4,0.324894);
-\fill[color=blue!75!black] (4,0.305458) circle [radius=1.4pt];
-\draw[color=blue!75!black] (5,0.334590) -- (5,0.415261);
-\fill[color=blue!75!black] (5,0.368714) circle [radius=1.4pt];
-\draw[thick,color=orange!85!black] plot coordinates {(1,0.202791) (2,0.221387) (3,0.251697) (4,0.311475) (5,0.380911)};
-\draw[color=orange!85!black] (1,0.202435) -- (1,0.206227);
-\fill[color=orange!85!black] (1,0.202791) circle [radius=1.4pt];
-\draw[color=orange!85!black] (2,0.219892) -- (2,0.251871);
-\fill[color=orange!85!black] (2,0.221387) circle [radius=1.4pt];
-\draw[color=orange!85!black] (3,0.246498) -- (3,0.610260);
-\fill[color=orange!85!black] (3,0.251697) circle [radius=1.4pt];
-\draw[color=orange!85!black] (4,0.286383) -- (4,1.702818);
-\fill[color=orange!85!black] (4,0.311475) circle [radius=1.4pt];
-\draw[color=orange!85!black] (5,0.334310) -- (5,2.317079);
-\fill[color=orange!85!black] (5,0.380911) circle [radius=1.4pt];
-\draw[thick,color=green!50!black] plot coordinates {(1,0.210610) (2,0.236764) (3,0.268287) (4,0.307470) (5,0.376172)};
-\draw[color=green!50!black] (1,0.209109) -- (1,0.210765);
-\fill[color=green!50!black] (1,0.210610) circle [radius=1.4pt];
-\draw[color=green!50!black] (2,0.232968) -- (2,0.240767);
-\fill[color=green!50!black] (2,0.236764) circle [radius=1.4pt];
-\draw[color=green!50!black] (3,0.260175) -- (3,0.278777);
-\fill[color=green!50!black] (3,0.268287) circle [radius=1.4pt];
-\draw[color=green!50!black] (4,0.290909) -- (4,0.330634);
-\fill[color=green!50!black] (4,0.307470) circle [radius=1.4pt];
-\draw[color=green!50!black] (5,0.339123) -- (5,0.430862);
-\fill[color=green!50!black] (5,0.376172) circle [radius=1.4pt];
-\node[anchor=north west,align=left,fill=white,inner sep=2pt] at (0.85,3.15) {\textcolor{black}{Fixed}\quad\textcolor{blue!75!black}{DAD}\\\textcolor{orange!85!black}{RL-sBOED}\quad\textcolor{green!50!black}{Step-DAD}};
+\begin{tikzpicture}
+\begin{semilogyaxis}[width=\columnwidth,height=4.8cm,
+xmin=0.7,xmax=5.3,ymin=0.18,ymax=3,xtick={1,2,3,4,5},
+ytick={0.2,0.3,0.5,1,2,3},yticklabels={0.2,0.3,0.5,1,2,3},
+xlabel={Probe stage},ylabel={Duration (s; log scale)},
+tick label style={font=\small},label style={font=\small},
+grid=major,grid style={gray!20},mark size=2pt,
+legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=2,draw=none}]
+\addplot+[color=black,mark=square*,solid,thick] coordinates {(0.91,0.2828679026357658) (1.91,0.44174800663973723) (2.91,0.6248914148623391) (3.91,0.8502420862900666) (4.91,1.1138050693458)};\addlegendentry{Fixed}
+\draw[black] (axis cs:0.91,0.28043540003219924) -- (axis cs:0.91,0.28407994948463416);
+\draw[black] (axis cs:1.91,0.4368882675825554) -- (axis cs:1.91,0.4442662399049329);
+\draw[black] (axis cs:2.91,0.6213276254712479) -- (axis cs:2.91,0.6308005604712162);
+\draw[black] (axis cs:3.91,0.8293291586102614) -- (axis cs:3.91,0.8514718534589947);
+\draw[black] (axis cs:4.91,1.1016864966430364) -- (axis cs:4.91,1.1337509493484184);
+\addplot+[color=blue!75!black,mark=*,solid,thick] coordinates {(0.97,0.21060972398826466) (1.97,0.237196318709802) (2.97,0.26736997313645894) (3.97,0.30545846848903146) (4.97,0.3687135420032292)};\addlegendentry{DAD}
+\draw[blue!75!black] (axis cs:0.97,0.20910896907497187) -- (axis cs:0.97,0.21076482938125188);
+\draw[blue!75!black] (axis cs:1.97,0.23261459552264124) -- (axis cs:1.97,0.23937861952380685);
+\draw[blue!75!black] (axis cs:2.97,0.2590983730697771) -- (axis cs:2.97,0.2759990326784988);
+\draw[blue!75!black] (axis cs:3.97,0.2883274511510281) -- (axis cs:3.97,0.3248943519856942);
+\draw[blue!75!black] (axis cs:4.97,0.3345896845467188) -- (axis cs:4.97,0.41526081035118145);
+\addplot+[color=orange!85!black,mark=triangle*,dashed,thick] coordinates {(1.03,0.20279108954574707) (2.03,0.2213873047905987) (3.03,0.2516969953178171) (4.03,0.3114745911061245) (5.03,0.3809106818801803)};\addlegendentry{RL-sBOED}
+\draw[orange!85!black] (axis cs:1.03,0.20243450957839) -- (axis cs:1.03,0.2062270233060863);
+\draw[orange!85!black] (axis cs:2.03,0.21989159565774144) -- (axis cs:2.03,0.251871194290457);
+\draw[orange!85!black] (axis cs:3.03,0.2464984452883346) -- (axis cs:3.03,0.6102599670558644);
+\draw[orange!85!black] (axis cs:4.03,0.2863826457899334) -- (axis cs:4.03,1.7028184426236677);
+\draw[orange!85!black] (axis cs:5.03,0.3343104608320108) -- (axis cs:5.03,2.317078600796312);
+\addplot+[color=green!40!black,mark=diamond*,dotted,thick] coordinates {(1.09,0.21060972398826466) (2.09,0.23676399281661037) (3.09,0.26828737847458334) (4.09,0.3074697081686477) (5.09,0.376172019896189)};\addlegendentry{Step-DAD}
+\draw[green!40!black] (axis cs:1.09,0.20910896907497187) -- (axis cs:1.09,0.21076482938125188);
+\draw[green!40!black] (axis cs:2.09,0.23296759685299065) -- (axis cs:2.09,0.24076675795896954);
+\draw[green!40!black] (axis cs:3.09,0.26017541126668586) -- (axis cs:3.09,0.278777467662094);
+\draw[green!40!black] (axis cs:4.09,0.29090942336732073) -- (axis cs:4.09,0.3306335629732281);
+\draw[green!40!black] (axis cs:5.09,0.3391228648222772) -- (axis cs:5.09,0.43086174557199725);
+\end{semilogyaxis}
 \end{tikzpicture}
-\caption{Selected durations on IEEE 14-bus at $T=5$. Points show medians and vertical bars the interquartile range over 4608 histories per method, pooling three equally weighted training seeds. Variation includes training-seed differences and, for adaptive methods, observation histories. Increasing durations are imposed by the design constraint.}
+\caption{IEEE 14-bus pulse durations at $T=5$: medians and interquartile ranges over 4608 histories per method, pooling three training seeds equally. Small horizontal offsets separate overlapping methods. Variation includes seed differences and adaptive histories; ordering is imposed.}
 \label{fig:durations}
 \end{figure}
 At $T=5$, DAD and Step-DAD select median final durations of 0.369 and 0.376 s, versus 1.114 s for Fixed (Fig.~\ref{fig:durations}). RL-sBOED has a short median but a wider pooled range, including training-seed variation. The same probe count thus permits different energy allocations. Increasing trends follow the constraint; these summaries do not isolate feedback benefits from seed variation. Unrestricted and energy-matched comparisons remain open.
