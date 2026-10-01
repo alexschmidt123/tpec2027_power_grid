@@ -250,42 +250,54 @@ On IEEE 14-bus, learned-policy scores approach the 4.8598-nat ceiling, preventin
 \centering
 \begin{tikzpicture}
 \begin{semilogyaxis}[width=\columnwidth,height=4.8cm,
-xmin=0.7,xmax=5.3,ymin=0.18,ymax=3,xtick={1,2,3,4,5},
+xmin=0.7,xmax=5.3,ymin=0.18,ymax=3.15,xtick={1,2,3,4,5},
 ytick={0.2,0.3,0.5,1,2,3},yticklabels={0.2,0.3,0.5,1,2,3},
 xlabel={Probe stage},ylabel={Duration (s; log scale)},
 tick label style={font=\small},label style={font=\small},
 grid=major,grid style={gray!20},mark size=2pt,
-legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=2,draw=none}]
-\addplot+[color=black,mark=square*,solid,thick] coordinates {(0.91,0.2828679026357658) (1.91,0.44174800663973723) (2.91,0.6248914148623391) (3.91,0.8502420862900666) (4.91,1.1138050693458)};\addlegendentry{Fixed}
-\draw[black] (axis cs:0.91,0.28043540003219924) -- (axis cs:0.91,0.28407994948463416);
-\draw[black] (axis cs:1.91,0.4368882675825554) -- (axis cs:1.91,0.4442662399049329);
-\draw[black] (axis cs:2.91,0.6213276254712479) -- (axis cs:2.91,0.6308005604712162);
-\draw[black] (axis cs:3.91,0.8293291586102614) -- (axis cs:3.91,0.8514718534589947);
-\draw[black] (axis cs:4.91,1.1016864966430364) -- (axis cs:4.91,1.1337509493484184);
-\addplot+[color=blue!75!black,mark=*,solid,thick] coordinates {(0.97,0.21060972398826466) (1.97,0.237196318709802) (2.97,0.26736997313645894) (3.97,0.30545846848903146) (4.97,0.3687135420032292)};\addlegendentry{DAD}
-\draw[blue!75!black] (axis cs:0.97,0.20910896907497187) -- (axis cs:0.97,0.21076482938125188);
-\draw[blue!75!black] (axis cs:1.97,0.23261459552264124) -- (axis cs:1.97,0.23937861952380685);
-\draw[blue!75!black] (axis cs:2.97,0.2590983730697771) -- (axis cs:2.97,0.2759990326784988);
-\draw[blue!75!black] (axis cs:3.97,0.2883274511510281) -- (axis cs:3.97,0.3248943519856942);
-\draw[blue!75!black] (axis cs:4.97,0.3345896845467188) -- (axis cs:4.97,0.41526081035118145);
-\addplot+[color=orange!85!black,mark=triangle*,dashed,thick] coordinates {(1.03,0.20279108954574707) (2.03,0.2213873047905987) (3.03,0.2516969953178171) (4.03,0.3114745911061245) (5.03,0.3809106818801803)};\addlegendentry{RL-sBOED}
-\draw[orange!85!black] (axis cs:1.03,0.20243450957839) -- (axis cs:1.03,0.2062270233060863);
-\draw[orange!85!black] (axis cs:2.03,0.21989159565774144) -- (axis cs:2.03,0.251871194290457);
-\draw[orange!85!black] (axis cs:3.03,0.2464984452883346) -- (axis cs:3.03,0.6102599670558644);
-\draw[orange!85!black] (axis cs:4.03,0.2863826457899334) -- (axis cs:4.03,1.7028184426236677);
-\draw[orange!85!black] (axis cs:5.03,0.3343104608320108) -- (axis cs:5.03,2.317078600796312);
-\addplot+[color=green!40!black,mark=diamond*,dotted,thick] coordinates {(1.09,0.21060972398826466) (2.09,0.23676399281661037) (3.09,0.26828737847458334) (4.09,0.3074697081686477) (5.09,0.376172019896189)};\addlegendentry{Step-DAD}
-\draw[green!40!black] (axis cs:1.09,0.20910896907497187) -- (axis cs:1.09,0.21076482938125188);
-\draw[green!40!black] (axis cs:2.09,0.23296759685299065) -- (axis cs:2.09,0.24076675795896954);
-\draw[green!40!black] (axis cs:3.09,0.26017541126668586) -- (axis cs:3.09,0.278777467662094);
-\draw[green!40!black] (axis cs:4.09,0.29090942336732073) -- (axis cs:4.09,0.3306335629732281);
-\draw[green!40!black] (axis cs:5.09,0.3391228648222772) -- (axis cs:5.09,0.43086174557199725);
+legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=3,draw=none}]
+\addplot+[color=black,mark=square*,solid,thick] coordinates {(0.85,0.2828679026357658) (1.85,0.44174800663973723) (2.85,0.6248914148623391) (3.85,0.8502420862900666) (4.85,1.1138050693458)};\addlegendentry{Fixed}
+\draw[black] (axis cs:0.85,0.28043540003219924) -- (axis cs:0.85,0.28407994948463416);
+\draw[black] (axis cs:1.85,0.4368882675825554) -- (axis cs:1.85,0.4442662399049329);
+\draw[black] (axis cs:2.85,0.6213276254712479) -- (axis cs:2.85,0.6308005604712162);
+\draw[black] (axis cs:3.85,0.8293291586102614) -- (axis cs:3.85,0.8514718534589947);
+\draw[black] (axis cs:4.85,1.1016864966430364) -- (axis cs:4.85,1.1337509493484184);
+\addplot+[color=blue!75!black,mark=*,solid,thick] coordinates {(0.91,0.21060972398826466) (1.91,0.237196318709802) (2.91,0.26736997313645894) (3.91,0.30545846848903146) (4.91,0.3687135420032292)};\addlegendentry{DAD}
+\draw[blue!75!black] (axis cs:0.91,0.20910896907497187) -- (axis cs:0.91,0.21076482938125188);
+\draw[blue!75!black] (axis cs:1.91,0.23261459552264124) -- (axis cs:1.91,0.23937861952380685);
+\draw[blue!75!black] (axis cs:2.91,0.2590983730697771) -- (axis cs:2.91,0.2759990326784988);
+\draw[blue!75!black] (axis cs:3.91,0.2883274511510281) -- (axis cs:3.91,0.3248943519856942);
+\draw[blue!75!black] (axis cs:4.91,0.3345896845467188) -- (axis cs:4.91,0.41526081035118145);
+\addplot+[color=orange!85!black,mark=triangle*,dashed,thick] coordinates {(0.97,0.20279108954574707) (1.97,0.2213873047905987) (2.97,0.2516969953178171) (3.97,0.3114745911061245) (4.97,0.3809106818801803)};\addlegendentry{RL-sBOED}
+\draw[orange!85!black] (axis cs:0.97,0.20243450957839) -- (axis cs:0.97,0.2062270233060863);
+\draw[orange!85!black] (axis cs:1.97,0.21989159565774144) -- (axis cs:1.97,0.251871194290457);
+\draw[orange!85!black] (axis cs:2.97,0.2464984452883346) -- (axis cs:2.97,0.6102599670558644);
+\draw[orange!85!black] (axis cs:3.97,0.2863826457899334) -- (axis cs:3.97,1.7028184426236677);
+\draw[orange!85!black] (axis cs:4.97,0.3343104608320108) -- (axis cs:4.97,2.317078600796312);
+\addplot+[color=green!40!black,mark=diamond*,dotted,thick] coordinates {(1.03,0.21060972398826466) (2.03,0.23676399281661037) (3.03,0.26828737847458334) (4.03,0.3074697081686477) (5.03,0.376172019896189)};\addlegendentry{Step-DAD}
+\draw[green!40!black] (axis cs:1.03,0.20910896907497187) -- (axis cs:1.03,0.21076482938125188);
+\draw[green!40!black] (axis cs:2.03,0.23296759685299065) -- (axis cs:2.03,0.24076675795896954);
+\draw[green!40!black] (axis cs:3.03,0.26017541126668586) -- (axis cs:3.03,0.278777467662094);
+\draw[green!40!black] (axis cs:4.03,0.29090942336732073) -- (axis cs:4.03,0.3306335629732281);
+\draw[green!40!black] (axis cs:5.03,0.3391228648222772) -- (axis cs:5.03,0.43086174557199725);
+\addplot+[color=violet,mark=pentagon*,dashdotted,thick] coordinates {(1.09,0.21876707604641582) (2.09,0.5336385898566286) (3.09,0.9429868260033785) (4.09,1.5331955876201433) (5.09,2.2829829078381705)};\addlegendentry{Myopic}
+\draw[violet] (axis cs:1.09,0.2) -- (axis cs:1.09,0.33446707021961586);
+\draw[violet] (axis cs:2.09,0.3746601435709681) -- (axis cs:2.09,0.7955902435437878);
+\draw[violet] (axis cs:3.09,0.6539449392075672) -- (axis cs:3.09,1.6296861563037368);
+\draw[violet] (axis cs:4.09,0.9605423834948006) -- (axis cs:4.09,2.714638083320892);
+\draw[violet] (axis cs:5.09,1.3774404844316497) -- (axis cs:5.09,2.9090273984129436);
+\addplot+[color=gray,mark=x,dashed,thick] coordinates {(1.15,1.5535451738318748) (2.15,2.4404267491860714) (3.15,2.793833561506081) (4.15,2.9317136051439237) (5.15,2.9787286610378403)};\addlegendentry{Random}
+\draw[gray] (axis cs:1.15,0.9303239868396407) -- (axis cs:1.15,2.2557478022292115);
+\draw[gray] (axis cs:2.15,1.9232738086447416) -- (axis cs:2.15,2.8047310817594426);
+\draw[gray] (axis cs:3.15,2.4983195368171667) -- (axis cs:3.15,2.930488226558058);
+\draw[gray] (axis cs:4.15,2.7687829046044348) -- (axis cs:4.15,2.9755621728040733);
+\draw[gray] (axis cs:5.15,2.9120330271971855) -- (axis cs:5.15,2.9957194607930453);
 \end{semilogyaxis}
 \end{tikzpicture}
-\caption{IEEE 14-bus pulse durations at $T=5$: medians and interquartile ranges over 4608 histories per method, pooling three training seeds equally. Small horizontal offsets separate overlapping methods. Variation includes seed differences and adaptive histories; ordering is imposed.}
+\caption{IEEE 14-bus pulse durations at $T=5$: medians and interquartile ranges for all six methods. Fixed and learned policies pool 4608 histories across three equally weighted training seeds; Myopic and Random use 1536 distinct histories each. Small horizontal offsets separate overlapping methods. Variation includes seed differences and adaptive histories; ordering is imposed.}
 \label{fig:durations}
 \end{figure}
-At $T=5$, DAD and Step-DAD select median final durations of 0.369 and 0.376 s, versus 1.114 s for Fixed (Fig.~\ref{fig:durations}). RL-sBOED has a short median but a wider pooled range, including training-seed variation. The same probe count thus permits different energy allocations. Increasing trends follow the constraint; these summaries do not isolate feedback benefits from seed variation. Unrestricted and energy-matched comparisons remain open.
+At $T=5$, median final durations are 0.369 s for DAD, 0.376 s for Step-DAD, 1.114 s for Fixed, 2.283 s for Myopic, and 2.979 s for Random (Fig.~\ref{fig:durations}). Random's sequential interval sampling concentrates later pulses near the upper bound. These patterns reflect different energy allocations, but do not isolate feedback effects from seed variation. Ordering is imposed; unrestricted and energy-matched comparisons remain open.
 
 \subsection{Algorithmic Computational Requirements}\label{sec:cost}
 We distinguish physical observation acquisition, policy decisions, and information scoring. Let $C_s$ denote the work to propagate one candidate parameter state through one observation window, and $C_\pi$ one policy forward pass. For a dense $m$-machine swing model integrated over $N$ RK4 steps, $C_s=O(Nm^2)$. A dense network forward pass is proportional to its layer connection count; $C_\pi$ includes the fixed-horizon history input. These operation counts do not determine elapsed time, which also depends on batching, hardware, and implementation.
@@ -319,12 +331,12 @@ Let $S$ be the number of scalar storage entries per simulated candidate-window, 
 Random & $O(1)$ & $O(T)$\\
 Fixed & $H(B,c,T)+O(T)$ & $O(T)$\\
 DAD & $H(B,c,T)+O(W)$ & $O(W+d_h)$\\
-RL-sBOED & See text & $O(W+d_h)$\\
+RL-sBOED & \shortstack[l]{$H(B,c,T)$\\$+O(N_Rd_R+EW)$} & $O(W+d_h)$\\
 Myopic & $O(1)$ & $H(b_e,c_e,1)+M_P$\\
-Step-DAD & Same as DAD & $H(B,c,T)+O(W)+M_P$\\
+Step-DAD & $H(B,c,T)+O(W)$ & $H(B,c,T)+O(W)+M_P$\\
 \bottomrule\end{tabular*}
 \end{table}
-Here $M_P=O(Pm+d_h)$ denotes posterior and history storage. For Myopic, $b_e$ and $c_e$ denote the simultaneously batched simulated observations and likelihood candidates; sequential proposal processing does not require storing all $Q$ proposals. RL-sBOED offline storage includes the simulation batch, replay buffer, critic ensemble, and training activations: $H(B,c,T)+O(N_Rd_R+EW)$, using replay capacity $N_R$, transition size $d_R$, and representative network size $W$. Fixed/DAD activations and conditional validation may add batch-dependent storage; the table emphasizes simulator and persistent state. Step-DAD uses a conservative full-remaining-horizon bound, including the policy gradients and optimizer. Multiplication by bytes per scalar converts these counts to storage units, but measured GPU occupancy also includes allocator and framework overhead.
+Here $M_P=O(Pm+d_h)$ denotes posterior and history storage. For Myopic, $b_e$ and $c_e$ denote the simultaneously batched simulated observations and likelihood candidates; sequential proposal processing does not require storing all $Q$ proposals. RL-sBOED offline storage includes the simulation batch, replay buffer, critic ensemble, and training activations: $H(B,c,T)+O(N_Rd_R+EW)$, using replay capacity $N_R$, transition size $d_R$, and representative network size $W$. Training activations and validation add batch-dependent storage. Step-DAD's bound includes gradients and optimizer state. Storage bytes depend on precision; measured GPU occupancy additionally includes framework and allocator overhead.
 
 Re-evaluating $n$ saved histories with sPCE requires $O(n(L+1)TC_s)$ simulation work and $O(nLT)$ likelihood arithmetic. Contrastive states can be processed in chunks, so increasing $L$ need not require storing every state simultaneously. This changes scoring cost without changing the trained policies. The analysis explains the source of online work but establishes neither measured speedups nor real-time feasibility.
 
