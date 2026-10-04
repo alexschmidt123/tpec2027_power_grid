@@ -422,8 +422,18 @@ Let $C_g$ include per-window simulation and gradient work. Offline training with
 
 Rescoring $n$ histories costs $O(n(L+1)TC_s)$ simulation work plus $O(nLT)$ likelihood arithmetic, without retraining. These timings describe the recorded implementation and hardware; they do not establish real-time feasibility.
 
-% Larger-L IEEE14 archived-history results will be inserted here after completion
-% and validation. Do not infer convergence or rankings from partial results.
+\balance
+\subsection{Estimator Sensitivity}
+The ceiling $\log(L+1)$ limits sPCE, not EIG. A mean below it can conceal saturated histories. Larger-$L$ evaluation of the same saved histories is needed to assess this bias without retraining.
+\begin{table}[t]
+\centering
+% Reserved for a compact 6-method table: T=3,4,5, each at L=10^4 and 10^5.
+% Expected header: Method | T=3 (10k,100k) | T=4 (10k,100k) | T=5 (10k,100k).
+% Include log(L+1) ceilings in the header/caption. Do not insert incomplete results.
+\fbox{\parbox[c][2.8cm][c]{0.94\columnwidth}{\centering\small
+Reserved for IEEE 14-bus\\larger-$L$ evaluation results\\[3pt]
+$T=3,4,5$; $L=10^4,10^5$}}
+\end{table}
 
 \subsection{Scope and Limitations}
 The findings concern reduced lossless dynamics, the specified priors, monotonic durations, and a fixed actuator and scalar endpoint sensor. IEEE 14-bus has ten unknown parameters but only three to five observations. Information gain measures joint uncertainty reduction; it does not establish accurate identification of each inertia or response coefficient. Training and testing draw from the same prior, so robustness to prior shift, sensor bias, and unmodelled dynamics remains untested. Finite-contrast scoring, particle inference, and ODE integration introduce distinct approximations. In particular, scores below the sPCE ceiling can still include saturated histories. Finally, the simulator carries physical states between probes but idealizes decision latency as zero. Recorded computational costs therefore do not demonstrate real-time deployment or improved control safety.
@@ -431,7 +441,6 @@ The findings concern reduced lossless dynamics, the specified priors, monotonic 
 \section{Conclusion}
 Learned adaptive policies use observation history to select probes over the experimental sequence. When three to five probes are used on the reduced IEEE 9-bus and IEEE 14-bus models, DAD, RL-sBOED, and Step-DAD obtain higher mean sPCE information scores than Random, Fixed, and Myopic. Estimator saturation limits comparisons among learned policies on the IEEE 14-bus model. DAD and RL-sBOED replace online planning with policy forward passes. Step-DAD adds simulation and gradient refinement, with modest mean score gains on IEEE 9-bus and no consistent improvement on IEEE 14-bus under the original estimator. Further work should examine model mismatch, alternative sensing and design constraints, and decision latency.
 
-\balance
 \bibliographystyle{IEEEtran}
 \bibliography{conference_refs}
 \end{document}
