@@ -1,20 +1,24 @@
 {
-  "updated_date": "2026-10-03",
+  "updated_date": "2026-10-04",
   "completed_conference_evaluations": "Available for both grids, T=3,4,5, training seeds 101/202/303 and test seeds 1001/1002/1003",
   "verified_archived_numerical_model_config_files": 423,
   "additional_hprc_provenance_files_verified": 31,
   "saved_model_files": 54,
   "pending": [
     {
-      "result": "IEEE9 A100 online timing, trained seed 101, test seed 1001, 512 episodes per method",
-      "job_id": 19952383,
-      "status": "running; final values not yet available"
-    },
-    {
       "result": "IEEE14 saved-history rescoring at L=10000 and 100000",
       "pid": 484429,
       "status": "running; final tables not yet available"
     }
   ],
-  "verification_note": "Original numerical/model/config bytes checked against migration manifest; added provenance checked against HPRC transfer manifest. The legacy full release checker encounters an outdated README checksum."
+  "verification_note": "Original numerical/model/config bytes checked against migration manifest; added provenance checked against HPRC transfer manifest. The legacy full release checker encounters an outdated README checksum.",
+  "ieee9_a100_timing": {
+    "job_id": 19952383,
+    "status": "completed and copied",
+    "elapsed": "06:35:54",
+    "used_su": 508.07,
+    "account_balance_su": 6278.19,
+    "verified_rollouts": 9216,
+    "path": "TPEC_conference/results/diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4"
+  }
 }
