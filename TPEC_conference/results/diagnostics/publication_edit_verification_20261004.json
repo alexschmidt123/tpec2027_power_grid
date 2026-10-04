@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-04",
+  "scope": "Conference manuscript publication edit",
+  "comparison_table_numeric_cells_preserved": 108,
+  "figure_medians_and_quartile_coordinates": "unchanged",
+  "reserved_ieee14_larger_L_space_cm": 2.8,
+  "timing_scope": "NVIDIA A100 PCIe 40 GB; training seed101; test seed1001; 512 episodes per method",
+  "changes": [
+    "Revised abstract, introduction, formulation, methods, experimental protocol, results discussion and conclusion",
+    "Shortened captions and defined statistical aggregation in text",
+    "Standardized comparison-table method order and grouped large timing values",
+    "Adjusted plot typography without changing data",
+    "Kept reserved larger-L block adjacent to estimator-sensitivity discussion"
+  ],
+  "pending": "Final larger-L IEEE14 results remain running and are not inserted"
+}
