@@ -366,10 +366,10 @@ legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=3,draw=non
 \draw[black!65,line width=0.65pt] (axis cs:5.115,2.9957194607930453) -- (axis cs:5.1850000000000005,2.9957194607930453);
 \end{semilogyaxis}
 \end{tikzpicture}
-\caption{IEEE 14-bus pulse durations at $T=5$: medians and interquartile ranges for all six methods. Fixed and learned methods: 4608 histories over three seeds; Myopic and Random: 1536 each. Horizontal offsets separate methods. Bars show pooled variation, not confidence intervals; ordering is imposed.}
+\caption{IEEE 14-bus pulse durations at $T=5$: medians and interquartile ranges for all six methods. Fixed and learned methods: 4608 histories over three seeds; Myopic and Random: 1536 each. Horizontal offsets separate methods. Bars span the pooled 25th--75th percentiles across episodes and training seeds; they are not confidence intervals. Ordering is imposed.}
 \label{fig:durations}
 \end{figure}
-At $T=5$, median final durations are 0.369 s for DAD, 0.376 s for Step-DAD, 1.114 s for Fixed, 2.283 s for Myopic, and 2.979 s for Random (Fig.~\ref{fig:durations}). Random's sequential interval sampling concentrates later pulses near the upper bound. The methods therefore select different duration and energy allocations. The pooled quantiles do not isolate observation feedback from training-seed variation. Ordering is imposed; unrestricted and energy-matched comparisons remain open.
+At $T=5$, median final durations are 0.369 s for DAD, 0.376 s for Step-DAD, 1.114 s for Fixed, 2.283 s for Myopic, and 2.979 s for Random (Fig.~\ref{fig:durations}). Random's sequential interval sampling concentrates later pulses near the upper bound. The methods therefore select different duration and energy allocations. RL-sBOED varies substantially across fitted policies: final-duration medians are 2.585, 0.381, and 0.324 s for training seeds 101, 202, and 303, respectively. This between-seed variation contributes to its wide pooled interquartile ranges. Ordering is imposed; unrestricted and energy-matched comparisons remain open.
 
 \subsection{Computational Cost}\label{sec:cost}
 Tables~\ref{tab:ieee9_a100} and~\ref{tab:ieee14_a100} report costs for training seed 101 and test seed 1001. Offline preparation includes initialization, optimization, and checkpoint validation. DAD's entry sums the matched Fixed and DAD training stages; Step-DAD inherits this preparation. Online cost is the mean sum of per-stage decision timers over 512 episodes per method, including posterior assimilation and refinement but excluding true-system simulation and information scoring. IEEE 9-bus offline runs used an A100 with a Xeon Platinum 8352Y CPU; online runs used an RTX 5080 with a Core Ultra 7 265K CPU. IEEE 14-bus used an A100 with a Xeon Gold 6248R CPU. These are descriptive measurements, not a controlled cross-network hardware comparison.
@@ -396,7 +396,7 @@ RL-sBOED & 0.483 & 0.618 & 0.766\\
 Myopic & 9309 & 12577 & 15890\\
 Step-DAD & 6342 & 15912 & 29545\\
 \bottomrule\end{tabular*}
-\par\smallskip\footnotesize Train 101, test 1001; DAD/Step-DAD include Fixed training.
+\par\smallskip\footnotesize Training seed 101; evaluation seed 1001.\par\footnotesize DAD/Step-DAD include Fixed training.
 \par\footnotesize Offline: A100; online: RTX 5080, 512 episodes per method.
 \end{table}
 \begin{table}[!ht]\caption{IEEE 14-bus recorded computational costs}\label{tab:ieee14_a100}\papertablestyle
@@ -417,7 +417,7 @@ RL-sBOED & 1.413 & 1.550 & 1.905\\
 Myopic & 9998 & 13433 & 16918\\
 Step-DAD & 9245 & 23320 & 45089\\
 \bottomrule\end{tabular*}
-\par\smallskip\footnotesize Train 101, test 1001; DAD/Step-DAD include Fixed training.
+\par\smallskip\footnotesize Training seed 101; evaluation seed 1001.\par\footnotesize DAD/Step-DAD include Fixed training.
 \par\footnotesize Offline and online: A100; online: 512 episodes per method.
 \end{table}
 
