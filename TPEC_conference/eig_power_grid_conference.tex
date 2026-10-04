@@ -396,8 +396,11 @@ RL-sBOED & 0.483 & 0.618 & 0.766\\
 Myopic & 9309 & 12577 & 15890\\
 Step-DAD & 6342 & 15912 & 29545\\
 \bottomrule\end{tabular*}
-\par\smallskip\footnotesize Training seed 101; evaluation seed 1001.\par\footnotesize DAD/Step-DAD include Fixed training.
-\par\footnotesize Offline: A100; online: RTX 5080, 512 episodes per method.
+\par\smallskip{\footnotesize\raggedright
+Offline training: seed 101, NVIDIA A100 PCIe 40 GB.\par
+Online testing: seed 1001, NVIDIA RTX 5080.\par
+Online values average 512 test episodes per method.\par
+DAD and Step-DAD offline costs include both Fixed and DAD training.\par}
 \end{table}
 \begin{table}[!ht]\caption{IEEE 14-bus recorded computational costs}\label{tab:ieee14_a100}\papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
@@ -417,8 +420,11 @@ RL-sBOED & 1.413 & 1.550 & 1.905\\
 Myopic & 9998 & 13433 & 16918\\
 Step-DAD & 9245 & 23320 & 45089\\
 \bottomrule\end{tabular*}
-\par\smallskip\footnotesize Training seed 101; evaluation seed 1001.\par\footnotesize DAD/Step-DAD include Fixed training.
-\par\footnotesize Offline and online: A100; online: 512 episodes per method.
+\par\smallskip{\footnotesize\raggedright
+Offline training: seed 101, NVIDIA A100 PCIe 40 GB.\par
+Online testing: seed 1001, NVIDIA A100 PCIe 40 GB.\par
+Online values average 512 test episodes per method.\par
+DAD and Step-DAD offline costs include both Fixed and DAD training.\par}
 \end{table}
 
 
