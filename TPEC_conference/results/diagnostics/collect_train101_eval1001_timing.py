@@ -5,7 +5,7 @@ parser.add_argument('--results-root', type=pathlib.Path, required=True)
 parser.add_argument('--output', type=pathlib.Path, required=True)
 args=parser.parse_args()
 root=args.results_root
-off=json.loads((root/'diagnostics/offline_timing_sources.json').read_text()); output={'training_seed':101,'evaluation_seed':1001,'online_definition':'mean over 512 episodes of sum(decision_seconds_per_stage); no warm-up exclusion added retrospectively','rows':[]}
+off=json.loads((root/'diagnostics/offline_timing_sources.json').read_text()); output={'training_seed':101,'evaluation_seed':1001,'online_definition':'mean over 512 episodes of sum(decision_seconds_per_stage); IEEE9: one separate seed91001 warm-up discarded per method; IEEE14: archived test episodes','rows':[]}
 for network in ['ieee9','ieee14']:
  source_rows=json.loads((root/network/'01_results/online_times_by_run.json').read_text())
  for T in [3,4,5]:
@@ -16,10 +16,20 @@ for network in ['ieee9','ieee14']:
    summary=json.loads((f/'summary.json').read_text()); r=next(x for x in summary if x['method']==method)
    stages[method]={'seconds':r['training_seconds'],'source':str(f.relative_to(root)), 'hardware':conf['hardware']}
   for method in ['random','fixed','dad','rl_sboed','myopic','step_dad']:
-   src=next(x for x in source_rows if x['T']==T and x['method']==method and x['training_seed']==101)
-   f=root/src['source_run']; conf=json.loads((f/'run_config.json').read_text()); assert conf['settings']['seed']==101
-   if method=='step_dad': assert conf['settings']['refinement_updates']==4
-   raw=f/'rollouts.json'; rows=json.loads(raw.read_text()); selected=[r for r in rows if r['method']==method and r['evaluation_seed']==1001]; assert len(selected)==512,(network,T,method,len(selected))
+   if network=='ieee9':
+    f=root/'diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4'/f'T{T}'
+    manifest=json.loads((f/'manifest.json').read_text())
+    assert (manifest['training_seed'],manifest['evaluation_seed'],manifest['systems_per_method'])==(101,1001,512)
+    assert manifest['hardware']['gpu_model']=='NVIDIA A100-PCIE-40GB'
+    assert manifest['settings']['refinement_updates']==4
+    conf={'hardware':manifest['hardware']}
+    raw=f/'rollouts.jsonl'; rows=[json.loads(line) for line in raw.read_text().splitlines()]
+   else:
+    src=next(x for x in source_rows if x['T']==T and x['method']==method and x['training_seed']==101)
+    f=root/src['source_run']; conf=json.loads((f/'run_config.json').read_text()); assert conf['settings']['seed']==101
+    if method=='step_dad': assert conf['settings']['refinement_updates']==4
+    raw=f/'rollouts.json'; rows=json.loads(raw.read_text())
+   selected=[r for r in rows if r['method']==method and r['evaluation_seed']==1001]; assert len(selected)==512,(network,T,method,len(selected))
    times=[sum(r['decision_seconds_per_stage']) for r in selected]; assert all(len(r['decision_seconds_per_stage'])==T for r in selected)
    offline_seconds=0
    if method=='fixed': offline_seconds=stages['fixed']['seconds']

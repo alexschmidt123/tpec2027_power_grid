@@ -27,6 +27,6 @@ See `STATUS.json`, `FINAL_VERIFICATION.json`, and `collector_status.json` for co
 
 The completed conference evaluations, saved models, training histories, configurations, and numerical summaries are available in this repository. Additional HPRC submission records, source manifests, and logs are preserved under `experiments/`; the transfer receipt is in `diagnostics/hprc_transfer_20261003/`.
 
-Two follow-up computations remain running: IEEE9 A100 decision timing for training seed 101/test seed 1001 (512 episodes per method, Grace job 19952383), and IEEE14 saved-history rescoring at L=10000 and 100000 (labpc PID 484429). Their final results are not yet available. The current manuscript still uses the recorded RTX 5080 IEEE9 online timings until the matching A100 measurements are complete. The older completion records above describe the original conference evaluation campaign, not these follow-up computations.
+IEEE9 A100 timing for training seed 101/test seed 1001 is complete (512 test episodes per method; Grace job 19952383). Raw results are in `diagnostics/a100_online_profile_test1001_20261004/`. Both manuscript cost tables now use A100 measurements from `diagnostics/train101_eval1001_timing.json`; the adjacent collector reproduces these values. DAD and Step-DAD preparation includes Fixed and DAD training. IEEE14 larger-L rescoring remains running; its final results are pending.
 
 See `diagnostics/publication_audit_20261003.json` for the current publication audit and pending results.

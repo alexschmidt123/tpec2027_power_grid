@@ -19,6 +19,7 @@
     "used_su": 508.07,
     "account_balance_su": 6278.19,
     "verified_rollouts": 9216,
-    "path": "TPEC_conference/results/diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4"
+    "path": "TPEC_conference/results/diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4",
+    "manuscript_status": "Both cost tables use A100 train101/test1001 measurements"
   }
 }

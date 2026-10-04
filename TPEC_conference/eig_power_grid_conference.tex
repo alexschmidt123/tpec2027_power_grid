@@ -224,7 +224,7 @@ Offline training uses 2000 updates, a batch size of 32, and three independent tr
 \subsection{Evaluation Protocol}
 For trained methods, we average the evaluation-seed means within each training seed and report the mean $\pm$ sample standard deviation across the three training seeds. For Random and Myopic, we report the mean $\pm$ sample standard deviation across evaluation-seed means rather than episode-level dispersion. Training, checkpoint validation, and testing use separate random seeds.
 
-Offline timing measurements use NVIDIA A100 PCIe 40-GB GPUs. Online measurements use an RTX 5080 for IEEE 9-bus and an A100 for IEEE 14-bus; their scope is specified in Section~\ref{sec:cost}.
+All offline and online timing measurements use NVIDIA A100 PCIe 40-GB GPUs; their scope is specified in Section~\ref{sec:cost}.
 
 % Complete results under the accepted three-evaluation-seed grid protocol.
 \section{Results and Discussion}
@@ -374,7 +374,7 @@ legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=3,draw=non
 At $T=5$, median final durations are 0.369 s for DAD, 0.376 s for Step-DAD, 1.114 s for Fixed, 2.283 s for Myopic, and 2.979 s for Random (Fig.~\ref{fig:durations}). Random's sequential interval sampling concentrates later pulses near the upper bound. The methods therefore select different duration and energy allocations. RL-sBOED varies substantially across fitted policies: final-duration medians are 2.585, 0.381, and 0.324 s for training seeds 101, 202, and 303, respectively. This between-seed variation contributes to its wide pooled interquartile ranges. Ordering is imposed; unrestricted and energy-matched comparisons remain open.
 
 \subsection{Computational Cost}\label{sec:cost}
-Tables~\ref{tab:ieee9_a100} and~\ref{tab:ieee14_a100} report costs for training seed 101 and test seed 1001. Offline training uses NVIDIA A100 PCIe 40-GB GPUs and includes initialization, optimization, and checkpoint validation. DAD's entry sums the matched Fixed and DAD training stages; Step-DAD inherits this preparation. Online cost is the mean sum of per-stage decision timers over 512 episodes per method, including posterior assimilation and refinement but excluding true-system simulation and information scoring. IEEE 9-bus offline runs used an A100 with a Xeon Platinum 8352Y CPU; online runs used an RTX 5080 with a Core Ultra 7 265K CPU. IEEE 14-bus offline training and online testing used an NVIDIA A100 PCIe 40-GB GPU with a Xeon Gold 6248R CPU. These are descriptive measurements, not a controlled cross-network hardware comparison.
+Tables~\ref{tab:ieee9_a100} and~\ref{tab:ieee14_a100} report costs for training seed 101 and test seed 1001. Offline training uses NVIDIA A100 PCIe 40-GB GPUs and includes initialization, optimization, and checkpoint validation. DAD's entry sums the matched Fixed and DAD training stages; Step-DAD inherits this preparation. Online cost is the mean sum of per-stage decision timers over 512 episodes per method, including posterior assimilation and refinement but excluding true-system simulation and information scoring. All timings use NVIDIA A100 PCIe 40-GB GPUs. IEEE 9-bus offline runs used a Xeon Platinum 8352Y CPU; IEEE 9-bus online runs and IEEE 14-bus runs used a Xeon Gold 6248R CPU. A separate warm-up episode per method is discarded before the IEEE 9-bus timing evaluation. These are descriptive measurements, not a controlled cross-network hardware comparison.
 
 Let $C_s$ denote one candidate-window simulation cost and $C_\pi$ a policy forward pass. Dense $m$-machine RK4 integration over $N$ time steps gives $C_s=O(Nm^2)$.
 
@@ -391,12 +391,12 @@ RL-sBOED & 0.100 & 0.117 & 0.129\\
 Myopic & 0 & 0 & 0\\
 Step-DAD & 1.116 & 1.608 & 2.139\\
 \midrule\multicolumn{4}{c}{Online decisions (ms per sequence)}\\\midrule
-Random & 0.071 & 0.094 & 0.121\\
-Fixed & 0.551 & 0.611 & 0.767\\
-DAD & 0.531 & 0.694 & 0.833\\
-RL-sBOED & 0.483 & 0.618 & 0.766\\
-Myopic & 9309 & 12577 & 15890\\
-Step-DAD & 6342 & 15912 & 29545\\
+Random & 0.167 & 0.229 & 0.303\\
+Fixed & 0.849 & 1.135 & 1.472\\
+DAD & 1.012 & 1.345 & 1.745\\
+RL-sBOED & 1.147 & 1.781 & 7.692\\
+Myopic & 4418 & 5952 & 7514\\
+Step-DAD & 3083 & 7689 & 14346\\
 \bottomrule\end{tabular*}
 \end{table}
 \begin{table}[!ht]\caption{IEEE 14-bus recorded computational costs}\label{tab:ieee14_a100}\papertablestyle
@@ -420,7 +420,7 @@ Step-DAD & 9245 & 23320 & 45089\\
 \end{table}
 
 
-Let $C_g$ include per-window simulation and gradient work. Offline training with $J$ updates, batch size $B$, and $L$ contrasts requires $O(JB(L+1)TC_g)$ simulation/gradient work for Fixed and DAD. DAD's complete preparation includes the Fixed stage: $W_F+W_D$; Step-DAD inherits both. Random and Myopic need no offline training. RL-sBOED uses $O(JB(L+1)TC_s)$ simulated trajectory work plus actor--critic replay updates and validation. Offline training times are single-run observations, not seed-averaged estimates. At IEEE 9-bus $T=5$, Step-DAD adds 0.0269 nats to the DAD mean, while recorded online decision time increases from 0.833 ms to 29.545 s per sequence.
+Let $C_g$ include per-window simulation and gradient work. Offline training with $J$ updates, batch size $B$, and $L$ contrasts requires $O(JB(L+1)TC_g)$ simulation/gradient work for Fixed and DAD. DAD's complete preparation includes the Fixed stage: $W_F+W_D$; Step-DAD inherits both. Random and Myopic need no offline training. RL-sBOED uses $O(JB(L+1)TC_s)$ simulated trajectory work plus actor--critic replay updates and validation. Offline training times are single-run observations, not seed-averaged estimates. At IEEE 9-bus $T=5$, Step-DAD adds 0.0269 nats to the DAD mean, while recorded online decision time increases from 1.745 ms to 14.346 s per sequence.
 
 Rescoring $n$ histories costs $O(n(L+1)TC_s)$ simulation work plus $O(nLT)$ likelihood arithmetic, without retraining. These timings describe the recorded implementation and hardware; they do not establish real-time feasibility.
 

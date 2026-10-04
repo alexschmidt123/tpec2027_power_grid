@@ -1,7 +1,7 @@
 {
   "training_seed": 101,
   "evaluation_seed": 1001,
-  "online_definition": "mean over 512 episodes of sum(decision_seconds_per_stage); no warm-up exclusion added retrospectively",
+  "online_definition": "mean over 512 episodes of sum(decision_seconds_per_stage); IEEE9: one separate seed91001 warm-up discarded per method; IEEE14: archived test episodes",
   "rows": [
     {
       "network": "ieee9",
@@ -10,18 +10,18 @@
       "offline_seconds": 0,
       "offline_hours": 0.0,
       "offline_stages": {},
-      "online_mean_ms": 0.07139366789488122,
-      "online_sd_ms": 0.0035171553097006975,
+      "online_mean_ms": 0.16663117276038975,
+      "online_sd_ms": 0.029874391310424103,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T3",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "d3844db73add066b4652c447dfc9b5233d199f933a7de78b5e1370fca473ec3b"
+      "rollouts_sha256": "a994657d6b3225062c6d393088471c1354f7a9dda2458226546b66b9e2495ebc"
     },
     {
       "network": "ieee9",
@@ -42,18 +42,18 @@
           }
         }
       },
-      "online_mean_ms": 0.5511938197741983,
-      "online_sd_ms": 1.400763336427303,
+      "online_mean_ms": 0.8487232189509086,
+      "online_sd_ms": 0.11765109386224046,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T3",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "d3844db73add066b4652c447dfc9b5233d199f933a7de78b5e1370fca473ec3b"
+      "rollouts_sha256": "a994657d6b3225062c6d393088471c1354f7a9dda2458226546b66b9e2495ebc"
     },
     {
       "network": "ieee9",
@@ -96,18 +96,18 @@
           }
         }
       },
-      "online_mean_ms": 0.5305348022375256,
-      "online_sd_ms": 0.04288297777751263,
+      "online_mean_ms": 1.0118629570570192,
+      "online_sd_ms": 0.1155327077277638,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T3",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "d3844db73add066b4652c447dfc9b5233d199f933a7de78b5e1370fca473ec3b"
+      "rollouts_sha256": "a994657d6b3225062c6d393088471c1354f7a9dda2458226546b66b9e2495ebc"
     },
     {
       "network": "ieee9",
@@ -128,18 +128,18 @@
           }
         }
       },
-      "online_mean_ms": 0.48257186790579,
-      "online_sd_ms": 0.03226300348485395,
+      "online_mean_ms": 1.147310814303637,
+      "online_sd_ms": 0.4423348046287547,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T3",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "d3844db73add066b4652c447dfc9b5233d199f933a7de78b5e1370fca473ec3b"
+      "rollouts_sha256": "a994657d6b3225062c6d393088471c1354f7a9dda2458226546b66b9e2495ebc"
     },
     {
       "network": "ieee9",
@@ -148,18 +148,18 @@
       "offline_seconds": 0,
       "offline_hours": 0.0,
       "offline_stages": {},
-      "online_mean_ms": 9309.436434827148,
-      "online_sd_ms": 177.47359276857534,
+      "online_mean_ms": 4418.417847934506,
+      "online_sd_ms": 119.24152911606492,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T3",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "d3844db73add066b4652c447dfc9b5233d199f933a7de78b5e1370fca473ec3b"
+      "rollouts_sha256": "a994657d6b3225062c6d393088471c1354f7a9dda2458226546b66b9e2495ebc"
     },
     {
       "network": "ieee9",
@@ -202,18 +202,18 @@
           }
         }
       },
-      "online_mean_ms": 6341.996221863155,
-      "online_sd_ms": 54.17891563018627,
+      "online_mean_ms": 3083.422417195834,
+      "online_sd_ms": 952.2202379119664,
       "online_episodes": 512,
-      "online_source": "experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train101",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T3",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "8f7ffce2f0b8a6c3c7ec996ea64676c33708640191f9dc12ef36056d288c3137"
+      "rollouts_sha256": "a994657d6b3225062c6d393088471c1354f7a9dda2458226546b66b9e2495ebc"
     },
     {
       "network": "ieee9",
@@ -222,18 +222,18 @@
       "offline_seconds": 0,
       "offline_hours": 0.0,
       "offline_stages": {},
-      "online_mean_ms": 0.09441623478778638,
-      "online_sd_ms": 0.003274038085707845,
+      "online_mean_ms": 0.22891239041200606,
+      "online_sd_ms": 0.030540197727912714,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T4",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "889540a122eb3e2f55638aae067c5a76fc3034a05f843ab8bb1de51f7002b540"
+      "rollouts_sha256": "0faabc7e3f02916fad4fffe5ee8886a67096610883e5aed1621a6ae0f5dcb771"
     },
     {
       "network": "ieee9",
@@ -254,18 +254,18 @@
           }
         }
       },
-      "online_mean_ms": 0.6112876944825985,
-      "online_sd_ms": 0.04177712516601313,
+      "online_mean_ms": 1.1348547268426046,
+      "online_sd_ms": 0.10869390298888576,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T4",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "889540a122eb3e2f55638aae067c5a76fc3034a05f843ab8bb1de51f7002b540"
+      "rollouts_sha256": "0faabc7e3f02916fad4fffe5ee8886a67096610883e5aed1621a6ae0f5dcb771"
     },
     {
       "network": "ieee9",
@@ -308,18 +308,18 @@
           }
         }
       },
-      "online_mean_ms": 0.6940164967090823,
-      "online_sd_ms": 0.0963930730593485,
+      "online_mean_ms": 1.3452742186927935,
+      "online_sd_ms": 0.11895588587204159,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T4",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "889540a122eb3e2f55638aae067c5a76fc3034a05f843ab8bb1de51f7002b540"
+      "rollouts_sha256": "0faabc7e3f02916fad4fffe5ee8886a67096610883e5aed1621a6ae0f5dcb771"
     },
     {
       "network": "ieee9",
@@ -340,18 +340,18 @@
           }
         }
       },
-      "online_mean_ms": 0.6184950671013212,
-      "online_sd_ms": 0.03965421291330697,
+      "online_mean_ms": 1.7807766253099544,
+      "online_sd_ms": 6.058593286250882,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T4",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "889540a122eb3e2f55638aae067c5a76fc3034a05f843ab8bb1de51f7002b540"
+      "rollouts_sha256": "0faabc7e3f02916fad4fffe5ee8886a67096610883e5aed1621a6ae0f5dcb771"
     },
     {
       "network": "ieee9",
@@ -360,18 +360,18 @@
       "offline_seconds": 0,
       "offline_hours": 0.0,
       "offline_stages": {},
-      "online_mean_ms": 12577.155610946647,
-      "online_sd_ms": 238.7206098788067,
+      "online_mean_ms": 5952.03668152044,
+      "online_sd_ms": 128.7596852026353,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T4",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "889540a122eb3e2f55638aae067c5a76fc3034a05f843ab8bb1de51f7002b540"
+      "rollouts_sha256": "0faabc7e3f02916fad4fffe5ee8886a67096610883e5aed1621a6ae0f5dcb771"
     },
     {
       "network": "ieee9",
@@ -414,18 +414,18 @@
           }
         }
       },
-      "online_mean_ms": 15911.896133344271,
-      "online_sd_ms": 130.37332532949029,
+      "online_mean_ms": 7689.189373645604,
+      "online_sd_ms": 730.3851148308761,
       "online_episodes": 512,
-      "online_source": "experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train101",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T4",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "244a78d188af2f0361b91562b0680c3d728e965b0d54151d65d3e63ac9b2a7e7"
+      "rollouts_sha256": "0faabc7e3f02916fad4fffe5ee8886a67096610883e5aed1621a6ae0f5dcb771"
     },
     {
       "network": "ieee9",
@@ -434,18 +434,18 @@
       "offline_seconds": 0,
       "offline_hours": 0.0,
       "offline_stages": {},
-      "online_mean_ms": 0.12121472900616936,
-      "online_sd_ms": 0.0034679801733041903,
+      "online_mean_ms": 0.3030535444850102,
+      "online_sd_ms": 0.035331524883310685,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T5",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "5c891ca6f3e738519b070de0805f0de6d78e9cfe0a2cc642f0a4afbf8bdd177d"
+      "rollouts_sha256": "250b460eb372f02d9222738fa4270a8df615f72fb16d8e7de0ab98a0350a776e"
     },
     {
       "network": "ieee9",
@@ -466,18 +466,18 @@
           }
         }
       },
-      "online_mean_ms": 0.7672140545764705,
-      "online_sd_ms": 0.043643926143197564,
+      "online_mean_ms": 1.4722890837219893,
+      "online_sd_ms": 0.11933520178827392,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T5",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "5c891ca6f3e738519b070de0805f0de6d78e9cfe0a2cc642f0a4afbf8bdd177d"
+      "rollouts_sha256": "250b460eb372f02d9222738fa4270a8df615f72fb16d8e7de0ab98a0350a776e"
     },
     {
       "network": "ieee9",
@@ -520,18 +520,18 @@
           }
         }
       },
-      "online_mean_ms": 0.8334066023962805,
-      "online_sd_ms": 0.05100891197612147,
+      "online_mean_ms": 1.7452488727940363,
+      "online_sd_ms": 0.15294605465560235,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T5",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "5c891ca6f3e738519b070de0805f0de6d78e9cfe0a2cc642f0a4afbf8bdd177d"
+      "rollouts_sha256": "250b460eb372f02d9222738fa4270a8df615f72fb16d8e7de0ab98a0350a776e"
     },
     {
       "network": "ieee9",
@@ -552,18 +552,18 @@
           }
         }
       },
-      "online_mean_ms": 0.7661164490855299,
-      "online_sd_ms": 0.03776418164483732,
+      "online_mean_ms": 7.691507389608887,
+      "online_sd_ms": 105.75415567883796,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T5",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "5c891ca6f3e738519b070de0805f0de6d78e9cfe0a2cc642f0a4afbf8bdd177d"
+      "rollouts_sha256": "250b460eb372f02d9222738fa4270a8df615f72fb16d8e7de0ab98a0350a776e"
     },
     {
       "network": "ieee9",
@@ -572,18 +572,18 @@
       "offline_seconds": 0,
       "offline_hours": 0.0,
       "offline_stages": {},
-      "online_mean_ms": 15889.533148980263,
-      "online_sd_ms": 297.3055669817969,
+      "online_mean_ms": 7513.81193330235,
+      "online_sd_ms": 144.45574313693547,
       "online_episodes": 512,
-      "online_source": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T5",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "5c891ca6f3e738519b070de0805f0de6d78e9cfe0a2cc642f0a4afbf8bdd177d"
+      "rollouts_sha256": "250b460eb372f02d9222738fa4270a8df615f72fb16d8e7de0ab98a0350a776e"
     },
     {
       "network": "ieee9",
@@ -626,18 +626,18 @@
           }
         }
       },
-      "online_mean_ms": 29544.99345559816,
-      "online_sd_ms": 394.25548242328614,
+      "online_mean_ms": 14346.30503704011,
+      "online_sd_ms": 1368.9671442521758,
       "online_episodes": 512,
-      "online_source": "experiments/09212026/09212026_ieee9_conference_stepdad4/T5/train101",
+      "online_source": "diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T5",
       "online_hardware": {
-        "execution_site": "unknown",
-        "cluster": null,
-        "computer_name": "qiqi-workstation",
-        "cpu_model": "Intel(R) Core(TM) Ultra 7 265K",
-        "gpu_model": "NVIDIA GeForce RTX 5080"
+        "execution_site": "hprc",
+        "cluster": "grace",
+        "computer_name": "g100",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+        "gpu_model": "NVIDIA A100-PCIE-40GB"
       },
-      "rollouts_sha256": "6f5358490d5b2b5c3c5e90b74ccfbf6bbc0d6edc58d71c886bd37b7eb831b4e8"
+      "rollouts_sha256": "250b460eb372f02d9222738fa4270a8df615f72fb16d8e7de0ab98a0350a776e"
     },
     {
       "network": "ieee14",
