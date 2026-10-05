@@ -7,7 +7,7 @@
   "scorer_sha256": "71275aeebe217a315fb8838fb790675add530e5a24da87857915cf0f82b010ea",
   "date": "2026-10-05",
   "existing_table_cells_preserved": 108,
-  "larger_L_table_cells_verified": 36,
+  "larger_L_table_cells_verified": 72,
   "figure_coordinates": "unchanged",
   "pdf_pages": 6,
   "latex_warnings": [],
@@ -19,7 +19,7 @@
     "Step-DAD has no consistent mean advantage over DAD on IEEE14",
     "Residual contrast-count sensitivity prevents claims of convergence or fine EIG ranking"
   ],
-  "pdf_sha256": "9b9c064f58ee7aebfb87ce76d182c1bbffd0b34bb3c47d390f0ffecb29a2fecf",
+  "pdf_sha256": "a3b0c9f3ef587bab0c6becbcfde07185a2d95b945e3d15c58d45207db89cc083",
   "input_files_verified": [
     "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101/run_config.json",
     "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101/rollouts.json",
@@ -40,5 +40,6 @@
     "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303/run_config.json",
     "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303/rollouts.json"
   ],
-  "original_ieee14_L128_means_and_sds": "All 18 means and SDs reproduced at printed precision from full rescoring archive"
+  "original_ieee14_L128_means_and_sds": "All 18 means and SDs reproduced at printed precision from full rescoring archive",
+  "larger_L_table_format": "Separate tables for L=10000 and L=100000; 36 means and 36 sample SDs of seed means, four decimal places"
 }
