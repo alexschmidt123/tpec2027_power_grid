@@ -374,48 +374,35 @@ Figure~\ref{fig:durations} summarizes duration distributions pooled across test 
 
 \FloatBarrier
 \subsection{Computational Cost}\label{sec:cost}
-Tables~\ref{tab:ieee9_a100} and~\ref{tab:ieee14_a100} report timings on NVIDIA A100 PCIe 40-GB GPUs, using training seed 101 and test seed 1001. Offline preparation includes initialization, optimization, and checkpoint validation. For DAD, it is the sum of the matched Fixed and DAD training stages; Step-DAD uses the same preparation. Online time averages the summed decision timers over 512 test episodes per method. It includes action selection and, where applicable, posterior assimilation and refinement, but excludes true-system propagation and information scoring. IEEE 9-bus profiling discards one separate warm-up episode per method. Offline times are single-run measurements; the tables describe the recorded implementations.
+Table~\ref{tab:grid_a100} reports timings on NVIDIA A100 PCIe 40-GB GPUs, using training seed 101 and test seed 1001. Offline preparation includes initialization, optimization, and checkpoint validation; DAD and Step-DAD include both Fixed and DAD training. Online time averages the summed decision timers over 512 test episodes per method. It includes action selection and, where applicable, posterior assimilation and refinement, but excludes true-system propagation and information scoring. IEEE 9-bus profiling excludes one warm-up episode per method. Offline times are single-run measurements. All timed runs use $L=128$ for contrastive scoring, including training, validation, and Step-DAD refinement; Myopic uses 128 posterior particles and 32 simulated observations per candidate. Increasing $L$ increases evaluation scoring time, which is excluded from the decision timers.
 
 Let $C_s$ denote one candidate-window simulation cost and $C_\pi$ a policy forward pass. Dense $m$-machine RK4 integration over $N$ time steps gives $C_s=O(Nm^2)$.
 
 Online policy work is $O(T)$ for Random/Fixed and $O(TC_\pi)$ for DAD/RL-sBOED. Myopic uses $O(TQC_e+TP C_s)$, where $P=128$ particles, $Q=48$ candidate evaluations per decision, and $C_e$ includes candidate simulation and likelihood calculations. Step-DAD refinement simulates $UB(L+1)T(T-1)/2$ candidate windows before accounting for numerical Jacobians and conditional validation, with $U=4$, $B=32$, and $L=128$. Posterior assimilation adds $O(TP C_s)$ work.
 
-\begin{table}[!ht]\caption{IEEE 9-bus computational costs}\label{tab:ieee9_a100}\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
-\toprule Method & $T=3$ & $T=4$ & $T=5$\\
-\midrule\multicolumn{4}{c}{Offline preparation (hours)}\\\midrule
-Random & 0 & 0 & 0\\
-Fixed & 0.554 & 0.802 & 1.063\\
-Myopic & 0 & 0 & 0\\
-DAD & 1.116 & 1.608 & 2.139\\
-RL-sBOED & 0.100 & 0.117 & 0.129\\
-Step-DAD & 1.116 & 1.608 & 2.139\\
-\midrule\multicolumn{4}{c}{Online decisions (ms per sequence)}\\\midrule
-Random & 0.167 & 0.229 & 0.303\\
-Fixed & 0.849 & 1.135 & 1.472\\
-Myopic & 4\,418 & 5\,952 & 7\,514\\
-DAD & 1.012 & 1.345 & 1.745\\
-RL-sBOED & 1.147 & 1.781 & 7.692\\
-Step-DAD & 3\,083 & 7\,689 & 14\,346\\
-\bottomrule\end{tabular*}
-\end{table}
-\begin{table}[!ht]\caption{IEEE 14-bus computational costs}\label{tab:ieee14_a100}\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
-\toprule Method & $T=3$ & $T=4$ & $T=5$\\
-\midrule\multicolumn{4}{c}{Offline preparation (hours)}\\\midrule
-Random & 0 & 0 & 0\\
-Fixed & 1.880 & 2.750 & 3.720\\
-Myopic & 0 & 0 & 0\\
-DAD & 3.810 & 5.457 & 7.418\\
-RL-sBOED & 0.163 & 0.205 & 0.249\\
-Step-DAD & 3.810 & 5.457 & 7.418\\
-\midrule\multicolumn{4}{c}{Online decisions (ms per sequence)}\\\midrule
-Random & 0.158 & 0.207 & 0.285\\
-Fixed & 1.141 & 1.906 & 1.952\\
-Myopic & 9\,998 & 13\,433 & 16\,918\\
-DAD & 1.440 & 1.513 & 1.733\\
-RL-sBOED & 1.413 & 1.550 & 1.905\\
-Step-DAD & 9\,245 & 23\,320 & 45\,089\\
+\begin{table}[!ht]
+\caption{Computational costs for both IEEE networks}
+\label{tab:grid_a100}
+\papertablestyle
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lrrrrrr@{}}
+\toprule
+ & \multicolumn{3}{c}{IEEE 9-bus} & \multicolumn{3}{c}{IEEE 14-bus}\\
+\cmidrule(lr){2-4}\cmidrule(l){5-7}
+Method & $T=3$ & $T=4$ & $T=5$ & $T=3$ & $T=4$ & $T=5$\\
+\midrule\multicolumn{7}{c}{Offline preparation (hours)}\\\midrule
+Random & 0 & 0 & 0 & 0 & 0 & 0\\
+Fixed & 0.554 & 0.802 & 1.063 & 1.880 & 2.750 & 3.720\\
+Myopic & 0 & 0 & 0 & 0 & 0 & 0\\
+DAD & 1.116 & 1.608 & 2.139 & 3.810 & 5.457 & 7.418\\
+RL-sBOED & 0.100 & 0.117 & 0.129 & 0.163 & 0.205 & 0.249\\
+Step-DAD & 1.116 & 1.608 & 2.139 & 3.810 & 5.457 & 7.418\\
+\midrule\multicolumn{7}{c}{Online decisions (ms per sequence)}\\\midrule
+Random & 0.167 & 0.229 & 0.303 & 0.158 & 0.207 & 0.285\\
+Fixed & 0.849 & 1.135 & 1.472 & 1.141 & 1.906 & 1.952\\
+Myopic & 4\,418 & 5\,952 & 7\,514 & 9\,998 & 13\,433 & 16\,918\\
+DAD & 1.012 & 1.345 & 1.745 & 1.440 & 1.513 & 1.733\\
+RL-sBOED & 1.147 & 1.781 & 7.692 & 1.413 & 1.550 & 1.905\\
+Step-DAD & 3\,083 & 7\,689 & 14\,346 & 9\,245 & 23\,320 & 45\,089\\
 \bottomrule\end{tabular*}
 \end{table}
 
@@ -427,7 +414,7 @@ Rescoring $n$ saved histories at a larger $L$ requires $O(n(L+1)TC_s)$ simulatio
 \subsection{Estimator Sensitivity}\label{sec:sensitivity}
 The ceiling $\log(L+1)$ bounds the sampled sPCE score, not the true EIG. We rescore all 64\,512 distinct IEEE 14-bus histories at $L=10^4$ and $10^5$, holding policies, generating parameters, durations, and observations fixed. No policies are retrained or rerun. Contrasts are drawn from the archived prior; matching test-seed/episode pairs share the contrast stream across methods, and the $10^4$ samples are a prefix of the $10^5$ samples. Archived terminal states and original scores are reproduced before rescoring. Tables~\ref{tab:ieee14_largeL} and~\ref{tab:ieee14_largeL_100000} report mean $\pm$ SD using the seed aggregation defined in Section~\ref{sec:evaluation}; seed-level summaries are included in the repository.
 
-\begin{table}[!ht]
+\begin{table}[!t]
 \caption{IEEE 14-bus sPCE scores ($L=10^4$; nats)}
 \label{tab:ieee14_largeL}
 \papertablestyle
@@ -443,9 +430,8 @@ RL-sBOED & $7.0793\pm0.0567$ & $8.1296\pm0.1355$ & $8.5852\pm0.2660$\\
 Step-DAD & $7.1008\pm0.2309$ & $8.1992\pm0.0191$ & $8.6583\pm0.0550$\\
 \bottomrule
 \end{tabular*}
-\end{table}
 
-\begin{table}[!ht]
+\medskip
 \caption{IEEE 14-bus sPCE scores ($L=10^5$; nats)}
 \label{tab:ieee14_largeL_100000}
 \papertablestyle

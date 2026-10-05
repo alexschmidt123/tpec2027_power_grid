@@ -6,4 +6,6 @@ The review covered the full formulation, carried-state observation model, feasib
 
 Raw larger-L data, frozen scorer, checksum manifest, portable aggregation, and seed summaries are in `results/diagnostics/larger_L/complete_ieee14_20261005/`. Numerical verification is in `results/diagnostics/final_manuscript_verification_20261005.json`. All planned conference results are now inserted. Residual estimator sensitivity is reported as a limitation, not hidden or presented as convergence.
 
-The larger-L results now use separate Tables VI and VII for L=10,000 and 100,000. Both report mean ± SD using the same seed aggregation as Tables II–III. The revised six-page layout was rendered and inspected, with no compilation warnings.
+The larger-L results now use separate Tables V and VI for L=10,000 and 100,000. Both report mean ± SD using the same seed aggregation as Tables II–III. The revised six-page layout was rendered and inspected, with no compilation warnings.
+
+Merged the two network timing tables into Table IV with grouped network/horizon columns. All 72 values and units are unchanged. Six training configurations and three IEEE9 profiling manifests confirm L=128. The text separates contrastive scoring cost from online decision timing and states that larger L increases evaluation scoring time. The six-page revision was visually checked and compiles without warnings.

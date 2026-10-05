@@ -19,7 +19,7 @@
     "Step-DAD has no consistent mean advantage over DAD on IEEE14",
     "Residual contrast-count sensitivity prevents claims of convergence or fine EIG ranking"
   ],
-  "pdf_sha256": "a3b0c9f3ef587bab0c6becbcfde07185a2d95b945e3d15c58d45207db89cc083",
+  "pdf_sha256": "836d55b916058f94480fcf1fc69b250d41207e8fa8d0f97803f10bb8d21c2c7c",
   "input_files_verified": [
     "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101/run_config.json",
     "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101/rollouts.json",
@@ -41,5 +41,19 @@
     "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303/rollouts.json"
   ],
   "original_ieee14_L128_means_and_sds": "All 18 means and SDs reproduced at printed precision from full rescoring archive",
-  "larger_L_table_format": "Separate tables for L=10000 and L=100000; 36 means and 36 sample SDs of seed means, four decimal places"
+  "larger_L_table_format": "Separate tables for L=10000 and L=100000; 36 means and 36 sample SDs of seed means, four decimal places",
+  "timing_table": "Merged Table IV; all 72 timing values preserved",
+  "timing_contrasts": 128,
+  "timing_contrast_configuration_files_verified": [
+    "results/diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T3/manifest.json",
+    "results/diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T4/manifest.json",
+    "results/diagnostics/a100_online_profile_test1001_20261004/results_test1001_step4/T5/manifest.json",
+    "results/experiments/09142026/09142026_ieee9_eig_endpoint_rocof_T3_train101_eval1001/T3/run/run_config.json",
+    "results/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run/run_config.json",
+    "results/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run/run_config.json",
+    "results/experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101/run_config.json",
+    "results/experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101/run_config.json",
+    "results/experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101/run_config.json"
+  ],
+  "timing_caveat": "Contrast counts affect training and Step-DAD refinement; Myopic uses 128 posterior particles. Online decision timers exclude true-system propagation and information scoring. Larger-L rescoring increases scoring time, not the archived decision times."
 }
