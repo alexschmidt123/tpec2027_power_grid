@@ -1,14 +1,19 @@
-# IEEE 14-bus larger-L feasibility and implementation report
+# IEEE 14-bus larger-L results and historical feasibility report
 
 September 29, 2026. This is an evaluation pilot and runtime study, not a replacement for the conference results. No policy was retrained or rerun, and no experimental table was changed.
 
+
+## Final results — October 5, 2026
+
+All 64,512 unique histories completed at L=10,000 and 100,000. Published data and portable aggregation are in [complete_ieee14_20261005](complete_ieee14_20261005/README.md). The manuscript now includes the final table and analysis. All 18 original L=128 means/SDs reproduce at printed precision; maximum state error is 9.99e-13 and archived-score error 3.62e-9 nats. Myopic exceeds Fixed at both larger contrast counts for all horizons. Learned-policy means remain above baselines, but Step-DAD has no consistent IEEE14 mean advantage and residual contrast-count sensitivity prevents convergence claims. Later sections preserve historical pilot details and are not the final publication evidence.
+
 ## Production run started September 30, 2026
 
-Full archived IEEE 14-bus rescoring is now running on LabPC's RTX 4090 at L=100,000, retaining nested L=10,000 results as a convergence diagnostic. Scope: 64,512 histories, all six methods, T=3/4/5, training seeds 101/202/303 where applicable, and evaluation seeds 1001/1002/1003. No policy retraining, new policy rollouts, or constraint changes.
+The production run, completed October 5, 2026, performed full archived IEEE 14-bus rescoring on LabPC's RTX 4090 at L=100,000, retaining nested L=10,000 results as a convergence diagnostic. Scope: 64,512 histories, all six methods, T=3/4/5, training seeds 101/202/303 where applicable, and evaluation seeds 1001/1002/1003. No policy retraining, new policy rollouts, or constraint changes.
 
 Results and logs: `experiments/20260930_ieee14_L100000/results/` and `experiments/20260930_ieee14_L100000/run.log`. The launched scorer is frozen under that job's `source/tools/` directory. `launch.json` stores the PID and exact launch/resume commands. `results/progress.json` updates after the first history and every ten histories; `results/scores.jsonl` contains each completed history. Completion requires `summary.json` and progress status `complete`.
 
-Restart support is implemented and tested: `--resume` requires matching code, input checksums, and settings, validates saved records, and skips completed identities. Five unit tests pass; a six-history GPU integration run resumed without adding duplicate rows. The original roughly five-day runtime estimate remains preliminary. Initial production histories reproduced archived scores/states and were processed successfully. Final updated paper results are pending; L=100,000 does not itself certify convergence.
+Restart support is implemented and tested: `--resume` requires matching code, input checksums, and settings, validates saved records, and skips completed identities. Five unit tests pass; a six-history GPU integration run resumed without adding duplicate rows. The original roughly five-day runtime estimate remains preliminary. Initial production histories reproduced archived scores/states and were processed successfully. Final results are now included in the manuscript; L=100,000 does not itself certify convergence.
 
 The remainder records the September 29 pilot; statements below about a full run not yet being started describe that earlier state.
 
@@ -71,7 +76,7 @@ python tools/rescore_saved_histories.py \
   --levels 128,10000,100000 --chunk-size 10000 --pilot-per-method 1
 ```
 
-Setting `--pilot-per-method 0` scores all histories in the specified runs and may take substantial time. No full-archive run has been started.
+Setting `--pilot-per-method 0` scores all histories in the specified runs and may take substantial time. This statement described the September 29 pilot; the full archive run subsequently completed October 5.
 
 Pilot data are stored beside this report under `pilot_T5/`, `pilot_T3_T4/`, and `runtime_10000/`. Original raw records, checkpoints, and training code remain untouched.
 

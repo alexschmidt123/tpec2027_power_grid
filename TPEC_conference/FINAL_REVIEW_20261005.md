@@ -1,0 +1,7 @@
+# Final conference manuscript review — October 5, 2026
+
+Completed the missing IEEE14 larger-L table from the full archived-history results and revised the abstract, results discussion, and conclusion to reflect the baseline-ranking reversal and residual estimator sensitivity. The manuscript distinguishes benchmark assumptions from validated grid parameters, joint information scores from individual parameter-estimation accuracy, and online algorithm timing from deployment latency. It does not claim isolated feedback causality, significance from separate method SDs, or estimator convergence.
+
+The review covered the full formulation, carried-state observation model, feasible-duration constraints, method implementations, training/checkpoint/evaluation protocol, statistical aggregation, A100 preparation and decision timing scope, plots, tables, limitations, and conclusion. Existing 108 comparison/timing cells and figure medians/quartiles were preserved. All 36 new table cells were checked against an independently regenerated aggregation. All six rendered pages were inspected; the final IEEEtran build has no unresolved references or box warnings.
+
+Raw larger-L data, frozen scorer, checksum manifest, portable aggregation, and seed summaries are in `results/diagnostics/larger_L/complete_ieee14_20261005/`. Numerical verification is in `results/diagnostics/final_manuscript_verification_20261005.json`. All planned conference results are now inserted. Residual estimator sensitivity is reported as a limitation, not hidden or presented as convergence.

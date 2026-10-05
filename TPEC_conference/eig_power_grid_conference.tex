@@ -48,7 +48,7 @@ bjyoon@tamu.edu}
 \maketitle
 \begin{abstract}
 
-Uncertain inertia and frequency-response coefficients complicate the characterization of power-system dynamics. We formulate sequential probing as Bayesian experimental design: pulse durations are selected from noisy measurements, and the physical state is carried between probes. This coupling makes each duration relevant to both the current observation and subsequent experiments. We compare six methods on reduced IEEE 9-bus and IEEE 14-bus swing models under common sensing, duration constraints, and probe budgets. Deep adaptive design (DAD), Step-DAD, and reinforcement-learning-based sequential design (RL-sBOED) achieve higher mean sequential prior-contrastive (sPCE) information scores than fixed-sequence, myopic, and random designs. On IEEE 9-bus, DAD improves on the optimized Fixed design by 0.09--0.13 nats. DAD and RL-sBOED require only policy evaluation online, whereas Step-DAD trades additional planning time for modest information-score gains. IEEE 14-bus scores approach the finite-contrast estimator ceiling, limiting rankings among learned policies. These results characterize the information--computation tradeoff of learned sequential probing within the specified benchmark.
+Uncertain inertia and frequency-response coefficients complicate the characterization of power-system dynamics. We formulate sequential probing as Bayesian experimental design: pulse durations are selected from noisy measurements, and the physical state is carried between probes. This coupling makes each duration relevant to both the current observation and subsequent experiments. We compare six methods on reduced IEEE 9-bus and IEEE 14-bus swing models under common sensing, duration constraints, and probe budgets. Deep adaptive design (DAD), Step-DAD, and reinforcement-learning-based sequential design (RL-sBOED) achieve higher mean sequential prior-contrastive (sPCE) information scores than fixed-sequence, myopic, and random designs. On IEEE 9-bus, DAD improves on the optimized Fixed design by 0.09--0.13 nats. DAD and RL-sBOED require only policy evaluation online, whereas Step-DAD adds online refinement and achieves modest gains on IEEE 9-bus. Rescoring IEEE 14-bus histories with up to $10^5$ contrasts preserves the learned-policy advantage but reverses the Fixed--Myopic ordering at longer horizons. Scores remain sensitive to the contrast count, limiting fine rankings among learned policies. These results characterize the information--computation tradeoff of sequential probing within the specified benchmark.
 Code and saved results are available at {\urlstyle{same}\url{https://github.com/alexschmidt123/tpec2027_power_grid}}.
 \end{abstract}
 
@@ -219,7 +219,7 @@ We evaluate horizons $T=3,4,5$, with one scalar observation per probe. Each netw
 
 The swing equations are integrated by fourth-order Runge--Kutta (RK4) with step size $1/640$ s. Pathwise gradients use numerical state and duration Jacobians: coordinate perturbations are $10^{-5}\max(1,|x_j|)$ for state $x_j$ and $10^{-5}$ s for duration, clipped at the bounds. The validation suite checks policy and conditional-refinement gradients against end-to-end finite differences.
 
-For each network and horizon, Fixed, DAD, and RL-sBOED are trained with seeds 101, 202, and 303. Training uses 2000 trajectory updates with batch size 32. Fixed and DAD use Adam with learning rate $10^{-3}$; the RL actor and critics use $3\times10^{-4}$. Checkpoints are selected using 128 validation systems every 100 updates. Training, validation, and the reported information evaluations use $L=128$ contrasts. Myopic and Step-DAD maintain 128 planning particles; Step-DAD performs four refinement updates before each decision after the first.
+For each network and horizon, Fixed, DAD, and RL-sBOED are trained with seeds 101, 202, and 303. Training uses 2000 trajectory updates with batch size 32. Fixed and DAD use Adam with learning rate $10^{-3}$; the RL actor and critics use $3\times10^{-4}$. Checkpoints are selected using 128 validation systems every 100 updates. Training, validation, and the initial information evaluations use $L=128$ contrasts; Section~\ref{sec:sensitivity} reports additional IEEE 14-bus evaluations at larger $L$. Myopic and Step-DAD maintain 128 planning particles; Step-DAD performs four refinement updates before each decision after the first.
 
 \subsection{Evaluation Protocol}\label{sec:evaluation}
 Testing uses seeds 1001, 1002, and 1003, with 512 episodes per seed, giving 1536 episodes per trained policy. Parameter and measurement-noise draws are paired across methods, while planners use a separate random stream. Training, checkpoint validation, and testing use separate seeds. For trained methods, the tables report mean $\pm$ sample standard deviation (SD) across three training-seed means, each averaged over all test episodes. Random and Myopic are independent of training seed; their SD is calculated across the three test-seed means. These SDs describe seed variation, not episode dispersion or confidence intervals for method differences.
@@ -231,7 +231,7 @@ Testing uses seeds 1001, 1002, and 1003, with 512 episodes per seed, giving 1536
 \subsection{Information Acquired at Equal Probe Budgets}
 Tables~\ref{tab:ieee9} and~\ref{tab:ieee14} report sPCE information scores using the aggregation defined in Section~\ref{sec:evaluation}. All three learned adaptive methods exceed Random, Fixed, and Myopic in mean score for each network and horizon.
 
-\begin{table}[!ht]\caption{IEEE 9-bus sPCE information scores (nats)}\label{tab:ieee9}\papertablestyle
+\begin{table}[!ht]\caption{IEEE 9-bus sPCE scores ($L=128$; nats)}\label{tab:ieee9}\papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
 Random & $0.4321\pm0.0310$ & $0.4924\pm0.0342$ & $0.5392\pm0.0471$\\
 Fixed & $2.0112\pm0.0116$ & $2.3192\pm0.0004$ & $2.5066\pm0.0013$\\
@@ -242,7 +242,7 @@ Step-DAD & $2.1471\pm0.0110$ & $2.4382\pm0.0048$ & $2.6621\pm0.0145$\\
 \bottomrule\end{tabular*}\end{table}
 
 \begin{table}[!ht]
-\caption{IEEE 14-bus sPCE information scores (nats)}
+\caption{IEEE 14-bus sPCE scores ($L=128$; nats)}
 \label{tab:ieee14}
 \papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
@@ -256,7 +256,7 @@ Step-DAD & $4.7527\pm0.0275$ & $4.8297\pm0.0067$ & $4.8446\pm0.0042$\\
 \bottomrule\end{tabular*}\end{table}
 On IEEE 9-bus, DAD improves on Fixed by 0.1253, 0.0903, and 0.1286 nats at $T=3,4,5$, respectively. Step-DAD adds 0.0105, 0.0287, and 0.0269 nats to the DAD mean. These are descriptive differences: separate method SDs do not quantify uncertainty in a paired comparison. Scores remain well below the 4.8598-nat estimator ceiling. The results favor the learned full-sequence policies over the tested fixed and myopic designs, but do not isolate the effect of feedback from policy parameterization and optimization.
 
-On IEEE 14-bus, learned-policy means lie close to the 4.8598-nat ceiling. Step-DAD changes the DAD mean by $-0.0049$, $-0.0028$, and $+0.0003$ nats at $T=3,4,5$. Such differences cannot establish EIG rankings under a saturated lower-bound estimator. Fixed exceeds Myopic at $T=4,5$ for the implemented search budget; this comparison concerns that implementation rather than all one-step designs.
+On IEEE 14-bus, learned-policy means at $L=128$ lie close to the 4.8598-nat ceiling. Step-DAD changes the DAD mean by $-0.0049$, $-0.0028$, and $+0.0003$ nats at $T=3,4,5$. These near-ceiling differences do not establish EIG rankings. Fixed exceeds Myopic at $T=4,5$ in Table~\ref{tab:ieee14}, but this ordering reverses under larger-$L$ rescoring (Section~\ref{sec:sensitivity}).
 
 \subsection{Selected Probe Durations}
 \begin{figure}[!ht]
@@ -424,23 +424,38 @@ For $J$ training updates, batch size $B$, and $L$ contrasts, Fixed and DAD requi
 
 Rescoring $n$ saved histories at a larger $L$ requires $O(n(L+1)TC_s)$ simulation work and $O(nLT)$ likelihood arithmetic, without retraining. Measured decision times characterize algorithm execution rather than the real-time feasibility of the complete probing loop.
 
-\subsection{Estimator Sensitivity}
-The ceiling $\log(L+1)$ bounds the sampled sPCE score, not the true EIG. A mean below the ceiling can still include saturated histories. Evaluating the same saved IEEE 14-bus histories at larger $L$ assesses sensitivity to the contrastive estimator while keeping policies and experimental trajectories fixed.
-\begin{center}
-% Reserved for a compact 6-method table: T=3,4,5, each at L=10^4 and 10^5.
-% Expected header: Method | T=3 (10k,100k) | T=4 (10k,100k) | T=5 (10k,100k).
-% Include log(L+1) ceilings in the header/caption. Do not insert incomplete results.
-\fbox{\parbox[c][2.8cm][c]{0.94\columnwidth}{\centering\small
-Reserved for IEEE 14-bus\\larger-$L$ evaluation results\\[3pt]
-$T=3,4,5$; $L=10^4,10^5$}}
-\end{center}
+\subsection{Estimator Sensitivity}\label{sec:sensitivity}
+The ceiling $\log(L+1)$ bounds the sampled sPCE score, not the true EIG. We rescore all 64\,512 distinct IEEE 14-bus histories at $L=10^4$ and $10^5$, holding policies, generating parameters, durations, and observations fixed. No policies are retrained or rerun. Contrasts are drawn from the archived prior; matching test-seed/episode pairs share the contrast stream across methods, and the $10^4$ samples are a prefix of the $10^5$ samples. Archived terminal states and original scores are reproduced before rescoring. Table~\ref{tab:ieee14_largeL} reports mean scores with the same seed aggregation as Table~\ref{tab:ieee14}; seed-level summaries are included in the repository.
 
+\begin{table}[!ht]
+\caption{IEEE 14-bus mean sPCE scores at larger $L$ (nats)}
+\label{tab:ieee14_largeL}
+\papertablestyle
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{$T=3$} & \multicolumn{2}{c}{$T=4$} & \multicolumn{2}{c}{$T=5$}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(l){6-7}
+Method / $L$ & $10^4$ & $10^5$ & $10^4$ & $10^5$ & $10^4$ & $10^5$\\
+\midrule
+Random & 0.845 & 0.848 & 0.955 & 0.964 & 0.999 & 1.008\\
+Fixed & 5.296 & 5.347 & 6.061 & 6.169 & 6.791 & 7.049\\
+Myopic & 5.814 & 5.935 & 6.472 & 6.763 & 6.819 & 7.231\\
+DAD & 7.106 & 7.313 & 8.206 & 8.822 & 8.666 & 9.693\\
+RL-sBOED & 7.079 & 7.287 & 8.130 & 8.714 & 8.585 & 9.553\\
+Step-DAD & 7.101 & 7.306 & 8.199 & 8.813 & 8.658 & 9.695\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+The estimator ceilings increase to 9.2104 and 11.5129 nats. The learned policies retain higher mean scores than the three baselines at both contrast counts. Myopic now exceeds Fixed at every horizon, showing that the longer-horizon ordering at $L=128$ was estimator-sensitive. At $L=10^5$, Step-DAD changes the DAD mean by $-0.0062$, $-0.0082$, and $+0.0016$ nats at $T=3,4,5$, respectively; refinement therefore provides no consistent mean-score improvement on this network. DAD's $T=5$ mean increases from 8.666 to 9.693 nats between the two larger contrast counts. Thus, increasing $L$ reduces the original ceiling effect but does not establish estimator convergence or a definitive EIG ranking among learned policies.
+
+\FloatBarrier
 \balance
 \subsection{Scope and Limitations}
 The study uses reduced lossless dynamics, prescribed parameter priors, increasing durations, and one fixed actuator and endpoint sensor. Its information scores measure joint uncertainty reduction, not the accuracy of individual inertia or response estimates. Training and testing draw from the same prior; robustness to prior shift, sensor bias, and unmodeled dynamics is not assessed. Finite-contrast scoring, posterior particles, and ODE integration introduce distinct approximations. The simulator also assumes zero decision latency, so these results do not establish real-time deployment or improved control safety.
 
 \section{Conclusion}
-We formulated sequential duration selection for power-system probing with uncertain inertia and effective frequency response, retaining the physical state between experiments. On the reduced IEEE 9-bus and IEEE 14-bus benchmarks, learned adaptive policies achieve higher mean sPCE information scores than the tested random, fixed, and myopic designs at equal probe counts. DAD and RL-sBOED shift optimization offline and use policy evaluation online. Step-DAD offers modest additional gains on IEEE 9-bus at substantially greater online cost; finite-contrast saturation limits conclusions on IEEE 14-bus. The findings support learned sequential design within this benchmark and motivate further study of estimator sensitivity, model mismatch, and sensing constraints.
+We formulated sequential duration selection for power-system probing with uncertain inertia and effective frequency response, retaining the physical state between experiments. On the reduced IEEE 9-bus and IEEE 14-bus benchmarks, learned adaptive policies achieve higher mean sPCE information scores than the tested random, fixed, and myopic designs at equal probe counts. DAD and RL-sBOED shift optimization offline and use policy evaluation online. Step-DAD offers modest additional gains on IEEE 9-bus at substantially greater online cost; IEEE 14-bus rescoring preserves the learned-policy advantage while exposing estimator-sensitive baseline rankings and no consistent refinement benefit. Residual contrast-count sensitivity limits fine EIG rankings. The findings support learned sequential design within this benchmark and motivate further study of model mismatch, sensing constraints, and estimator accuracy.
 
 \bibliographystyle{IEEEtran}
 \bibliography{conference_refs}
