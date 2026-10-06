@@ -9,3 +9,9 @@ Raw larger-L data, frozen scorer, checksum manifest, portable aggregation, and s
 The larger-L results now use separate Tables V and VI for L=10,000 and 100,000. Both report mean ± SD using the same seed aggregation as Tables II–III. The revised six-page layout was rendered and inspected, with no compilation warnings.
 
 Merged the two network timing tables into Table IV with grouped network/horizon columns. All 72 values and units are unchanged. Six training configurations and three IEEE9 profiling manifests confirm L=128. The text separates contrastive scoring cost from online decision timing and states that larger L increases evaluation scoring time. The six-page revision was visually checked and compiles without warnings.
+
+## Second full academic review
+
+Revised the abstract and prose throughout the introduction, model, observation process, method descriptions, protocols, interpretation, timing discussion, limitations, and conclusion. The contribution now clearly centers on carried-state sequential duration selection and a common benchmark using adapted existing algorithms. The Myopic implementation is described as approximate search; DAD/RL-sBOED implementation details are distinguished from the cited methods. Paired draws, seed-level SDs, and descriptive mean differences are explained without claims of statistical significance. The baseline reversal is attributed to finite-contrast sensitivity without claiming ceiling saturation is its sole cause. All six methods remain explicitly named in the common L=128 timing statement.
+
+Automated comparison confirms that all 10 displayed equations, all six tabular blocks, and all 98 figure-coordinate/drawing records are unchanged. The final six-page IEEEtran PDF was inspected page by page and compiled without unresolved references or box warnings. No experiments or numerical results were added or altered. The detailed record is `results/diagnostics/academic_review_again_verification_20261005.json`.
