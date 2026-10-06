@@ -19,7 +19,7 @@
     "Step-DAD has no consistent mean advantage over DAD on IEEE14",
     "Residual contrast-count sensitivity prevents claims of convergence or fine EIG ranking"
   ],
-  "pdf_sha256": "bdfb4ce54ac4212875b169b2f4a19e0fe2b3eb569ce058b82db96b4eaa2c3154",
+  "pdf_sha256": "98cbb2198f8ccd96be6e879b1eebc8ba7802ea71dc10b8c5fa0187faa82e4a8a",
   "input_files_verified": [
     "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101/run_config.json",
     "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101/rollouts.json",
@@ -57,5 +57,6 @@
   ],
   "timing_caveat": "Contrast counts affect training and Step-DAD refinement; Myopic uses 128 posterior particles. Online decision timers exclude true-system propagation and information scoring. Larger-L rescoring increases scoring time, not the archived decision times.",
   "timing_paragraph": "Explicitly names all six methods and states their common L=128 for information scoring in the timed runs; decision timers exclude scoring.",
-  "latest_academic_review": "results/diagnostics/substantial_rewrite_verification_20261005.json"
+  "latest_academic_review": "results/diagnostics/substantial_rewrite_verification_20261005.json",
+  "abstract_revision": "Reorganized around identification motivation, coupling between successive probes, Bayesian formulation, common benchmark, supported findings, computational tradeoff, and residual estimator sensitivity. Manuscript body and all numerical results unchanged; six rendered pages inspected; no compilation warnings."
 }
