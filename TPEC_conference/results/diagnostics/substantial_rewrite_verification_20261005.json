@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-05",
+  "scope": "Substantial manuscript rewrite",
+  "rewritten_prose_passages": 30,
+  "checks": {
+    "equations": {
+      "blocks": 10,
+      "unchanged": true
+    },
+    "tables": {
+      "blocks": 6,
+      "unchanged": true
+    },
+    "figures": {
+      "blocks": 2,
+      "unchanged": true
+    }
+  },
+  "pdf_pages": 6,
+  "latex_warnings": [],
+  "pdf_sha256": "bdfb4ce54ac4212875b169b2f4a19e0fe2b3eb569ce058b82db96b4eaa2c3154",
+  "changes": [
+    "Rebuilt narrative around coupled probing and retained physical state",
+    "Rewrote abstract, introduction, model explanations, methods, protocols, discussion and conclusion",
+    "Retained shared L=128, A100, training101/test1001 timing scope",
+    "Preserved paired-draw and seed-SD interpretation",
+    "Preserved residual estimator sensitivity and baseline reversal findings"
+  ],
+  "visual_review": "All six final pages rendered and inspected"
+}
