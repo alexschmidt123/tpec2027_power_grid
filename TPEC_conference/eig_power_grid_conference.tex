@@ -1,76 +1,55 @@
-\documentclass[conference]{IEEEtran}
-\usepackage{cite,tikz,pgfplots}
+\documentclass[conference,letterpaper]{IEEEtran}
+\usepackage{cite,amsmath,amssymb,amsfonts,booktabs,graphicx,textcomp,xcolor}
+\usepackage{tikz,pgfplots,balance}
+\usepackage{color,soul}
+
 \pgfplotsset{compat=1.18}
-% Balance the final page without changing IEEEtran fonts or margins.
-\usepackage{balance,placeins}
-\usepackage{amsmath,amssymb,amsfonts,booktabs,graphicx,textcomp,xcolor}
-\usepackage[hidelinks]{hyperref}
 \usetikzlibrary{arrows.meta,positioning,calc}
-% All tables span exactly one IEEE column with shared typography.
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Adaptive Policy-Based Methods for Informative Power-System Probing},pdfauthor={Gaoming Lin, Jinwoo Go, Xiaoning Qian, Byung-Jun Yoon},pdfsubject={Sequential Bayesian experimental design for reduced power-grid swing models},pdfkeywords={active probing, Bayesian experimental design, DAD, RL-sBOED, Step-DAD}}
 \newcommand{\papertablestyle}{\centering\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.05}}
 \newcommand{\E}{\mathbb E}
-% Retain standard IEEEtran typography and two-column flow.
-% IEEE template: https://www.overleaf.com/latex/templates/ieee-conference-template/grfzhhncsfqn
-% Preserve IEEEtran margins, columns, fonts and spacing.
-% Compile from TPEC_conference using the independent conference_refs.bib.
-\title{Informative Power-System Probing via
-Sequential Bayesian Experimental Design}
+% Editorial revision based on repository commit:
+% 97ea8394e67da79f17126f8f584e700bfa4f88d9, inspected October 7, 2026.
+% Numerical results are retained; no experiments were rerun for this revision.
+% Before camera-ready submission, confirm the applicable copyright notice,
+% funding acknowledgments, author details, and IEEE PDF eXpress validation.
+\title{Adaptive Policy-Based Methods for Informative
+Power-System Probing}
 \author{\IEEEauthorblockN{Gaoming Lin}
-\IEEEauthorblockA{\textit{Texas A\&M University}\\
-College Station, TX, USA\\
-g.lin@tamu.edu}
+\IEEEauthorblockA{\textit{Texas A\&M University}\\College Station, TX, USA\\g.lin@tamu.edu}
 \and
 \IEEEauthorblockN{Jinwoo Go}
-\IEEEauthorblockA{\textit{Brookhaven National}\\
-\textit{Laboratory}\\
-Upton, NY, USA\\
-jgo@bnl.gov}
+\IEEEauthorblockA{\textit{Brookhaven National}\\\textit{Laboratory}\\Upton, NY, USA\\jgo@bnl.gov}
 \and
 \IEEEauthorblockN{Xiaoning Qian}
-\IEEEauthorblockA{\textit{Texas A\&M University}\\
-College Station, TX, USA\\
-\textit{Brookhaven National}\\
-\textit{Laboratory}\\
-Upton, NY, USA\\
-xqian@tamu.edu}
+\IEEEauthorblockA{\textit{Texas A\&M University}\\College Station, TX, USA\\\textit{Brookhaven National}\\\textit{Laboratory}\\Upton, NY, USA\\xqian@tamu.edu}
 \and
 \IEEEauthorblockN{Byung-Jun Yoon}
-\IEEEauthorblockA{\textit{Texas A\&M University}\\
-College Station, TX, USA\\
-\textit{Brookhaven National}\\
-\textit{Laboratory}\\
-Upton, NY, USA\\
-bjyoon@tamu.edu}
-}
+\IEEEauthorblockA{\textit{Texas A\&M University}\\College Station, TX, USA\\\textit{Brookhaven National}\\\textit{Laboratory}\\Upton, NY, USA\\bjyoon@tamu.edu}}
 \begin{document}
-\flushbottom
-\brokenpenalty=100
 \maketitle
 \begin{abstract}
-
-Reliable electricity supply for industry and households requires utilities and public authorities to manage uncertain grid dynamics, yet fixed probing cannot adapt to observations and myopic probing optimizes only the next experiment through repeated online computation. We study learned adaptive policies that select pulse durations from previous durations and noisy rate-of-change-of-frequency measurements to obtain more information about inertia and frequency response over a probing sequence. Deep adaptive design (DAD) and reinforcement-learning-based sequential design (RL-sBOED) train policies offline to amortize online design computation; Step-DAD adds online refinement to a pretrained DAD policy. We compare these methods with Random, Fixed, and Myopic on reduced IEEE 9-bus and IEEE 14-bus swing models. The learned adaptive methods achieve higher mean sequential prior-contrastive information scores than the baselines in both benchmarks. On IEEE 9-bus, DAD exceeds Fixed by 0.09--0.13 nats and requires 1.01--1.75 ms per sequence for online decisions on an NVIDIA A100 GPU. Step-DAD provides modest additional gains on IEEE 9-bus at substantially greater online cost, with no consistent mean-score improvement on IEEE 14-bus. Rescoring IEEE 14-bus histories with more contrasts preserves the learned-policy advantage, although estimator sensitivity limits finer rankings.
-Code and saved results are available at {\urlstyle{same}\url{https://github.com/alexschmidt123/tpec2027_power_grid}}.
+Active probing can reduce uncertainty in power-system dynamics by collecting informative measurements about unknown inertia and frequency-response parameters. In sequential probing, each pulse affects both the current measurement and the physical state carried into later experiments. This paper compares three adaptive policy-based methods---deep adaptive design (DAD), reinforcement-learning-based sequential Bayesian optimal experimental design (RL-sBOED), and Step-DAD---with Random, Fixed, and Myopic baselines on reduced IEEE 9-bus and IEEE 14-bus systems. Across three to five probes, the adaptive policy-based methods achieve higher mean sequential prior-contrastive information scores than the baselines. On IEEE 9-bus, DAD improves over Fixed by 0.09--0.13 nats while requiring only 1.01--1.75 ms per sequence for online decisions on the profiled hardware. Step-DAD provides small additional gains on IEEE 9-bus but at substantially higher online cost, with no consistent improvement on IEEE 14-bus. Overall, the results show that adaptive policy-based probing can improve information acquisition while reducing the online computation required for sequential experiment design.
 \end{abstract}
-
-
 \begin{IEEEkeywords}
-Bayesian experimental design, power-system identification, adaptive probing,
-expected information gain, rate of change of frequency.
+Power-system identification, active probing, Bayesian experimental design,
+adaptive policies, expected information gain.
 \end{IEEEkeywords}
 
 \section{Introduction}
-Knowledge of grid dynamics supports planning and operation by utilities, system operators, and public energy agencies. The growing share of inverter-based generation changes inertia and frequency response~\cite{denholm2020inertia}. Characterizing these changes requires informative measurements. Disturbance-based approaches estimate inertia from frequency and active-power responses~\cite{wall2014inertia}. Active probing offers another source of measurements by deliberately exciting the system. Field tests show that probing-signal design affects electromechanical-mode estimates~\cite{pierre2010probing}, and recent work uses probing to estimate inertia and frequency response in systems with inverter-based resources~\cite{peng2024probing}. These studies motivate the choice of probing signals that reveal uncertain grid parameters.
+Reliable power-system operation depends on knowing how the grid responds to disturbances. Inertia (M) and frequency response (K) are important for short-term frequency dynamics, and their effective values can change as inverter-based resources alter the generation mix~\cite{denholm2020inertia}. Disturbance-based methods estimate inertia from measured frequency and active-power responses~\cite{wall2014inertia}. Active probing takes a different approach: a small test signal is injected into the system and the resulting response is measured. The design of that signal affects the information obtained from the experiment. This has been shown for electromechanical-mode identification~\cite{pierre2010probing} and, more recently, for inertia and frequency-response estimation in systems with inverter-based resources~\cite{peng2024probing}.
 
-An informative probe must be designed, and design computation can become a burden when decisions are repeated as measurements arrive. This is the central issue studied here. We consider a sequence of pulses with fixed amplitude and application bus, choosing each duration from the preceding durations and observations. The objective is to reduce joint uncertainty in inertia and frequency-response coefficients over the full sequence. Duration shapes the measured transient and injected energy, while the physical dynamics evolve between decisions. A useful design method must therefore be assessed both by the information it obtains and by the computation required to select the next probe. This extends the excitation-design question in system identification~\cite{hjalmarsson2009identification} to an adaptive sequential setting.
+This paper considers a sequence of probing pulses. The pulse amplitude and application bus are fixed, and the duration is selected at each stage. The system is not reset between probes. As a result, each duration changes the current response and also the physical state carried into the next probing window. The value of a duration therefore depends on the measurements and decisions that came before it. This makes probe selection a sequential design problem, while repeated online search can add substantial computation to the experiment. The setting is related to excitation design in system identification~\cite{hjalmarsson2009identification}, but here the design is updated over a carried-state probing sequence.
 
-Bayesian optimal experimental design (BOED) measures the value of a probing sequence through expected information gain~\cite{huan2016sequential}. A fixed design optimizes the sequence in advance but cannot respond to new observations. A myopic design uses feedback, solving a one-step design problem online. Adaptive learning provides a different allocation of computation. Deep adaptive design (DAD)~\cite{foster2021dad} and reinforcement-learning-based sequential design (RL-sBOED)~\cite{blau2022rlsboed} train history-dependent policies offline for a full-sequence objective. During probing, a policy forward pass replaces repeated online design optimization. This amortization is the main computational motivation for applying these methods to grid probing. Step-DAD~\cite{hedman2025stepdad} retains the pretrained policy as a starting point and adds online refinement, allowing its information benefit to be weighed against the additional decision cost.
+Bayesian optimal experimental design (BOED) provides a way to choose probes by maximizing expected information gain about the unknown parameters~\cite{huan2016sequential}. A Fixed design can optimize the full sequence before probing begins, but it cannot use measurements collected during the experiment. A Myopic design can react to those measurements, but it optimizes only the next probe and repeats the search online. We refer to DAD~\cite{foster2021dad}, RL-sBOED~\cite{blau2022rlsboed}, and Step-DAD~\cite{hedman2025stepdad} collectively as \emph{adaptive policy-based methods}. DAD and RL-sBOED learn history-dependent policies offline, whereas Step-DAD starts from a trained DAD policy and further refines it online as measurements become available.
 
-We evaluate DAD, RL-sBOED, and Step-DAD against Random, Fixed, and Myopic on reduced IEEE 9-bus and IEEE 14-bus models. The implementations share the same sensor, feasible duration constraints, probe counts, and sequential simulator. The study compares information scores, selected durations, offline preparation, and online decision times. Archived IEEE 14-bus histories are additionally rescored with more contrasts to check the dependence of method comparisons on the information estimator. The purpose is to determine where learned adaptive design obtains more information and where offline training reduces online computation. The comparison addresses the information and computational costs of adaptive probing as a step toward better grid characterization for planning and operation.
+We evaluate these adaptive policy-based methods for continuous pulse-duration selection on reduced IEEE 9-bus and IEEE 14-bus systems. Random, Fixed, and Myopic designs are used as baselines. All six methods use the same physical model, endpoint RoCoF sensor, duration constraints, and probe budget. The comparison focuses on two questions: how much information is acquired over the probing sequence and how much computation is required to choose the probes. We also rescore the IEEE 14-bus histories with larger contrast sets to examine sensitivity to the information estimator. Code and archived results are available online.\footnote{\url{https://github.com/alexschmidt123/tpec2027_power_grid}}
 
-\section{Problem Formulation}\label{sec:problem}
-An episode consists of $T$ probes intended to reduce uncertainty in the grid parameters. We use $t=1,\ldots,T$ for the design stage, $d$ for physical time within a probe window, and $D_t$ for the pulse duration selected at that stage.
+\section{Sequential Probing Formulation}\label{sec:problem}
+We consider $T$ consecutive probing stages. The index $t=1,\ldots,T$ denotes the stage, $d$ is physical time within a stage, and $D_t$ is the pulse duration selected at stage $t$.
 
-\begin{figure}[!ht]
+\begin{figure}[!t]
 \centering
 \begin{tikzpicture}[font=\footnotesize,>=Latex,
 box/.style={draw,rounded corners=1pt,align=center,minimum height=0.70cm,text width=2.15cm,inner sep=3pt}]
@@ -78,32 +57,32 @@ box/.style={draw,rounded corners=1pt,align=center,minimum height=0.70cm,text wid
 \node[box] (probe) at (2.75,0) {Apply pulse; evolve\\carried grid state};
 \node[box] (sense) at (5.5,0) {Measure endpoint\\RoCoF $y_{\mathrm{obs},t}$};
 \draw[->] (choose)--(probe);\draw[->] (probe)--(sense);
-\draw[->] (sense.south)--(5.5,-0.8)--node[below,align=center]{Append $(D_t,y_{\mathrm{obs},t})$ to history; update belief if required\\Carry physical state forward; repeat for $t<T$}(0,-0.8)--(choose.south);
+\draw[->] (sense.south)--(5.5,-0.8)--node[below,align=center]{Append $(D_t,y_{\mathrm{obs},t})$ to history\\Carry the physical state forward; repeat for $t<T$}(0,-0.8)--(choose.south);
 \end{tikzpicture}
-\caption{Sequential probing loop. Adaptive methods use observation history; Fixed and Random select durations without observation feedback.}
+\caption{Sequential probing with state carryover. Adaptive policy-based methods and Myopic use the observed history to select the next duration; Fixed and Random do not use measurement feedback.}
 \label{fig:workflow}
 \end{figure}
 
-\subsection{Latent Parameters and Power-System Model}
-For a reduced network with $m$ machines, the latent parameters are $\theta=(M_1,\ldots,M_m,K_1,\ldots,K_m)$. Here $M_i$ is an inertia coefficient and $K_i$ is an effective frequency-response coefficient. We assign independent uniform priors, $M_i\sim\mathcal U(0.7\bar M_i,1.3\bar M_i)$ and $K_i\sim\mathcal U(0.1\bar K_i,\bar K_i)$, denoted jointly by $p_0(\theta)$. The parameters are sampled once at the start of an episode and held fixed for all probes.
+\subsection{Uncertain Parameters and Reduced Swing Dynamics}
+For a reduced network with $m$ retained machines, the unknown parameter vector is $\theta=(M_1,\ldots,M_m,K_1,\ldots,K_m)$. Here $M_i$ is the inertia coefficient and $K_i$ is an effective frequency-response coefficient for machine $i$. We assign a joint prior $p_0(\theta)$ constituting independent uniform priors, $M_i\sim\mathcal U(0.7\bar M_i,1.3\bar M_i)$ and $K_i\sim\mathcal U(0.1\bar K_i,\bar K_i)$. \hl{what are $\bar M_i, \bar K_i$?} One parameter vector is drawn at the start of a probing sequence and remains fixed throughout that sequence.
 
-Let $\delta_i$ be rotor angle, $\omega_i$ angular-speed deviation, and $u_i$ the applied probing power. The reduced swing model is
+Rotor angles $\delta_i$ and angular-speed deviations $\omega_i$ satisfy
 \begin{equation}
 \begin{aligned}
 \dot\delta_i &= \omega_i,\\
 M_i\dot\omega_i
- &= u_i-\left(D_i+\frac{K_i}{2\pi}\right)\omega_i\\
- &\quad-\sum_{j=1}^{m}B_{ij}\sin(\delta_i-\delta_j).
-\end{aligned}
-\label{eq:swing}
+ &= u_i-\left(D_i+\frac{K_i}{2\pi}\right)\omega_i-\sum_{j=1}^{m}B_{ij}\sin(\delta_i-\delta_j),
+\end{aligned}\label{eq:swing}
 \end{equation}
-Dots denote derivatives with respect to $d$. In~\eqref{eq:swing}, $M_i$ scales acceleration and $K_i$ models the power response to frequency deviation; no explicit turbine--governor dynamics are included. The damping $D_i$ and couplings $B_{ij}$ are known, and $\Delta f_i=\omega_i/(2\pi)$ is measured in Hz. On a 100-MVA base at 60 Hz, the units of $M_i$, $K_i$, and $D_i$ are pu$\,\mathrm{s}^2$/rad, pu/Hz, and pu$\,\mathrm{s}$/rad. Angles, speed deviations, and net mechanical injections initially equal zero, giving an unforced equilibrium.
+where $u_i$ is the probing input, $D_i$ is the known damping coefficient, and $B_{ij}$ is the network coupling. \hl{possible not use $D_i$ here and in Table 1 as you used $D_t$ in equatin 2?} Dots denote derivatives with respect to $d$, and the frequency deviation is $\Delta f_i=\omega_i/(2\pi)$ Hz. The coefficient $K_i$ represents an effective power response to frequency deviation; turbine--governor dynamics are not modeled separately. We use a 100-MVA, 60-Hz base. The initial rotor angles, speed deviations, and net mechanical injections are zero, so each sequence starts from an unforced equilibrium.
 
-The reduced IEEE 9-bus model retains buses 1, 2, and 3; the reduced IEEE 14-bus model retains buses 1, 2, 3, 6, and 8. Test-case reactances~\cite{zimmerman2011matpower} define a lossless Laplacian $\mathbf L$. Eliminating algebraic buses $l$ while retaining machines $g$ gives $\mathbf L_{\mathrm{red}}=\mathbf L_{gg}-\mathbf L_{gl}\mathbf L_{ll}^{-1}\mathbf L_{lg}$, with $B_{ij}=-(\mathbf L_{\mathrm{red}})_{ij}$ for $i\ne j$ and $B_{ii}=0$. Resistance, voltage dynamics, and transformer tap effects are omitted. Table~\ref{tab:physical} summarizes the model parameterization. Nominal inertia is computed as $\bar M_i=2H_i/(2\pi f_0)$, with $f_0=60$ Hz. For IEEE 9-bus, $H=(23.64,6.40,3.01)$ s matches published machine data~\cite[Table~2]{kaur2016transient}. For IEEE 14-bus, $H=(4,6.5,5,5,5)$ s is prescribed at buses $(1,2,3,6,8)$ as assumed benchmark values. For both networks, $\bar K_i=K_{\mathrm{tot}}w_i$, with $K_{\mathrm{tot}}=0.5$ pu/Hz. The allocation weights are $w=(0.5875,0.2625,0.15)$ for IEEE 9-bus and $w=(8,13,10,10,10)/51$ for IEEE 14-bus. Fixed damping satisfies $D_i=(0.1\,\mathrm{s}^{-1})\bar M_i$. The response scales, damping values, and prior ranges are benchmark assumptions rather than validated operational grid parameters.
-\begin{table}[t]
+The reduced IEEE 9-bus model retains buses $(1,2,3)$, and the IEEE 14-bus model retains buses $(1,2,3,6,8)$. A lossless network Laplacian $\mathbf L$ is formed from the MATPOWER test-case reactances~\cite{zimmerman2011matpower}. Algebraic buses are removed by Kron reduction, $\mathbf L_{\mathrm{red}}=\mathbf L_{gg}-\mathbf L_{gl}\mathbf L_{ll}^{-1}\mathbf L_{lg}$, with $B_{ij}=-(\mathbf L_{\mathrm{red}})_{ij}$ for $i\ne j$. Resistance, voltage dynamics, and transformer tap effects are omitted.
+
+Nominal inertia is computed as $\bar M_i=2H_i/(2\pi f_0)$ with $f_0=60$ Hz. For IEEE 9-bus, $H=(23.64,6.40,3.01)$ s is taken from published machine data~\cite[Table~2]{kaur2016transient}. For IEEE 14-bus, we use $H=(4,6.5,5,5,5)$ s as a benchmark setting. The nominal response coefficient is $\bar K_i=K_{\mathrm{tot}}w_i$, where $K_{\mathrm{tot}}=0.5$ pu/Hz. The weights are $w=(0.5875,0.2625,0.15)$ for IEEE 9-bus and $w=(8,13,10,10,10)/51$ for IEEE 14-bus. Damping is set to $D_i=(0.1\,\mathrm{s}^{-1})\bar M_i$. Table~\ref{tab:physical} lists the resulting values. The IEEE 14-bus inertia, response, damping, and prior ranges are benchmark assumptions and should not be interpreted as validated operating parameters.
+
+\begin{table}[!t]
 \caption{Nominal parameter scales and fixed damping}
-\label{tab:physical}
-\papertablestyle
+\label{tab:physical}\papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}llrrr@{}}
 \toprule Network & Bus & $\bar M_i$ & $\bar K_i$ & $D_i$\\\midrule
 IEEE 9-bus & 1 & 0.1254141 & 0.2937500 & 0.0125414\\
@@ -112,154 +91,204 @@ IEEE 9-bus & 1 & 0.1254141 & 0.2937500 & 0.0125414\\
 IEEE 14-bus & 1 & 0.0212207 & 0.0784314 & 0.0021221\\
  & 2 & 0.0344836 & 0.1274510 & 0.0034484\\
  & 3, 6, 8 & 0.0265257 & 0.0980392 & 0.0026526\\
-\bottomrule
-\end{tabular*}
-\end{table}
+\bottomrule\end{tabular*}\end{table}
 
-\subsection{Probe Design and Observation Model}
-A probe is specified by $\xi_t=(A_t,B_t,D_t)$, comprising its amplitude, application bus, and duration. We fix $A_t=0.05$ pu and $B_t=1$ so that duration is the only optimized variable. The applied input is a raised-cosine pulse:
+\subsection{Pulse Design, State Carry, and Sensing}
+Each probe is described by $\xi_t=(A_t,B_t,D_t)$, where $A_t$ is the amplitude, $B_t$ is the application bus, and $D_t$ is the duration. We fix $A_t=0.05$ pu and $B_t=1$ and optimize only $D_t$. The probe has a raised-cosine shape,
 \begin{equation}
-u_{B_t,t}(d)
- =\frac{A_t}{2}\bigl[1-\cos(2\pi d/D_t)\bigr].
-\label{eq:probe}
+u_{B_t,t}(d)=\frac{A_t}{2}\bigl[1-\cos(2\pi d/D_t)\bigr],
+\quad 0\le d\le D_t,\label{eq:probe}
 \end{equation}
-The pulse acts over $0\le d\le D_t$ and is zero thereafter and at all other buses. Its injected energy is proportional to $A_tD_t/2$, so equal probe counts do not impose equal energy budgets. Each probe occupies a fixed observation window of $D_{\mathrm{obs}}=3.5$ s. The terminal angles and speeds become the initial state for the next window. Consequently, the response to probe $t$ depends on the preceding durations as well as the current duration, represented by $\xi_{1:t}=(\xi_1,\ldots,\xi_t)$.
+and is zero after $D_t$ and at all other buses. Every stage uses a fixed $D_{\mathrm{obs}}=3.5$s recording window. The terminal rotor angles and speed deviations are carried directly into the next stage. Thus, the response at stage $t$ depends on the durations applied earlier in the same sequence.
 
-Let $\Delta f_{1,t}(d;\theta,\xi_{1:t})$ denote the bus-1 frequency deviation during window $t$. The noise-free scalar response $y_t$ is the signed endpoint rate of change of frequency (RoCoF):
+The noise-free scalar observation is the signed endpoint rate of change of frequency (RoCoF) at bus 1:
 \begin{equation}
 y_t(\theta,\xi_{1:t})=
-\frac{\Delta f_{1,t}(D_{\mathrm{obs}})-\Delta f_{1,t}(D_{\mathrm{obs}}-\Delta d_{\mathrm{samp}})}{\Delta d_{\mathrm{samp}}}.
+\frac{\Delta f_{1,t}(D_{\mathrm{obs}})-\Delta f_{1,t}(D_{\mathrm{obs}}-\Delta d_{\mathrm{samp}})}{\Delta d_{\mathrm{samp}}},
 \label{eq:sensor}
 \end{equation}
-The parameter and design arguments are suppressed in the numerator. With sampling interval $\Delta d_{\mathrm{samp}}=0.025$ s, the measured response follows
+where $\Delta d_{\mathrm{samp}}=0.025$s. \hl{what are $\xi$, $\Delta f$ here? how this connect to the system equation (1)? } Measurement noise is modeled as
 \begin{equation}
 y_{\mathrm{obs},t}=y_t(\theta,\xi_{1:t})+\epsilon_t,
-\qquad \epsilon_t\sim\mathcal N(0,\sigma^2),
-\label{eq:noise}
+\qquad \epsilon_t\sim\mathcal N(0,\sigma^2),\label{eq:noise}
 \end{equation}
-where $\sigma=0.005$ Hz/s and measurement noise is independent across windows. This sensor measures the post-pulse transient rather than the initial inertial response. Its fixed location and scalar output provide a common observation model for all methods. Observations become available at the end of each window; decision latency is idealized as zero in the simulated dynamics.
+with independent Gaussian noise and $\sigma=0.005$Hz/s. The sensor therefore reports signed RoCoF at the end of the recording window, not the initial inertial RoCoF or the maximum absolute RoCoF during the stage. The next duration is selected after this measurement is available. Decision latency is not modeled in the physical simulation.
 
-\subsection{Sequential Decisions and Bayesian Updating}
-The data after step $t$ are the ordered design--observation history $h_t=((\xi_k,y_{\mathrm{obs},k}))_{k=1}^{t}$, with $h_0=\varnothing$. A policy $\pi$ selects $\xi_t$ using only observed history $h_{t-1}$, with amplitude and bus fixed as above. The policy has no access to the generating parameters or the true physical state. Feasible durations satisfy
+Durations satisfy the common constraints
 \begin{equation}
 \begin{aligned}
-0.2&\le D_t\le3, &&t=1,\ldots,T,\\
-D_t-D_{t-1}&\ge \Delta D_{\min}, &&t=2,\ldots,T,
-\end{aligned}
-\label{eq:bounds}
+0.2&\le D_t\le3,&&t=1,\ldots,T,\\
+D_t-D_{t-1}&\ge\Delta D_{\min},&&t=2,\ldots,T,
+\end{aligned}\label{eq:bounds}
 \end{equation}
-Here $\Delta D_{\min}=0.01$ s. The lower bound is 0.2 s at the first stage and $D_{t-1}+\Delta D_{\min}$ thereafter; the upper bound is $3-(T-t)\Delta D_{\min}$, reserving room for the remaining probes. All methods map a unit action continuously into this interval, without sorting durations. Let $\Pi$ be the resulting policy class. Increasing durations are a benchmark restriction, not a requirement of the swing equations; nonmonotonic sequences are outside this comparison. Policy randomness is independent of $\theta$, and actions depend only on observed history.
+where $\Delta D_{\min}=0.01$s. At each stage, the feasible interval is shortened as needed so that the remaining probes can still satisfy the increasing-duration constraint. The same continuous action mapping is used for all methods. This ordering rule is a benchmark restriction rather than a requirement of the swing equations. Because pulse energy is proportional to $A_tD_t/2$, equal probe counts do not imply equal injected energy.
 
-For a candidate $\theta$, the predicted response and sensor noise define a Gaussian likelihood $p(y_{\mathrm{obs},t}\mid\theta,h_{t-1},\xi_t)$ with mean $y_t(\theta,\xi_{1:t})$ and variance $\sigma^2$. Incorporating the new measurement gives
+\subsection{History-Dependent Decisions and Bayesian Updating}
+After stage $t$, the observed history is $h_t=((\xi_k,y_{\mathrm{obs},k}))_{k=1}^t$, with $h_0=\varnothing$. A policy $\pi\in\Pi$ selects the next probe from this history only; it does not observe the true parameter vector or the true internal state. For any candidate $\theta$, the simulator predicts the response to the applied duration sequence and defines the Gaussian likelihood in~\eqref{eq:noise}. Bayes' rule gives
 \begin{equation}
 p(\theta\mid h_t)=
 \frac{p(y_{\mathrm{obs},t}\mid\theta,h_{t-1},\xi_t)\,p(\theta\mid h_{t-1})}
-{p(y_{\mathrm{obs},t}\mid h_{t-1},\xi_t)}.
-\label{eq:posterior}
+{p(y_{\mathrm{obs},t}\mid h_{t-1},\xi_t)}.\label{eq:posterior}
 \end{equation}
-The denominator integrates over $\theta$; before the first measurement, $p(\theta\mid h_0)=p_0(\theta)$. Each candidate carries its own state through the observed duration sequence. No policy action probability enters the update: conditional on the observed history, actions depend on neither the unknown parameters nor their candidate states.
+with $p(\theta\mid h_0)=p_0(\theta)$. Each candidate parameter vector carries its own predicted state through the observed duration sequence. Since the applied action is already determined by the observed history, the posterior update does not require a policy-action probability term.
 
-
-
-\subsection{Expected Information Gain and Design Objective}
-The expected information gain (EIG) of policy $\pi$ measures the mean Kullback--Leibler divergence between the terminal posterior and the prior:
+\subsection{Full-Sequence Information Objective}
+Expected information gain (EIG) is
 \begin{equation}
 \mathcal I_T(\pi)=\E_{h_T\mid\pi}
-\!\left[D_{\mathrm{KL}}\bigl(p(\theta\mid h_T)\,\|\,p_0(\theta)\bigr)\right].
+\!\left[D_{\mathrm{KL}}\bigl(p(\theta\mid h_T)\,\|\,p_0(\theta)\bigr)\right],
 \label{eq:eig}
 \end{equation}
-Here $D_{\mathrm{KL}}(p\|q)=\int p(\theta)\log[p(\theta)/q(\theta)]\,d\theta$; information gain is measured in nats. The expectation averages over parameter draws, measurement noise, and any policy randomness. The sequential Bayesian design problem is
+where $D_{\mathrm{KL}}$ is the Kullback--Leibler divergence. The expectation is taken over parameter draws, measurement noise, and any policy randomness. We seek a policy that solves
 \begin{equation}
 \pi^\star\in\operatorname*{arg\,max}_{\pi\in\Pi}\mathcal I_T(\pi).
 \label{eq:design_problem}
 \end{equation}
-All methods target~\eqref{eq:design_problem}, but their approximations and use of feedback differ. Probe counts are held equal, and computational costs are reported separately.
+Information is measured in nats. Fixed and the three adaptive policy-based methods are evaluated with the full-sequence objective. Myopic approximately maximizes one-step conditional information gain, while Random does not optimize an information objective.
 
-Evaluating EIG directly requires integration of the nonlinear likelihood over the uncertain parameters. The sequential prior-contrastive (sPCE) lower bound~\cite{foster2021dad} supplies a tractable alternative for training and evaluation. A generating draw $\theta^{(0)}\sim p_0$ produces the observed history, while $L$ independent draws $\theta^{(1)},\ldots,\theta^{(L)}\sim p_0$ provide contrasts. Along the realized design sequence, a candidate's likelihood is
+Direct EIG evaluation requires integrating the nonlinear likelihood over the prior. We instead use the sequential prior-contrastive (sPCE) lower bound~\cite{foster2021dad}. One prior draw, $\theta^{(0)}$, generates the observed sequence, and $L$ additional prior draws serve as contrasts. For a candidate parameter vector, the likelihood of the observed history is
 \begin{equation}
 \mathcal L_t(\theta)=\prod_{k=1}^{t}
 p(y_{\mathrm{obs},k}\mid\theta,h_{k-1},\xi_k).
 \label{eq:likelihood}
 \end{equation}
-The sampled information score is then
+The sampled score is
 \begin{equation}
 \widehat I_t=\log\frac{\mathcal L_t(\theta^{(0)})}
 {\frac{1}{L+1}\sum_{\ell=0}^{L}\mathcal L_t(\theta^{(\ell)})}.
 \label{eq:spce}
 \end{equation}
-We compute likelihoods in the log domain. The average of $\widehat I_T$ estimates the sPCE lower bound on $\mathcal I_T(\pi)$ rather than EIG itself. A sampled score can be negative and cannot exceed $\log(L+1)$. At $L=128$, this ceiling is 4.8598 nats and can obscure differences between informative designs. We therefore use the term information score for the estimated bound and examine contrast-count sensitivity separately. Generating parameters are used by the simulator and scorer, but are never supplied to the policy.
+Likelihoods are evaluated in the log domain. The mean terminal score estimates the sPCE lower bound rather than EIG itself. A sampled score can be negative and is bounded above by $\log(L+1)$; for $L=128$, the ceiling is 4.8598 nats. We therefore call the reported values \emph{information scores} and later check their sensitivity to larger contrast sets. The generating parameters are used by the simulator and scorer only and are never given to a design method.
 
-\section{Compared Design Methods}
-All six methods use the same observation model and feasible duration
-interval~\eqref{eq:bounds}. Adaptation and planning horizon are distinct: an adaptive method can be myopic, whereas a fixed sequence can be optimized jointly for the full horizon. The algorithms are adaptations of existing methods to the carried-state grid simulator.
+\section{Design Methods}\label{sec:methods}
+All six methods use the same simulator, observation model, and duration constraints. The main differences are whether measurements are used to adapt later probes, whether the objective covers one step or the full sequence, and whether optimization is performed offline or during probing.
 
+\subsection{Nonadaptive Baselines: Random and Fixed}
+Random samples one unit action at each stage and maps it to the remaining feasible duration interval. It uses no measurement feedback and requires no offline training. Because the feasible interval changes after each decision, the resulting complete sequences are not uniformly distributed.
 
+Fixed optimizes the full duration sequence before test measurements are observed, following the nonadaptive formulation in~\cite[Sec.~2.4]{huan2016sequential}. It uses terminal sPCE as the objective but does not adapt during probing. Several interior initializations are compared first, after which the best initialization is optimized with pathwise gradients. A separate Fixed sequence is obtained for each training seed.
 
-\subsection{Nonadaptive Designs: Random and Fixed}
-Random samples $z_t\sim\mathcal U(0,1)$ independently at each step and sets $D_t=D_t^{\min}+(D_t^{\max}-D_t^{\min})z_t$. Here $D_1^{\min}=0.2$, $D_t^{\min}=D_{t-1}+\Delta D_{\min}$ for $t>1$, and $D_t^{\max}=3-(T-t)\Delta D_{\min}$. Each duration is therefore uniform within the remaining feasible interval; complete sequences are not sampled uniformly. Random does not use observations and needs no offline training.
+\subsection{Online One-Step Baseline: Myopic}
+Myopic uses the current history to choose the next duration by approximately maximizing one-step conditional information gain~\cite[Sec.~2.4]{huan2016sequential}. The posterior is represented by 128 weighted particles, each carrying its own physical state. At every decision, three rounds of 16 candidate durations are searched, using 32 simulated observations per candidate. No offline training is required, but posterior updating and candidate search are repeated during probing. The selected action is therefore an approximate myopic optimum.
 
-Fixed optimizes all durations before any test observations are collected~\cite[Sec.~2.4]{huan2016sequential}. Its objective is the full-sequence sPCE score. Validation first compares short, central, long, and spread interior initializations; optimization then proceeds from the selected sequence. A separate sequence is fitted for each training seed. At test time, these durations are executed without measurement feedback.
+\subsection{Adaptive Policy-Based Methods}
+The adaptive policy-based methods use the observed history to select later probes. Their policy input contains the stage index, previous durations, scaled observations, and masks for unused history slots. Past probes remain ordered because the physical state is carried across stages. DAD and RL-sBOED learn the policy offline and select a duration at test time with a policy forward pass followed by the common feasible-duration mapping. Step-DAD uses the same history representation but adds online refinement.
 
-\subsection{Online One-Step Design: Myopic}
-Myopic conditions each decision on the available measurements and targets information from the next observation~\cite[Sec.~2.4]{huan2016sequential}. A weighted particle approximation represents the current posterior. After a measurement, each particle advances its own physical state under the applied duration and receives an updated likelihood weight. The duration search uses three rounds of 16 proposals, with 32 simulated observations per proposal, and returns the best estimated one-step design. It respects the common duration constraints and requires no offline training.
+DAD~\cite{foster2021dad} uses two 64-unit tanh hidden layers, a trainable stage bias, and a sigmoid action map. Training uses pathwise gradients through the observations and carried states to maximize terminal sPCE. Before training, a random initialization is compared with an initialization based on the optimized Fixed sequence. The reported DAD preparation time includes this Fixed stage.
 
-\subsection{Offline-Trained Adaptive Methods: DAD and RL-sBOED}
-DAD and RL-sBOED learn from sequences simulated under the parameter prior. Their inputs encode the stage index, past durations, scaled observations, and availability masks; future history slots are masked. Once trained, either policy selects a duration with a forward pass followed by the feasible-duration map. Explicit posterior assimilation and candidate-probe simulation are unnecessary during action selection.
+RL-sBOED~\cite{blau2022rlsboed} is implemented with a REDQ-style actor--critic using ten critics and five replay updates per trajectory batch. The actor has two 128-unit ReLU hidden layers. Its stage reward is $R_t=\widehat I_t-\widehat I_{t-1}$ with $\widehat I_0=0$, so the undiscounted rewards sum to terminal sPCE. Training uses entropy regularization with target entropy $-1$ in normalized action coordinates, and evaluation uses the deterministic actor output. Unlike DAD, RL-sBOED does not require pathwise differentiation through the swing simulator.
 
-The DAD implementation~\cite{foster2021dad} has two 64-unit tanh hidden layers, a trainable stage bias, and a sigmoid action map. Pathwise gradients propagate through observations and carried states to maximize the terminal sPCE score. Validation chooses between random initialization and initialization from a separately optimized Fixed sequence. The reported preparation cost includes the Fixed stage in either case (Section~\ref{sec:cost}).
+Step-DAD~\cite{hedman2025stepdad} starts from the selected DAD checkpoint. The first duration comes directly from the pretrained policy. After each subsequent measurement, a 128-particle posterior is used to simulate the remaining sequence, and the policy receives four Adam updates with batch size 32 and learning rate $10^{-3}$. A conditional validation batch determines whether the updated weights are retained. Accepted updates carry forward within the current probing sequence, while each new sequence starts from the original DAD checkpoint. Step-DAD is therefore adaptive at the policy level but retains substantial online computation.
 
-Our RL-sBOED implementation~\cite{blau2022rlsboed} uses a REDQ-style actor--critic algorithm with ten critics and five replay updates per trajectory batch. The actor has two 128-unit ReLU hidden layers. Rewards are $R_t=\widehat I_t-\widehat I_{t-1}$, with $\widehat I_0=0$ and discount factor $\gamma=1$, so their sum equals the terminal sPCE score. Training uses entropy regularization in normalized tanh-action coordinates with target entropy $-1$. Evaluation uses the deterministic actor output; reported information scores exclude the entropy bonus.
+\section{Experimental Protocol}\label{sec:protocol}
+\subsection{Simulation, Training, and Checkpoint Selection}
+Experiments use $T=3,4,5$ probes, with one scalar RoCoF measurement per stage. A separate policy is trained for each network and horizon. The swing equations are integrated with fourth-order Runge--Kutta using a $1/640$-s time step. DAD and Step-DAD apply the chain rule through numerical Jacobians of the state and duration. State perturbations are $10^{-5}\max(1,|x_j|)$ and duration perturbations are $10^{-5}$ s, clipped to the feasible range. The resulting policy and refinement gradients are also checked against end-to-end finite differences.
 
-\subsection{Online Refinement: Step-DAD}
-Step-DAD~\cite{hedman2025stepdad} begins each episode with the selected DAD checkpoint and retains its first action. After each nonterminal observation, a 128-particle posterior provides parameters and carried states for simulations of the remaining probes. A fresh Adam optimizer takes four updates before the next decision, using batch size 32 and learning rate $10^{-3}$. A common conditional validation batch compares the updated policies with the unchanged policy. The selected weights are retained within the episode and reset afterward. This gives $4(T-1)$ refinement updates. Both Myopic and Step-DAD assimilate observations before subsequent decisions; terminal information scoring is a separate operation.
+Fixed, DAD, and RL-sBOED use training seeds 101, 202, and 303. Each run performs 2000 trajectory updates with batch size 32. Fixed and DAD use Adam with learning rate $10^{-3}$; the RL actor and critics use $3\times10^{-4}$. Checkpoints are evaluated every 100 updates on 128 validation systems. Training, validation, and the initial evaluation use $L=128$ contrasts. The shared update count provides a common protocol, but it should not be interpreted as equal optimization effort or proof of convergence.
 
-\section{Experimental Settings}
-\subsection{Simulation and Training Protocol}
-We evaluate horizons $T=3,4,5$, with one scalar observation per probe. Policies are trained separately for each network and horizon; sensor settings and duration constraints are shared.
+\subsection{Paired Evaluation and Statistical Reporting}\label{sec:evaluation}
+Testing uses seeds 1001, 1002, and 1003, with 512 probing sequences per seed. Each fitted policy is therefore evaluated on 1536 sequences. Parameter and measurement-noise draws are paired across methods when the protocol allows; planner randomness is generated separately. Training, validation, and test seeds are distinct.
 
-Simulation uses fourth-order Runge--Kutta (RK4) integration with a $1/640$-s step. The pathwise gradient calculation approximates state and duration Jacobians numerically: perturbations are $10^{-5}\max(1,|x_j|)$ for state coordinate $x_j$ and $10^{-5}$ s for duration, with duration perturbations clipped at the feasible bounds. Policy and conditional-refinement gradients are checked against end-to-end finite differences in the validation suite.
+For Fixed and the adaptive policy-based methods, each reported value is the mean and sample standard deviation (SD) across three training-seed means, where each seed mean already averages all test sequences. Random and Myopic have no training seed, so their SDs are computed across the three test-seed means. The SDs therefore summarize seed-to-seed variation, not episode-level variability or uncertainty in paired method differences. We use these comparisons descriptively and do not make significance claims from the separate SDs.
 
-Each network--horizon combination has Fixed, DAD, and RL-sBOED fits from training seeds 101, 202, and 303. Training comprises 2000 trajectory updates of batch size 32. Fixed and DAD use Adam at $10^{-3}$; the RL actor and critics use $3\times10^{-4}$. Every 100 updates, 128 validation systems determine checkpoint selection. Training, validation, and initial evaluation use $L=128$ contrasts. The larger-$L$ IEEE 14-bus evaluation is described in Section~\ref{sec:sensitivity}. Myopic and Step-DAD each use 128 planning particles, and Step-DAD takes four refinement updates after each nonterminal observation.
-
-\subsection{Evaluation Protocol}\label{sec:evaluation}
-Test seeds 1001, 1002, and 1003 supply 512 episodes each, or 1536 episodes per fitted policy. Methods share paired parameter and measurement-noise draws; planner randomness uses a separate stream. Training, checkpoint validation, and testing also use separate seeds. For fitted methods, tables report the mean and sample standard deviation (SD) of three training-seed means, each averaged over all test episodes. Random and Myopic do not depend on a training seed, so their SDs are taken over the three test-seed means. These SDs quantify variation among seed means. They neither describe episode dispersion nor provide uncertainty intervals for paired method differences.
-
-
-% Complete results under the accepted three-evaluation-seed grid protocol.
-\section{Results and Discussion}
-\label{sec:results}
-\subsection{Information Acquired at Equal Probe Budgets}
-Tables~\ref{tab:ieee9} and~\ref{tab:ieee14} report sPCE information scores using the aggregation defined in Section~\ref{sec:evaluation}. All three learned adaptive methods exceed Random, Fixed, and Myopic in mean score for each network and horizon.
-
-\begin{table}[!ht]\caption{IEEE 9-bus sPCE scores ($L=128$; nats)}\label{tab:ieee9}\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
+\section{Results and Discussion}\label{sec:results}
+\subsection{Information Scores at Matched Probe Counts}
+Tables~\ref{tab:ieee9} and~\ref{tab:ieee14} report the $L=128$ information scores; the highest mean score in each horizon is shown in bold. On both networks and at every tested horizon, the adaptive policy-based methods have higher mean scores than Random, Fixed, and Myopic. For IEEE 9-bus, DAD exceeds Fixed by 0.1253, 0.0903, and 0.1286 nats at $T=3,4,5$. Step-DAD adds 0.0105, 0.0287, and 0.0269 nats over DAD. \hl{rewrite the following: reads AI writing to me: }The differences are descriptive and reflect the complete implementations; they do not isolate the effects of feedback, policy structure, or optimization quality.
+\begin{table}[!t]
+\caption{IEEE 9-bus sPCE scores ($L=128$; nats)}
+\label{tab:ieee9}
+\centering\footnotesize\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.05}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
+\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
 Random & $0.4321\pm0.0310$ & $0.4924\pm0.0342$ & $0.5392\pm0.0471$\\
 Fixed & $2.0112\pm0.0116$ & $2.3192\pm0.0004$ & $2.5066\pm0.0013$\\
 Myopic & $1.9736\pm0.0438$ & $2.1707\pm0.0366$ & $2.2407\pm0.0547$\\
 DAD & $2.1366\pm0.0161$ & $2.4095\pm0.0080$ & $2.6351\pm0.0179$\\
 RL-sBOED & $2.1257\pm0.0027$ & $2.3963\pm0.0333$ & $2.5307\pm0.0114$\\
-Step-DAD & $2.1471\pm0.0110$ & $2.4382\pm0.0048$ & $2.6621\pm0.0145$\\
+Step-DAD & $\mathbf{2.1471\pm0.0110}$ & $\mathbf{2.4382\pm0.0048}$ & $\mathbf{2.6621\pm0.0145}$\\
 \bottomrule\end{tabular*}\end{table}
-
-\begin{table}[!ht]
+\begin{table}[!t]
 \caption{IEEE 14-bus sPCE scores ($L=128$; nats)}
 \label{tab:ieee14}
-\papertablestyle
+\centering\footnotesize\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.05}
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
 \toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
 Random & $0.7541\pm0.0047$ & $0.8360\pm0.0297$ & $0.8464\pm0.0252$\\
 Fixed & $4.2623\pm0.0402$ & $4.4946\pm0.0345$ & $4.6624\pm0.0083$\\
 Myopic & $4.2907\pm0.0368$ & $4.3990\pm0.0177$ & $4.4641\pm0.0280$\\
-DAD & $4.7576\pm0.0362$ & $4.8325\pm0.0047$ & $4.8443\pm0.0026$\\
+DAD & $\mathbf{4.7576\pm0.0362}$ & $\mathbf{4.8325\pm0.0047}$ & $4.8443\pm0.0026$\\
 RL-sBOED & $4.7445\pm0.0022$ & $4.8275\pm0.0112$ & $4.8383\pm0.0108$\\
-Step-DAD & $4.7527\pm0.0275$ & $4.8297\pm0.0067$ & $4.8446\pm0.0042$\\
+Step-DAD & $4.7527\pm0.0275$ & $4.8297\pm0.0067$ & $\mathbf{4.8446\pm0.0042}$\\
 \bottomrule\end{tabular*}\end{table}
-The IEEE 9-bus DAD--Fixed mean differences are 0.1253, 0.0903, and 0.1286 nats for $T=3,4,5$. Step-DAD adds a further 0.0105, 0.0287, and 0.0269 nats to DAD. All scores are below the 4.8598-nat ceiling. The comparisons favor the learned full-sequence policies in this benchmark, although they do not separate the contribution of observation feedback from that of policy parameterization and optimization. The mean differences are descriptive; separate method SDs are not used to claim statistical significance.
 
-IEEE 14-bus presents a different estimation regime: the learned-policy means at $L=128$ approach the 4.8598-nat ceiling. Step-DAD differs from DAD by $-0.0049$, $-0.0028$, and $+0.0003$ nats for $T=3,4,5$, which does not establish an EIG ranking. Fixed exceeds Myopic at $T=4,5$ in Table~\ref{tab:ieee14}, but the archived-history rescoring reverses that ordering (Section~\ref{sec:sensitivity}).
+On IEEE 9-bus, Fixed also scores above Myopic at all three horizons. Feedback alone is therefore not enough to guarantee a better design when the online search is one-step and approximate. The IEEE 14-bus results require additional care because the adaptive policy-based scores lie close to the 4.8598-nat ceiling of the $L=128$ estimator. Step-DAD differs from DAD by only $-0.0049$, $-0.0028$, and $+0.0003$ nats for $T=3,4,5$, which is too small to support a \hl{ranking of their true EIG?}.
+
+\subsection{Sensitivity to the Information Estimator}\label{sec:sensitivity}
+We therefore rescore all 64\,512 archived IEEE 14-bus histories with $L=10^4$ and $10^5$ contrasts. No policy is retrained or rerun. The generating parameters, durations, measurements, and histories remain fixed, so only the information estimator changes. Matching test-seed and sequence pairs use the same contrast streams across methods, and the $10^4$ set is a prefix of the $10^5$ set. Table~\ref{tab:largeL} reports both rescoring settings using the same seed aggregation as the main evaluation. The highest mean score in each horizon is shown in bold.
+\begin{table*}[!t]
+\centering
+\begin{minipage}[t]{0.49\textwidth}
+\caption{IEEE 14-bus rescored sPCE scores (nats)}
+\label{tab:largeL}
+\centering\footnotesize\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.02}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc@{}}
+\multicolumn{4}{c}{(a) $L=10^4$}\\[1pt]
+\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
+Random & $0.8449\pm0.0121$ & $0.9552\pm0.0162$ & $0.9991\pm0.0388$\\
+Fixed & $5.2956\pm0.0802$ & $6.0609\pm0.1246$ & $6.7906\pm0.0167$\\
+Myopic & $5.8136\pm0.0514$ & $6.4715\pm0.0127$ & $6.8192\pm0.0500$\\
+DAD & $\mathbf{7.1062\pm0.2327}$ & $\mathbf{8.2061\pm0.0286}$ & $\mathbf{8.6662\pm0.0556}$\\
+RL-sBOED & $7.0793\pm0.0567$ & $8.1296\pm0.1355$ & $8.5852\pm0.2660$\\
+Step-DAD & $7.1008\pm0.2309$ & $8.1992\pm0.0191$ & $8.6583\pm0.0550$\\
+\bottomrule
+\addlinespace[3pt]
+\multicolumn{4}{c}{(b) $L=10^5$}\\[1pt]
+\toprule Method & $T=3$ & $T=4$ & $T=5$\\\midrule
+Random & $0.8476\pm0.0136$ & $0.9645\pm0.0150$ & $1.0075\pm0.0333$\\
+Fixed & $5.3472\pm0.0837$ & $6.1694\pm0.1401$ & $7.0488\pm0.0272$\\
+Myopic & $5.9348\pm0.0697$ & $6.7628\pm0.0277$ & $7.2307\pm0.0540$\\
+DAD & $\mathbf{7.3126\pm0.2674}$ & $\mathbf{8.8217\pm0.0707}$ & $9.6931\pm0.1308$\\
+RL-sBOED & $7.2873\pm0.0578$ & $8.7141\pm0.2070$ & $9.5528\pm0.4753$\\
+Step-DAD & $7.3064\pm0.2650$ & $8.8135\pm0.0578$ & $\mathbf{9.6947\pm0.1220}$\\
+\bottomrule
+\end{tabular*}
+
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\caption{Computational costs on A100-equipped systems}
+\label{tab:cost}
+\centering\scriptsize\setlength{\tabcolsep}{2.0pt}\renewcommand{\arraystretch}{1.02}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrr@{}}
+\toprule
+& \multicolumn{3}{c}{IEEE 9-bus} & \multicolumn{3}{c}{IEEE 14-bus}\\
+\cmidrule(lr){2-4}\cmidrule(l){5-7}
+Method & $T=3$ & $T=4$ & $T=5$ & $T=3$ & $T=4$ & $T=5$\\
+\midrule\multicolumn{7}{c}{Offline preparation (hours)}\\\midrule
+Random & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0}\\
+Fixed & 0.554 & 0.802 & 1.063 & 1.880 & 2.750 & 3.720\\
+Myopic & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0}\\
+DAD & 1.116 & 1.608 & 2.139 & 3.810 & 5.457 & 7.418\\
+RL-sBOED & 0.100 & 0.117 & 0.129 & 0.163 & 0.205 & 0.249\\
+Step-DAD & 1.116 & 1.608 & 2.139 & 3.810 & 5.457 & 7.418\\
+\midrule\multicolumn{7}{c}{Online decisions (ms per sequence)}\\\midrule
+Random & \textbf{0.167} & \textbf{0.229} & \textbf{0.303} & \textbf{0.158} & \textbf{0.207} & \textbf{0.285}\\
+Fixed & 0.849 & 1.135 & 1.472 & 1.141 & 1.906 & 1.952\\
+Myopic & 4\,418 & 5\,952 & 7\,514 & 9\,998 & 13\,433 & 16\,918\\
+DAD & 1.012 & 1.345 & 1.745 & 1.440 & 1.513 & 1.733\\
+RL-sBOED & 1.147 & 1.781 & 7.692 & 1.413 & 1.550 & 1.905\\
+Step-DAD & 3\,083 & 7\,689 & 14\,346 & 9\,245 & 23\,320 & 45\,089\\
+\bottomrule\end{tabular*}
+\end{minipage}
+\end{table*}
+
+With the larger contrast sets, the score ceilings rise to 9.2104 and 11.5129 nats. The broad result is unchanged: all three adaptive policy-based methods remain above Random, Fixed, and Myopic in mean score. However, Myopic now exceeds Fixed at every horizon, reversing their $L=128$ ordering at $T=4$ and $T=5$. The reversal shows that finite contrast count can affect comparisons between closely performing methods.
+
+At $L=10^5$, the differences of Step-DAD from DAD are $-0.0062$, $-0.0082$, and $+0.0016$ nats for $T=3,4,5$, so online refinement still gives no consistent mean advantage on IEEE 14-bus. DAD's $T=5$ score also changes from 8.666 to 9.693 nats between $L=10^4$ and $10^5$. Larger contrast sets therefore preserve the separation between the adaptive policy-based methods and the baselines, but they do not establish estimator convergence or \hl{a definitive EIG ranking} within the adaptive policy-based group.
 
 \subsection{Selected Probe Durations}
-\begin{figure}[!ht]
+Figure~\ref{fig:durations} shows the selected durations for IEEE 14-bus at $T=5$. Values are pooled over test sequences and, for trained methods, over the three training seeds. Each fitted method contributes 4608 histories; Random and Myopic contribute 1536 each. Markers denote medians and bars denote interquartile ranges.
+\begin{figure}[!t]
 \centering
 \begin{tikzpicture}
 \begin{semilogyaxis}[width=\columnwidth,height=5.6cm,
@@ -269,195 +298,128 @@ xlabel={Probe stage},ylabel={Pulse duration (s)},
 tick label style={font=\small},label style={font=\small},
 grid=major,grid style={gray!15},mark size=2.3pt,
 legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=3,draw=none}]
-\addplot+[color=black,mark=square*,solid,line width=1pt] coordinates {(0.85,0.2828679026357658) (1.85,0.44174800663973723) (2.85,0.6248914148623391) (3.85,0.8502420862900666) (4.85,1.1138050693458)};\addlegendentry{Fixed}
+\addplot+[color=black,mark=square*,mark options={fill=black},solid,line width=1pt] coordinates {(0.85,0.2828679026357658) (1.85,0.44174800663973723) (2.85,0.6248914148623391) (3.85,0.8502420862900666) (4.85,1.1138050693458)};\addlegendentry{Fixed}
 \draw[black,line width=0.65pt] (axis cs:0.85,0.28043540003219924) -- (axis cs:0.85,0.28407994948463416);
 \draw[black,line width=0.65pt] (axis cs:0.815,0.28043540003219924) -- (axis cs:0.885,0.28043540003219924);
 \draw[black,line width=0.65pt] (axis cs:0.815,0.28407994948463416) -- (axis cs:0.885,0.28407994948463416);
 \draw[black,line width=0.65pt] (axis cs:1.85,0.4368882675825554) -- (axis cs:1.85,0.4442662399049329);
-\draw[black,line width=0.65pt] (axis cs:1.8150000000000002,0.4368882675825554) -- (axis cs:1.885,0.4368882675825554);
-\draw[black,line width=0.65pt] (axis cs:1.8150000000000002,0.4442662399049329) -- (axis cs:1.885,0.4442662399049329);
+\draw[black,line width=0.65pt] (axis cs:1.815,0.4368882675825554) -- (axis cs:1.885,0.4368882675825554);
+\draw[black,line width=0.65pt] (axis cs:1.815,0.4442662399049329) -- (axis cs:1.885,0.4442662399049329);
 \draw[black,line width=0.65pt] (axis cs:2.85,0.6213276254712479) -- (axis cs:2.85,0.6308005604712162);
-\draw[black,line width=0.65pt] (axis cs:2.815,0.6213276254712479) -- (axis cs:2.8850000000000002,0.6213276254712479);
-\draw[black,line width=0.65pt] (axis cs:2.815,0.6308005604712162) -- (axis cs:2.8850000000000002,0.6308005604712162);
+\draw[black,line width=0.65pt] (axis cs:2.815,0.6213276254712479) -- (axis cs:2.885,0.6213276254712479);
+\draw[black,line width=0.65pt] (axis cs:2.815,0.6308005604712162) -- (axis cs:2.885,0.6308005604712162);
 \draw[black,line width=0.65pt] (axis cs:3.85,0.8293291586102614) -- (axis cs:3.85,0.8514718534589947);
-\draw[black,line width=0.65pt] (axis cs:3.815,0.8293291586102614) -- (axis cs:3.8850000000000002,0.8293291586102614);
-\draw[black,line width=0.65pt] (axis cs:3.815,0.8514718534589947) -- (axis cs:3.8850000000000002,0.8514718534589947);
+\draw[black,line width=0.65pt] (axis cs:3.815,0.8293291586102614) -- (axis cs:3.885,0.8293291586102614);
+\draw[black,line width=0.65pt] (axis cs:3.815,0.8514718534589947) -- (axis cs:3.885,0.8514718534589947);
 \draw[black,line width=0.65pt] (axis cs:4.85,1.1016864966430364) -- (axis cs:4.85,1.1337509493484184);
-\draw[black,line width=0.65pt] (axis cs:4.8149999999999995,1.1016864966430364) -- (axis cs:4.885,1.1016864966430364);
-\draw[black,line width=0.65pt] (axis cs:4.8149999999999995,1.1337509493484184) -- (axis cs:4.885,1.1337509493484184);
-\addplot+[color=blue!75!black,mark=*,solid,line width=1pt] coordinates {(0.91,0.21060972398826466) (1.91,0.237196318709802) (2.91,0.26736997313645894) (3.91,0.30545846848903146) (4.91,0.3687135420032292)};\addlegendentry{DAD}
+\draw[black,line width=0.65pt] (axis cs:4.815,1.1016864966430364) -- (axis cs:4.885,1.1016864966430364);
+\draw[black,line width=0.65pt] (axis cs:4.815,1.1337509493484184) -- (axis cs:4.885,1.1337509493484184);
+\addplot+[color=blue!75!black,mark=*,mark options={fill=blue!75!black},solid,line width=1pt] coordinates {(0.91,0.21060972398826466) (1.91,0.237196318709802) (2.91,0.26736997313645894) (3.91,0.30545846848903146) (4.91,0.3687135420032292)};\addlegendentry{DAD}
 \draw[blue!75!black,line width=0.65pt] (axis cs:0.91,0.20910896907497187) -- (axis cs:0.91,0.21076482938125188);
-\draw[blue!75!black,line width=0.65pt] (axis cs:0.875,0.20910896907497187) -- (axis cs:0.9450000000000001,0.20910896907497187);
-\draw[blue!75!black,line width=0.65pt] (axis cs:0.875,0.21076482938125188) -- (axis cs:0.9450000000000001,0.21076482938125188);
+\draw[blue!75!black,line width=0.65pt] (axis cs:0.875,0.20910896907497187) -- (axis cs:0.945,0.20910896907497187);
+\draw[blue!75!black,line width=0.65pt] (axis cs:0.875,0.21076482938125188) -- (axis cs:0.945,0.21076482938125188);
 \draw[blue!75!black,line width=0.65pt] (axis cs:1.91,0.23261459552264124) -- (axis cs:1.91,0.23937861952380685);
-\draw[blue!75!black,line width=0.65pt] (axis cs:1.875,0.23261459552264124) -- (axis cs:1.9449999999999998,0.23261459552264124);
-\draw[blue!75!black,line width=0.65pt] (axis cs:1.875,0.23937861952380685) -- (axis cs:1.9449999999999998,0.23937861952380685);
+\draw[blue!75!black,line width=0.65pt] (axis cs:1.875,0.23261459552264124) -- (axis cs:1.945,0.23261459552264124);
+\draw[blue!75!black,line width=0.65pt] (axis cs:1.875,0.23937861952380685) -- (axis cs:1.945,0.23937861952380685);
 \draw[blue!75!black,line width=0.65pt] (axis cs:2.91,0.2590983730697771) -- (axis cs:2.91,0.2759990326784988);
-\draw[blue!75!black,line width=0.65pt] (axis cs:2.875,0.2590983730697771) -- (axis cs:2.9450000000000003,0.2590983730697771);
-\draw[blue!75!black,line width=0.65pt] (axis cs:2.875,0.2759990326784988) -- (axis cs:2.9450000000000003,0.2759990326784988);
+\draw[blue!75!black,line width=0.65pt] (axis cs:2.875,0.2590983730697771) -- (axis cs:2.945,0.2590983730697771);
+\draw[blue!75!black,line width=0.65pt] (axis cs:2.875,0.2759990326784988) -- (axis cs:2.945,0.2759990326784988);
 \draw[blue!75!black,line width=0.65pt] (axis cs:3.91,0.2883274511510281) -- (axis cs:3.91,0.3248943519856942);
-\draw[blue!75!black,line width=0.65pt] (axis cs:3.875,0.2883274511510281) -- (axis cs:3.9450000000000003,0.2883274511510281);
-\draw[blue!75!black,line width=0.65pt] (axis cs:3.875,0.3248943519856942) -- (axis cs:3.9450000000000003,0.3248943519856942);
+\draw[blue!75!black,line width=0.65pt] (axis cs:3.875,0.2883274511510281) -- (axis cs:3.945,0.2883274511510281);
+\draw[blue!75!black,line width=0.65pt] (axis cs:3.875,0.3248943519856942) -- (axis cs:3.945,0.3248943519856942);
 \draw[blue!75!black,line width=0.65pt] (axis cs:4.91,0.3345896845467188) -- (axis cs:4.91,0.41526081035118145);
 \draw[blue!75!black,line width=0.65pt] (axis cs:4.875,0.3345896845467188) -- (axis cs:4.945,0.3345896845467188);
 \draw[blue!75!black,line width=0.65pt] (axis cs:4.875,0.41526081035118145) -- (axis cs:4.945,0.41526081035118145);
-\addplot+[color=orange!85!black,mark=triangle*,dashed,line width=1pt] coordinates {(0.97,0.20279108954574707) (1.97,0.2213873047905987) (2.97,0.2516969953178171) (3.97,0.3114745911061245) (4.97,0.3809106818801803)};\addlegendentry{RL-sBOED}
+\addplot+[color=orange!85!black,mark=triangle*,mark options={fill=orange!85!black},dashed,line width=1pt] coordinates {(0.97,0.20279108954574707) (1.97,0.2213873047905987) (2.97,0.2516969953178171) (3.97,0.3114745911061245) (4.97,0.3809106818801803)};\addlegendentry{RL-sBOED}
 \draw[orange!85!black,line width=0.65pt] (axis cs:0.97,0.20243450957839) -- (axis cs:0.97,0.2062270233060863);
-\draw[orange!85!black,line width=0.65pt] (axis cs:0.9349999999999999,0.20243450957839) -- (axis cs:1.005,0.20243450957839);
-\draw[orange!85!black,line width=0.65pt] (axis cs:0.9349999999999999,0.2062270233060863) -- (axis cs:1.005,0.2062270233060863);
+\draw[orange!85!black,line width=0.65pt] (axis cs:0.935,0.20243450957839) -- (axis cs:1.005,0.20243450957839);
+\draw[orange!85!black,line width=0.65pt] (axis cs:0.935,0.2062270233060863) -- (axis cs:1.005,0.2062270233060863);
 \draw[orange!85!black,line width=0.65pt] (axis cs:1.97,0.21989159565774144) -- (axis cs:1.97,0.251871194290457);
 \draw[orange!85!black,line width=0.65pt] (axis cs:1.935,0.21989159565774144) -- (axis cs:2.005,0.21989159565774144);
 \draw[orange!85!black,line width=0.65pt] (axis cs:1.935,0.251871194290457) -- (axis cs:2.005,0.251871194290457);
 \draw[orange!85!black,line width=0.65pt] (axis cs:2.97,0.2464984452883346) -- (axis cs:2.97,0.6102599670558644);
-\draw[orange!85!black,line width=0.65pt] (axis cs:2.935,0.2464984452883346) -- (axis cs:3.0050000000000003,0.2464984452883346);
-\draw[orange!85!black,line width=0.65pt] (axis cs:2.935,0.6102599670558644) -- (axis cs:3.0050000000000003,0.6102599670558644);
+\draw[orange!85!black,line width=0.65pt] (axis cs:2.935,0.2464984452883346) -- (axis cs:3.005,0.2464984452883346);
+\draw[orange!85!black,line width=0.65pt] (axis cs:2.935,0.6102599670558644) -- (axis cs:3.005,0.6102599670558644);
 \draw[orange!85!black,line width=0.65pt] (axis cs:3.97,0.2863826457899334) -- (axis cs:3.97,1.7028184426236677);
 \draw[orange!85!black,line width=0.65pt] (axis cs:3.935,0.2863826457899334) -- (axis cs:4.005,0.2863826457899334);
 \draw[orange!85!black,line width=0.65pt] (axis cs:3.935,1.7028184426236677) -- (axis cs:4.005,1.7028184426236677);
 \draw[orange!85!black,line width=0.65pt] (axis cs:4.97,0.3343104608320108) -- (axis cs:4.97,2.317078600796312);
 \draw[orange!85!black,line width=0.65pt] (axis cs:4.935,0.3343104608320108) -- (axis cs:5.005,0.3343104608320108);
 \draw[orange!85!black,line width=0.65pt] (axis cs:4.935,2.317078600796312) -- (axis cs:5.005,2.317078600796312);
-\addplot+[color=green!40!black,mark=diamond*,dotted,line width=1pt] coordinates {(1.03,0.21060972398826466) (2.03,0.23676399281661037) (3.03,0.26828737847458334) (4.03,0.3074697081686477) (5.03,0.376172019896189)};\addlegendentry{Step-DAD}
+\addplot+[color=green!40!black,mark=diamond*,mark options={fill=green!40!black},dotted,line width=1pt] coordinates {(1.03,0.21060972398826466) (2.03,0.23676399281661037) (3.03,0.26828737847458334) (4.03,0.3074697081686477) (5.03,0.376172019896189)};\addlegendentry{Step-DAD}
 \draw[green!40!black,line width=0.65pt] (axis cs:1.03,0.20910896907497187) -- (axis cs:1.03,0.21076482938125188);
 \draw[green!40!black,line width=0.65pt] (axis cs:0.995,0.20910896907497187) -- (axis cs:1.065,0.20910896907497187);
 \draw[green!40!black,line width=0.65pt] (axis cs:0.995,0.21076482938125188) -- (axis cs:1.065,0.21076482938125188);
 \draw[green!40!black,line width=0.65pt] (axis cs:2.03,0.23296759685299065) -- (axis cs:2.03,0.24076675795896954);
-\draw[green!40!black,line width=0.65pt] (axis cs:1.9949999999999999,0.23296759685299065) -- (axis cs:2.065,0.23296759685299065);
-\draw[green!40!black,line width=0.65pt] (axis cs:1.9949999999999999,0.24076675795896954) -- (axis cs:2.065,0.24076675795896954);
+\draw[green!40!black,line width=0.65pt] (axis cs:1.995,0.23296759685299065) -- (axis cs:2.065,0.23296759685299065);
+\draw[green!40!black,line width=0.65pt] (axis cs:1.995,0.24076675795896954) -- (axis cs:2.065,0.24076675795896954);
 \draw[green!40!black,line width=0.65pt] (axis cs:3.03,0.26017541126668586) -- (axis cs:3.03,0.278777467662094);
-\draw[green!40!black,line width=0.65pt] (axis cs:2.9949999999999997,0.26017541126668586) -- (axis cs:3.065,0.26017541126668586);
-\draw[green!40!black,line width=0.65pt] (axis cs:2.9949999999999997,0.278777467662094) -- (axis cs:3.065,0.278777467662094);
+\draw[green!40!black,line width=0.65pt] (axis cs:2.995,0.26017541126668586) -- (axis cs:3.065,0.26017541126668586);
+\draw[green!40!black,line width=0.65pt] (axis cs:2.995,0.278777467662094) -- (axis cs:3.065,0.278777467662094);
 \draw[green!40!black,line width=0.65pt] (axis cs:4.03,0.29090942336732073) -- (axis cs:4.03,0.3306335629732281);
 \draw[green!40!black,line width=0.65pt] (axis cs:3.995,0.29090942336732073) -- (axis cs:4.065,0.29090942336732073);
 \draw[green!40!black,line width=0.65pt] (axis cs:3.995,0.3306335629732281) -- (axis cs:4.065,0.3306335629732281);
 \draw[green!40!black,line width=0.65pt] (axis cs:5.03,0.3391228648222772) -- (axis cs:5.03,0.43086174557199725);
 \draw[green!40!black,line width=0.65pt] (axis cs:4.995,0.3391228648222772) -- (axis cs:5.065,0.3391228648222772);
 \draw[green!40!black,line width=0.65pt] (axis cs:4.995,0.43086174557199725) -- (axis cs:5.065,0.43086174557199725);
-\addplot+[color=violet,mark=pentagon*,dashdotted,line width=1pt] coordinates {(1.09,0.21876707604641582) (2.09,0.5336385898566286) (3.09,0.9429868260033785) (4.09,1.5331955876201433) (5.09,2.2829829078381705)};\addlegendentry{Myopic}
+\addplot+[color=violet,mark=pentagon*,mark options={fill=violet},dashdotted,line width=1pt] coordinates {(1.09,0.21876707604641582) (2.09,0.5336385898566286) (3.09,0.9429868260033785) (4.09,1.5331955876201433) (5.09,2.2829829078381705)};\addlegendentry{Myopic}
 \draw[violet,line width=0.65pt] (axis cs:1.09,0.2) -- (axis cs:1.09,0.33446707021961586);
-\draw[violet,line width=0.65pt] (axis cs:1.0550000000000002,0.2) -- (axis cs:1.125,0.2);
-\draw[violet,line width=0.65pt] (axis cs:1.0550000000000002,0.33446707021961586) -- (axis cs:1.125,0.33446707021961586);
+\draw[violet,line width=0.65pt] (axis cs:1.055,0.2) -- (axis cs:1.125,0.2);
+\draw[violet,line width=0.65pt] (axis cs:1.055,0.33446707021961586) -- (axis cs:1.125,0.33446707021961586);
 \draw[violet,line width=0.65pt] (axis cs:2.09,0.3746601435709681) -- (axis cs:2.09,0.7955902435437878);
-\draw[violet,line width=0.65pt] (axis cs:2.0549999999999997,0.3746601435709681) -- (axis cs:2.125,0.3746601435709681);
-\draw[violet,line width=0.65pt] (axis cs:2.0549999999999997,0.7955902435437878) -- (axis cs:2.125,0.7955902435437878);
+\draw[violet,line width=0.65pt] (axis cs:2.055,0.3746601435709681) -- (axis cs:2.125,0.3746601435709681);
+\draw[violet,line width=0.65pt] (axis cs:2.055,0.7955902435437878) -- (axis cs:2.125,0.7955902435437878);
 \draw[violet,line width=0.65pt] (axis cs:3.09,0.6539449392075672) -- (axis cs:3.09,1.6296861563037368);
-\draw[violet,line width=0.65pt] (axis cs:3.0549999999999997,0.6539449392075672) -- (axis cs:3.125,0.6539449392075672);
-\draw[violet,line width=0.65pt] (axis cs:3.0549999999999997,1.6296861563037368) -- (axis cs:3.125,1.6296861563037368);
+\draw[violet,line width=0.65pt] (axis cs:3.055,0.6539449392075672) -- (axis cs:3.125,0.6539449392075672);
+\draw[violet,line width=0.65pt] (axis cs:3.055,1.6296861563037368) -- (axis cs:3.125,1.6296861563037368);
 \draw[violet,line width=0.65pt] (axis cs:4.09,0.9605423834948006) -- (axis cs:4.09,2.714638083320892);
 \draw[violet,line width=0.65pt] (axis cs:4.055,0.9605423834948006) -- (axis cs:4.125,0.9605423834948006);
 \draw[violet,line width=0.65pt] (axis cs:4.055,2.714638083320892) -- (axis cs:4.125,2.714638083320892);
 \draw[violet,line width=0.65pt] (axis cs:5.09,1.3774404844316497) -- (axis cs:5.09,2.9090273984129436);
 \draw[violet,line width=0.65pt] (axis cs:5.055,1.3774404844316497) -- (axis cs:5.125,1.3774404844316497);
 \draw[violet,line width=0.65pt] (axis cs:5.055,2.9090273984129436) -- (axis cs:5.125,2.9090273984129436);
-\addplot+[color=black!65,mark=x,dashed,line width=1pt] coordinates {(1.15,1.5535451738318748) (2.15,2.4404267491860714) (3.15,2.793833561506081) (4.15,2.9317136051439237) (5.15,2.9787286610378403)};\addlegendentry{Random}
+\addplot+[color=black!65,mark=x,mark options={fill=black!65},dashed,line width=1pt] coordinates {(1.15,1.5535451738318748) (2.15,2.4404267491860714) (3.15,2.793833561506081) (4.15,2.9317136051439237) (5.15,2.9787286610378403)};\addlegendentry{Random}
 \draw[black!65,line width=0.65pt] (axis cs:1.15,0.9303239868396407) -- (axis cs:1.15,2.2557478022292115);
-\draw[black!65,line width=0.65pt] (axis cs:1.115,0.9303239868396407) -- (axis cs:1.1849999999999998,0.9303239868396407);
-\draw[black!65,line width=0.65pt] (axis cs:1.115,2.2557478022292115) -- (axis cs:1.1849999999999998,2.2557478022292115);
+\draw[black!65,line width=0.65pt] (axis cs:1.115,0.9303239868396407) -- (axis cs:1.185,0.9303239868396407);
+\draw[black!65,line width=0.65pt] (axis cs:1.115,2.2557478022292115) -- (axis cs:1.185,2.2557478022292115);
 \draw[black!65,line width=0.65pt] (axis cs:2.15,1.9232738086447416) -- (axis cs:2.15,2.8047310817594426);
-\draw[black!65,line width=0.65pt] (axis cs:2.1149999999999998,1.9232738086447416) -- (axis cs:2.185,1.9232738086447416);
-\draw[black!65,line width=0.65pt] (axis cs:2.1149999999999998,2.8047310817594426) -- (axis cs:2.185,2.8047310817594426);
+\draw[black!65,line width=0.65pt] (axis cs:2.115,1.9232738086447416) -- (axis cs:2.185,1.9232738086447416);
+\draw[black!65,line width=0.65pt] (axis cs:2.115,2.8047310817594426) -- (axis cs:2.185,2.8047310817594426);
 \draw[black!65,line width=0.65pt] (axis cs:3.15,2.4983195368171667) -- (axis cs:3.15,2.930488226558058);
-\draw[black!65,line width=0.65pt] (axis cs:3.1149999999999998,2.4983195368171667) -- (axis cs:3.185,2.4983195368171667);
-\draw[black!65,line width=0.65pt] (axis cs:3.1149999999999998,2.930488226558058) -- (axis cs:3.185,2.930488226558058);
+\draw[black!65,line width=0.65pt] (axis cs:3.115,2.4983195368171667) -- (axis cs:3.185,2.4983195368171667);
+\draw[black!65,line width=0.65pt] (axis cs:3.115,2.930488226558058) -- (axis cs:3.185,2.930488226558058);
 \draw[black!65,line width=0.65pt] (axis cs:4.15,2.7687829046044348) -- (axis cs:4.15,2.9755621728040733);
-\draw[black!65,line width=0.65pt] (axis cs:4.115,2.7687829046044348) -- (axis cs:4.1850000000000005,2.7687829046044348);
-\draw[black!65,line width=0.65pt] (axis cs:4.115,2.9755621728040733) -- (axis cs:4.1850000000000005,2.9755621728040733);
+\draw[black!65,line width=0.65pt] (axis cs:4.115,2.7687829046044348) -- (axis cs:4.185,2.7687829046044348);
+\draw[black!65,line width=0.65pt] (axis cs:4.115,2.9755621728040733) -- (axis cs:4.185,2.9755621728040733);
 \draw[black!65,line width=0.65pt] (axis cs:5.15,2.9120330271971855) -- (axis cs:5.15,2.9957194607930453);
-\draw[black!65,line width=0.65pt] (axis cs:5.115,2.9120330271971855) -- (axis cs:5.1850000000000005,2.9120330271971855);
-\draw[black!65,line width=0.65pt] (axis cs:5.115,2.9957194607930453) -- (axis cs:5.1850000000000005,2.9957194607930453);
+\draw[black!65,line width=0.65pt] (axis cs:5.115,2.9120330271971855) -- (axis cs:5.185,2.9120330271971855);
+\draw[black!65,line width=0.65pt] (axis cs:5.115,2.9957194607930453) -- (axis cs:5.185,2.9957194607930453);
 \end{semilogyaxis}
 \end{tikzpicture}
-\caption{IEEE 14-bus probe durations at $T=5$. Markers show medians; bars span the 25th--75th percentiles. The vertical axis is logarithmic; horizontal offsets separate methods.}
+\caption{Selected pulse durations for IEEE 14-bus at $T=5$. Markers show pooled medians and bars show the 25th--75th percentiles. The vertical axis is logarithmic.}
 \label{fig:durations}
 \end{figure}
-Figure~\ref{fig:durations} summarizes duration distributions pooled across test episodes and, for fitted policies, training seeds. Fixed and the learned methods contribute 4608 histories each; Random and Myopic contribute 1536 each. Bars show interquartile ranges, not confidence intervals. At $T=5$, final-stage medians are 0.369 s for DAD, 0.376 s for Step-DAD, 1.114 s for Fixed, 2.283 s for Myopic, and 2.979 s for Random. Sequential uniform sampling pushes Random's later durations toward the upper bound. RL-sBOED's final-stage medians are 2.585, 0.381, and 0.324 s for training seeds 101, 202, and 303, respectively; this variation contributes to its wide pooled ranges. All sequences obey the imposed ordering constraint, and different durations also imply different injected energies.
 
-\FloatBarrier
-\subsection{Computational Cost}\label{sec:cost}
-Table~\ref{tab:grid_a100} reports timings on NVIDIA A100 PCIe 40-GB GPUs, using training seed 101 and test seed 1001. Offline preparation includes initialization, optimization, and checkpoint validation; DAD and Step-DAD include both Fixed and DAD training. Online time is the mean total decision time per sequence over 512 test episodes per method. It includes action selection and, where applicable, posterior assimilation and refinement; true-system propagation and information scoring are excluded. IEEE 9-bus profiling excludes one warm-up episode per method. Offline times are single-run measurements. For all six methods (Random, Fixed, Myopic, DAD, RL-sBOED, and Step-DAD), the timed runs use the same contrast count, $L=128$, for information scoring. Training, validation, and Step-DAD refinement also use $L=128$; Myopic uses 128 posterior particles and 32 simulated observations per candidate. Increasing $L$ increases evaluation scoring time, which is excluded from the decision timers.
+The final-stage medians are 0.369s for DAD, 0.376s for Step-DAD, 1.114s for Fixed, 2.283s for Myopic, and 2.979s for Random. Random shifts toward the upper bound at later stages because each new duration is sampled from the remaining feasible interval. RL-sBOED shows stronger variation across training seeds, with final-stage medians of 2.585s, 0.381s, and 0.324s for seeds 101, 202, and 303. This seed variation accounts for much of its wide pooled range. The figure also shows that similar information scores can arise from different duration patterns. Because duration changes injected energy, these distributions are not an energy-efficiency comparison. \hl{I am confused here, I assume that you are checking the optimal design but how these related to design performances? anything else you want to discuss? especially the adaptive policy methods seem to give similar designs, how similar designs gave different sPCEs? also, do these depend on $L$? }
 
-Let $C_s$ denote one candidate-window simulation cost and $C_\pi$ a policy forward pass. Dense $m$-machine RK4 integration over $N$ time steps gives $C_s=O(Nm^2)$.
+\subsection{Offline Preparation and Online Decision Cost}\label{sec:cost}
+Table~\ref{tab:cost} reports offline preparation and online decision time on NVIDIA A100 PCIe 40-GB systems using training seed 101 and test seed 1001. Online values are the mean total decision time over 512 test sequences. For IEEE 9-bus, one warm-up sequence per method is excluded. Offline values are single-run measurements and include initialization, optimization, and checkpoint validation. Because DAD initialization is compared against an optimized Fixed design, the DAD and Step-DAD preparation times include the Fixed stage.
 
-Online policy work is $O(T)$ for Random/Fixed and $O(TC_\pi)$ for DAD/RL-sBOED. Myopic uses $O(TQC_e+TP C_s)$, where $P=128$ particles, $Q=48$ candidate evaluations per decision, and $C_e$ includes candidate simulation and likelihood calculations. Step-DAD refinement simulates $UB(L+1)T(T-1)/2$ candidate windows before accounting for numerical Jacobians and conditional validation, with $U=4$, $B=32$, and $L=128$. Posterior assimilation adds $O(TP C_s)$ work.
-
-\begin{table}[!ht]
-\caption{Computational costs for both IEEE networks}
-\label{tab:grid_a100}
-\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lrrrrrr@{}}
-\toprule
- & \multicolumn{3}{c}{IEEE 9-bus} & \multicolumn{3}{c}{IEEE 14-bus}\\
-\cmidrule(lr){2-4}\cmidrule(l){5-7}
-Method & $T=3$ & $T=4$ & $T=5$ & $T=3$ & $T=4$ & $T=5$\\
-\midrule\multicolumn{7}{c}{Offline preparation (hours)}\\\midrule
-Random & 0 & 0 & 0 & 0 & 0 & 0\\
-Fixed & 0.554 & 0.802 & 1.063 & 1.880 & 2.750 & 3.720\\
-Myopic & 0 & 0 & 0 & 0 & 0 & 0\\
-DAD & 1.116 & 1.608 & 2.139 & 3.810 & 5.457 & 7.418\\
-RL-sBOED & 0.100 & 0.117 & 0.129 & 0.163 & 0.205 & 0.249\\
-Step-DAD & 1.116 & 1.608 & 2.139 & 3.810 & 5.457 & 7.418\\
-\midrule\multicolumn{7}{c}{Online decisions (ms per sequence)}\\\midrule
-Random & 0.167 & 0.229 & 0.303 & 0.158 & 0.207 & 0.285\\
-Fixed & 0.849 & 1.135 & 1.472 & 1.141 & 1.906 & 1.952\\
-Myopic & 4\,418 & 5\,952 & 7\,514 & 9\,998 & 13\,433 & 16\,918\\
-DAD & 1.012 & 1.345 & 1.745 & 1.440 & 1.513 & 1.733\\
-RL-sBOED & 1.147 & 1.781 & 7.692 & 1.413 & 1.550 & 1.905\\
-Step-DAD & 3\,083 & 7\,689 & 14\,346 & 9\,245 & 23\,320 & 45\,089\\
-\bottomrule\end{tabular*}
-\end{table}
+The online timer includes action selection and, for Myopic and Step-DAD, posterior updating and refinement. It excludes propagation of the true test system, measurement acquisition, and terminal information scoring. Physical simulation runs on CUDA while policy and planning code also use the host, so the reported values are implementation-level decision times rather than pure neural-network inference times. Timing runs use the same $L=128$ scoring setting as the main experiments. Myopic uses 128 planning particles and 32 simulated observations per candidate duration. The lowest cost in each network--horizon column is shown in bold; ties are both bolded.
 
 
-The leading simulation and gradient cost of Fixed and DAD is $O(JB(L+1)TC_g)$ for $J$ updates, batch size $B$, and per-window gradient cost $C_g$. DAD and Step-DAD preparation includes both stages, $W_F+W_D$, where $W_F$ and $W_D$ are the Fixed and DAD training times. RL-sBOED also incurs actor--critic replay updates. Random and Myopic require no offline training. The online tradeoff is substantial: at IEEE 9-bus $T=5$, Step-DAD adds 0.0269 nats to DAD's mean score but takes 14.346 s rather than 1.745 ms per sequence.
+The main computational difference appears in the online decision times. DAD and RL-sBOED select durations with trained policies, whereas Myopic repeatedly simulates candidate probes. On IEEE 9-bus, DAD requires 1.012--1.745ms per sequence for $T=3$--$5$, compared with 4.418--7.514s for Myopic. DAD pays for this reduction with 1.116--2.139h of offline preparation, which is performed before the test sequences.
 
-Information evaluation has its own cost. Rescoring $n$ archived histories requires $O(n(L+1)TC_s)$ simulation work and $O(nLT)$ likelihood arithmetic, without retraining or selecting new actions. The decision timers characterize action selection; complete evaluation runtimes also include system propagation and information scoring.
+Step-DAD makes a different tradeoff. At IEEE 9-bus $T=5$, its mean score is 0.0269 nats above DAD, but online decision time rises from 1.745ms to 14.346s per sequence. At IEEE 14-bus $T=5$, Step-DAD requires 45.089s and still shows no consistent score improvement over DAD across horizons. Under this implementation, the small benefit of online refinement comes with a large decision-time cost. These are average implementation times, not worst-case latency guarantees.
 
-\subsection{Estimator Sensitivity}\label{sec:sensitivity}
-The sampled sPCE score has ceiling $\log(L+1)$, whereas true EIG has no such contrast-count ceiling. We rescore all 64\,512 distinct IEEE 14-bus histories at $L=10^4$ and $10^5$, holding policies, generating parameters, durations, and observations fixed. No policies are retrained or rerun. Contrasts are drawn from the archived prior; matching test-seed/episode pairs share the contrast stream across methods, and the $10^4$ samples are a prefix of the $10^5$ samples. Archived terminal states and original scores are reproduced before rescoring. Tables~\ref{tab:ieee14_largeL} and~\ref{tab:ieee14_largeL_100000} report mean $\pm$ SD using the seed aggregation defined in Section~\ref{sec:evaluation}; seed-level summaries are included in the repository.
+For a dense $m$-machine model, one RK4 candidate simulation over $N$ time steps costs $C_s=O(Nm^2)$. If $C_\pi$ is the cost of one policy forward pass, online DAD and RL-sBOED require approximately $O(TC_\pi)$ policy \st{work}\hl{simulations?}. Myopic evaluates $Q=48$ candidates at each stage and repeatedly simulates posterior particles. Step-DAD additionally simulates future sequences during policy refinement. Offline Fixed and DAD costs grow with the number of updates, batch size, contrasts, and simulated stages, while RL-sBOED adds actor--critic replay updates instead of pathwise simulator derivatives. Increasing $L$ raises rescoring cost but does not change the already selected probes. \hl{if we are analyzing big O complexity of different methods, it might be good to summarize for the corresponding methods for clearer comparison?}
 
-\begin{table}[!t]
-\caption{IEEE 14-bus sPCE scores ($L=10^4$; nats)}
-\label{tab:ieee14_largeL}
-\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
-\toprule
-Method & $T=3$ & $T=4$ & $T=5$\\
-\midrule
-Random & $0.8449\pm0.0121$ & $0.9552\pm0.0162$ & $0.9991\pm0.0388$\\
-Fixed & $5.2956\pm0.0802$ & $6.0609\pm0.1246$ & $6.7906\pm0.0167$\\
-Myopic & $5.8136\pm0.0514$ & $6.4715\pm0.0127$ & $6.8192\pm0.0500$\\
-DAD & $7.1062\pm0.2327$ & $8.2061\pm0.0286$ & $8.6662\pm0.0556$\\
-RL-sBOED & $7.0793\pm0.0567$ & $8.1296\pm0.1355$ & $8.5852\pm0.2660$\\
-Step-DAD & $7.1008\pm0.2309$ & $8.1992\pm0.0191$ & $8.6583\pm0.0550$\\
-\bottomrule
-\end{tabular*}
-
-\medskip
-\caption{IEEE 14-bus sPCE scores ($L=10^5$; nats)}
-\label{tab:ieee14_largeL_100000}
-\papertablestyle
-\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lccc@{}}
-\toprule
-Method & $T=3$ & $T=4$ & $T=5$\\
-\midrule
-Random & $0.8476\pm0.0136$ & $0.9645\pm0.0150$ & $1.0075\pm0.0333$\\
-Fixed & $5.3472\pm0.0837$ & $6.1694\pm0.1401$ & $7.0488\pm0.0272$\\
-Myopic & $5.9348\pm0.0697$ & $6.7628\pm0.0277$ & $7.2307\pm0.0540$\\
-DAD & $7.3126\pm0.2674$ & $8.8217\pm0.0707$ & $9.6931\pm0.1308$\\
-RL-sBOED & $7.2873\pm0.0578$ & $8.7141\pm0.2070$ & $9.5528\pm0.4753$\\
-Step-DAD & $7.3064\pm0.2650$ & $8.8135\pm0.0578$ & $9.6947\pm0.1220$\\
-\bottomrule
-\end{tabular*}
-\end{table}
-
-At $L=10^4$ and $10^5$, the score ceilings are 9.2104 and 11.5129 nats. Each learned policy retains a higher mean score than the three baselines. Myopic exceeds Fixed at every horizon, reversing their $L=128$ ordering for $T=4,5$. That reversal demonstrates finite-contrast sensitivity; it does not identify ceiling saturation as the sole cause. At $L=10^5$, Step-DAD differs from DAD by $-0.0062$, $-0.0082$, and $+0.0016$ nats for $T=3,4,5$, so refinement has no consistent mean benefit on IEEE 14-bus. DAD's $T=5$ mean rises from 8.666 to 9.693 nats between the two larger contrast counts. The additional contrasts alleviate the original ceiling effect, but the residual change prevents a claim of convergence or a definitive EIG ranking among learned policies.
-
-\FloatBarrier
 \balance
 \subsection{Scope and Limitations}
-These results concern reduced lossless dynamics, specified parameter priors, increasing pulse durations, and a single fixed actuator and endpoint sensor. The sPCE score estimates a lower bound on expected joint uncertainty reduction; individual parameter-estimation accuracy is not evaluated. Training and testing use the same prior, leaving prior shift, sensor bias, and unmodeled dynamics outside the present assessment. Finite contrasts, posterior particles, and numerical integration introduce separate approximations. Finally, zero decision latency is assumed in the simulated dynamics, so the measured algorithm costs alone do not establish real-time feasibility or improved control safety.
+The study uses reduced lossless models, fixed probe and sensor locations, the stated priors, and an imposed increasing-duration constraint. Equal probe counts do not imply equal injected energy. Training and testing also use the same prior, so prior mismatch, sensor bias, and unmodeled dynamics are outside the present evaluation. Myopic and Step-DAD use finite particles and limited online optimization and should not be interpreted as exact optima. Most importantly, sPCE is a lower bound on information about the joint parameter vector. It does not directly measure parameter-estimation error, frequency-security improvement, or closed-loop control performance. No explicit safety constraint is included, and the physical simulation assumes zero decision latency. The timing results therefore characterize algorithmic decision cost rather than complete real-time deployment feasibility.
 
 \section{Conclusion}
-We examined adaptive learning for obtaining more information from sequential grid probing while moving design computation offline. DAD, RL-sBOED, and Step-DAD were compared with Random, Fixed, and Myopic on reduced IEEE 9-bus and IEEE 14-bus models with uncertain inertia and effective frequency response. Learned adaptive policies obtain higher mean sPCE scores than the tested baselines at equal probe counts. DAD and RL-sBOED place optimization offline, while Step-DAD spends additional online computation for modest IEEE 9-bus gains. On IEEE 14-bus, larger-$L$ evaluation retains the learned-policy advantage, reverses the longer-horizon Fixed--Myopic ordering, and shows no consistent refinement benefit. Residual estimator sensitivity limits finer EIG comparisons. The results support further investigation of sequential probing under model mismatch and practical sensing and latency constraints.
+This paper compared adaptive policy-based methods with Random, Fixed, and Myopic designs for sequential active probing with state carryover. On the reduced IEEE 9-bus and IEEE 14-bus systems, DAD, RL-sBOED, and Step-DAD achieve higher mean sPCE information scores across three to five probes. DAD and RL-sBOED perform most design optimization offline and keep online decision cost low relative to Myopic. Step-DAD provides small additional gains on IEEE 9-bus but requires much more online computation and gives no consistent improvement on IEEE 14-bus. Larger-contrast rescoring preserves the overall advantage of the adaptive policy-based methods while showing that close rankings remain estimator-sensitive. Future work should examine richer grid dynamics, model mismatch, practical sensing and latency, and safety-aware probing constraints.
 
 \bibliographystyle{IEEEtran}
 \bibliography{conference_refs}
