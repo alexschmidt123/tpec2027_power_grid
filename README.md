@@ -1,26 +1,35 @@
 # Adaptive Policy-Based Power-System Probing
 
-Code and archived results for **Adaptive Policy-Based Methods for Informative Power-System Probing**, prepared for IEEE TPEC 2027. The study compares Random, Fixed, Myopic, DAD, RL-sBOED, and Step-DAD on reduced IEEE 9-bus and IEEE 14-bus swing models. Information scores estimate the sequential prior-contrastive (sPCE) lower bound; they are not parameter-estimation accuracy or demonstrated control benefits.
+## Introduction
 
-The reviewed [manuscript source](TPEC_conference/eig_power_grid_conference.tex) is included. The [complete grid results](results/README.md) include raw evaluations, resolved configurations, timing measurements, larger-contrast rescoring, and trained checkpoints. Checkpoints are indexed under [IEEE 9-bus models](results/ieee9/03_models/) and [IEEE 14-bus models](results/ieee14/03_models/).
+This project compares DAD, RL-sBOED, and Step-DAD with Random, Fixed, and Myopic for informative sequential probing on reduced IEEE 9-bus and IEEE 14-bus systems. The repository includes the [manuscript](TPEC_conference/eig_power_grid_conference.tex) and [experimental results and checkpoints](results/README.md).
 
-## Installation and execution
+## Installation
 
-Use Linux, Python 3.10+, an NVIDIA GPU, a compatible CUDA toolkit with `nvcc` on `PATH`, and a CUDA-enabled PyTorch build. Install PyTorch for your environment, then:
+Requires Conda, Linux, an NVIDIA GPU, and a compatible CUDA toolkit with `nvcc` available on `PATH`.
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-# Install a compatible CUDA-enabled PyTorch build in this environment.
-pip install -r requirements.txt
+git clone https://github.com/alexschmidt123/tpec2027_power_grid.git
+cd tpec2027_power_grid
+conda create -n tpec2027 python=3.11 pip -y
+conda activate tpec2027
+python -m pip install -r requirements.txt
+```
+
+## Run
+
+Activate the Conda environment and run a small smoke test:
+
+```bash
+conda activate tpec2027
 bash run.sh --config configs/ieee9_eig.yaml --smoke
 ```
 
-To request a grid run with the archived conference contrast count:
+Run an experiment with 128 contrasts and 512 sequences per test seed:
 
 ```bash
 bash run.sh --config configs/ieee14_eig.yaml --T 3 --seed 101 \
   --eval-seeds 1001,1002,1003 --contrasts 128 --eval-systems 512
 ```
 
-This command does not guarantee identical paper results under a different source version or hardware; the original resolved run settings and results are included under `results/`. Training seeds are 101/202/303, test seeds are 1001/1002/1003, and each test seed has 512 sequences. Step-DAD uses four refinement updates. Timing results use A100 hardware, training seed 101, and test seed 1001.
+Use `configs/ieee9_eig.yaml` for IEEE 9-bus and set `--T` to 3, 4, or 5. Outputs are saved under `experiments/`.
