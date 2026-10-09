@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project compares DAD, RL-sBOED, and Step-DAD with Random, Fixed, and Myopic for informative sequential probing on reduced IEEE 9-bus and IEEE 14-bus systems. The repository includes the [manuscript](TPEC_conference/eig_power_grid_conference.tex) and [experimental results and checkpoints](experiments/tpec2027_conference/README.md).
+This project compares DAD, RL-sBOED, and Step-DAD with Random, Fixed, and Myopic for informative sequential probing on reduced IEEE 9-bus and IEEE 14-bus systems. The repository includes the [manuscript](TPEC_conference/eig_power_grid_conference.tex) and [experimental results and checkpoints](results/).
 
 ## Installation
 

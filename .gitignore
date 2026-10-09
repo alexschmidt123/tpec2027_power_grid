@@ -5,8 +5,7 @@ __pycache__/
 .DS_Store
 AGENTS.md
 /data/
-/experiments/*
-!/experiments/tpec2027_conference/
+/experiments/
 /TPEC_conference/*.aux
 /TPEC_conference/*.log
 /TPEC_conference/*.bbl

@@ -3,4 +3,4 @@
 *.pdf binary
 *.npy binary
 *.npz binary
-experiments/tpec2027_conference/** -text
+results/** -text
