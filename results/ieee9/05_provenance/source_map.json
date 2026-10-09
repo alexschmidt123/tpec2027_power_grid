@@ -1,0 +1,42 @@
+{
+  "source_runs": [
+    "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train101_evaluation",
+    "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+    "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303",
+    "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train101_evaluation",
+    "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train202",
+    "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T4/train303",
+    "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+    "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train202",
+    "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303",
+    "experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train101",
+    "experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train202",
+    "experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train303",
+    "experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train101",
+    "experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train202",
+    "experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train303",
+    "experiments/09212026/09212026_ieee9_conference_stepdad4/T5/train101",
+    "experiments/09212026/09212026_ieee9_conference_stepdad4/T5/train202",
+    "experiments/09232026/09232026_ieee9_stepdad4_faster_T5_train303/T5/train303"
+  ],
+  "configurations": [
+    "T3/train_seed_101/baseline_evaluation",
+    "T3/train_seed_202/baseline_evaluation",
+    "T3/train_seed_303/baseline_evaluation",
+    "T4/train_seed_101/baseline_evaluation",
+    "T4/train_seed_202/baseline_evaluation",
+    "T4/train_seed_303/baseline_evaluation",
+    "T5/train_seed_101/baseline_evaluation",
+    "T5/train_seed_202/baseline_evaluation",
+    "T5/train_seed_303/baseline_evaluation",
+    "T3/train_seed_101/step_dad",
+    "T3/train_seed_202/step_dad",
+    "T3/train_seed_303/step_dad",
+    "T4/train_seed_101/step_dad",
+    "T4/train_seed_202/step_dad",
+    "T4/train_seed_303/step_dad",
+    "T5/train_seed_101/step_dad",
+    "T5/train_seed_202/step_dad",
+    "T5/train_seed_303/step_dad"
+  ]
+}

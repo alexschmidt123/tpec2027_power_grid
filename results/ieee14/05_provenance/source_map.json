@@ -1,0 +1,24 @@
+{
+  "source_runs": [
+    "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+    "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+    "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303",
+    "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+    "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+    "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303",
+    "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+    "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+    "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+  ],
+  "configurations": [
+    "T3/train_seed_101/baseline_evaluation",
+    "T3/train_seed_202/baseline_evaluation",
+    "T3/train_seed_303/baseline_evaluation",
+    "T4/train_seed_101/baseline_evaluation",
+    "T4/train_seed_202/baseline_evaluation",
+    "T4/train_seed_303/baseline_evaluation",
+    "T5/train_seed_101/baseline_evaluation",
+    "T5/train_seed_202/baseline_evaluation",
+    "T5/train_seed_303/baseline_evaluation"
+  ]
+}

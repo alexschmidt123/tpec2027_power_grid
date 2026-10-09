@@ -1,0 +1,117 @@
+{
+  "pilot_only": false,
+  "levels": [
+    10000,
+    100000
+  ],
+  "chunk_size": 10000,
+  "rescore_seed": 20260929,
+  "simulator_root": "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101/source_snapshot",
+  "scorer_sha256": "71275aeebe217a315fb8838fb790675add530e5a24da87857915cf0f82b010ea",
+  "histories_scored": 64512,
+  "wall_seconds": 446268.260743956,
+  "inventory": [
+    {
+      "run": "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+      "records": 9216,
+      "selected": 9216,
+      "run_config_sha256": "5172cd406e8835e71ce74a565109a880c9b8bc9e72c7e7b35b1d377fc4aea692",
+      "rollouts_sha256": "419bf78857cf5c50f071517e5752a54d920654ad1099b2b45a4b792fdf069bf8"
+    },
+    {
+      "run": "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+      "records": 6144,
+      "selected": 6144,
+      "run_config_sha256": "c03e4b54c9f293b3c36f1cd7f570d57bf4a64a406cc87a12375a68f8dacef766",
+      "rollouts_sha256": "b3f9a72737cf71accc0461552c2e59023884a90b177e1561d75c139be1fd4d2a"
+    },
+    {
+      "run": "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303",
+      "records": 6144,
+      "selected": 6144,
+      "run_config_sha256": "7b7026340c8f010dc1439cb8379b57b576857e0c12d95af6004e2ba1d7bc3f00",
+      "rollouts_sha256": "2d5d091de42f44c791e1099a7eebf5c52e8991c5b71c2e6589aa1d83e34a445a"
+    },
+    {
+      "run": "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+      "records": 9216,
+      "selected": 9216,
+      "run_config_sha256": "91b7e346125075e21b37367551fe6cf21bd86300e73421ceb6e5d4e75f11c947",
+      "rollouts_sha256": "522de4ebd2d52106cd420b9492818de14b4a78f7f0c0e4b4643146980c92796d"
+    },
+    {
+      "run": "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+      "records": 6144,
+      "selected": 6144,
+      "run_config_sha256": "41f2920e805bee1216d4bfd3bba210e536dd8f281972dd9db5910ecb365ecec6",
+      "rollouts_sha256": "4ff3f27ad780218cf0a76bd8a0cbb4596a83f20dfeee40cdd81eca4aade255e5"
+    },
+    {
+      "run": "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303",
+      "records": 6144,
+      "selected": 6144,
+      "run_config_sha256": "2bd25148fbcc040b8c9ef309b8db060092d0fc64507280995b3de50f7505a3fe",
+      "rollouts_sha256": "cd2a72dea81754ab105c97f9fd2b41d7c0301f6ed8844035ec2f5aba3d42fed2"
+    },
+    {
+      "run": "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+      "records": 9216,
+      "selected": 9216,
+      "run_config_sha256": "d6d490c3e7fb27076def59243717e01c7b0ad7743dc43310baf17e77d14cdaeb",
+      "rollouts_sha256": "7c23bbda44ec3fbd12b21833793f54eb6f17aa0b0208c2e158bc30d43dfa3e70"
+    },
+    {
+      "run": "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+      "records": 6144,
+      "selected": 6144,
+      "run_config_sha256": "edd10e06a7785d4da8c954e1b6aa19815bee58aea3e9ac4047cba477bf54fce7",
+      "rollouts_sha256": "e0953d7b83f99ba406112fc8de8bc853cbb4a10b30491fd02b4c31bf8dc187b5"
+    },
+    {
+      "run": "TPEC_conference/results/experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303",
+      "records": 6144,
+      "selected": 6144,
+      "run_config_sha256": "fd3ef21c89851b3e6fbb09e9c3afdfba9a679bd727f2d22ffaad48796e525fb6",
+      "rollouts_sha256": "eaff6d924652c03eac51214b15cf4349f425a88919a2b85eea99262cf618fec4"
+    }
+  ],
+  "bound_interpretation": "Bounds hold in expectation; empirical gaps are not EIG confidence intervals.",
+  "by_T": {
+    "3": {
+      "10000": {
+        "mean_seconds_per_history": 0.4450991929944729,
+        "min_seconds_per_history": 0.43458302097860724,
+        "max_seconds_per_history": 0.4964333539828658
+      },
+      "100000": {
+        "mean_seconds_per_history": 4.450362580519471,
+        "min_seconds_per_history": 4.347610400989652,
+        "max_seconds_per_history": 4.963094562001061
+      }
+    },
+    "4": {
+      "10000": {
+        "mean_seconds_per_history": 0.5915524028407888,
+        "min_seconds_per_history": 0.5798808190738782,
+        "max_seconds_per_history": 0.6616224059835076
+      },
+      "100000": {
+        "mean_seconds_per_history": 5.914842041011238,
+        "min_seconds_per_history": 5.801701624062844,
+        "max_seconds_per_history": 6.615250244969502
+      }
+    },
+    "5": {
+      "10000": {
+        "mean_seconds_per_history": 0.7413715330083376,
+        "min_seconds_per_history": 0.7257352590095252,
+        "max_seconds_per_history": 0.8270246300380677
+      },
+      "100000": {
+        "mean_seconds_per_history": 7.412537770433427,
+        "min_seconds_per_history": 7.258205334073864,
+        "max_seconds_per_history": 8.26317981001921
+      }
+    }
+  }
+}

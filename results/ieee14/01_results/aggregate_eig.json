@@ -1,0 +1,350 @@
+[
+  {
+    "T": 3,
+    "method": "random",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101"
+    ],
+    "uncertainty_unit": "evaluation-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 0.7540852936732652,
+    "sd": 0.004669757225981716,
+    "mean_online_seconds": 0.00016081652696205614
+  },
+  {
+    "T": 3,
+    "method": "fixed",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.2622934969654525,
+    "sd": 0.040163088588797115,
+    "mean_online_seconds": 0.0011626002394930562
+  },
+  {
+    "T": 3,
+    "method": "myopic",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101"
+    ],
+    "uncertainty_unit": "evaluation-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.290747128205289,
+    "sd": 0.03682719965463953,
+    "mean_online_seconds": 9.999676711919165
+  },
+  {
+    "T": 3,
+    "method": "dad",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.757576144807575,
+    "sd": 0.03619873207698706,
+    "mean_online_seconds": 0.0012249182929938089
+  },
+  {
+    "T": 3,
+    "method": "rl_sboed",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.744542158399076,
+    "sd": 0.002239129023409637,
+    "mean_online_seconds": 0.0016841189790284261
+  },
+  {
+    "T": 3,
+    "method": "step_dad",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T3/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.752700460209833,
+    "sd": 0.027454878023259296,
+    "mean_online_seconds": 9.112754568423648
+  },
+  {
+    "T": 4,
+    "method": "random",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101"
+    ],
+    "uncertainty_unit": "evaluation-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 0.8359522538859698,
+    "sd": 0.029683832443697194,
+    "mean_online_seconds": 0.0002091893293254543
+  },
+  {
+    "T": 4,
+    "method": "fixed",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.494613368422281,
+    "sd": 0.034520184003789534,
+    "mean_online_seconds": 0.0014806398256850014
+  },
+  {
+    "T": 4,
+    "method": "myopic",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101"
+    ],
+    "uncertainty_unit": "evaluation-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.399029704497578,
+    "sd": 0.017673930921017076,
+    "mean_online_seconds": 13.437180911996014
+  },
+  {
+    "T": 4,
+    "method": "dad",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.832491664880897,
+    "sd": 0.004679596589073391,
+    "mean_online_seconds": 0.0014162263853197347
+  },
+  {
+    "T": 4,
+    "method": "rl_sboed",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.827462006092319,
+    "sd": 0.011223992102079012,
+    "mean_online_seconds": 0.0033103948630418423
+  },
+  {
+    "T": 4,
+    "method": "step_dad",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T4/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.82965672585287,
+    "sd": 0.006740861616129465,
+    "mean_online_seconds": 23.24278100116256
+  },
+  {
+    "T": 5,
+    "method": "random",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101"
+    ],
+    "uncertainty_unit": "evaluation-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 0.8464269935706706,
+    "sd": 0.0251627148691768,
+    "mean_online_seconds": 0.00030928604004050914
+  },
+  {
+    "T": 5,
+    "method": "fixed",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.662377695480784,
+    "sd": 0.008267617527624463,
+    "mean_online_seconds": 0.0027462690304673743
+  },
+  {
+    "T": 5,
+    "method": "myopic",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101"
+    ],
+    "uncertainty_unit": "evaluation-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.464054598936871,
+    "sd": 0.02801614960640483,
+    "mean_online_seconds": 16.9353540299453
+  },
+  {
+    "T": 5,
+    "method": "dad",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.844302961928076,
+    "sd": 0.002630904128121743,
+    "mean_online_seconds": 0.001927228256843389
+  },
+  {
+    "T": 5,
+    "method": "rl_sboed",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.838275371204446,
+    "sd": 0.010787624505002745,
+    "mean_online_seconds": 0.0027081449754607296
+  },
+  {
+    "T": 5,
+    "method": "step_dad",
+    "complete": true,
+    "source_runs": [
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train202",
+      "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train303"
+    ],
+    "uncertainty_unit": "training-seed mean",
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "conference_protocol_complete": true,
+    "mean_spce_nats": 4.8446095672166,
+    "sd": 0.004159309718742138,
+    "mean_online_seconds": 44.6926065519579
+  }
+]

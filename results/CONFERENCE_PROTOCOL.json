@@ -1,0 +1,41 @@
+{
+  "confirmed_utc": "2026-09-23T15:25:10.229236+00:00",
+  "scope": "Completed conference data collection, not a claim that the manuscript is submission-ready",
+  "grid": {
+    "systems": [
+      "ieee9",
+      "ieee14"
+    ],
+    "methods": [
+      "random",
+      "fixed",
+      "myopic",
+      "dad",
+      "rl_sboed",
+      "step_dad"
+    ],
+    "T": [
+      3,
+      4,
+      5
+    ],
+    "training_seeds": [
+      101,
+      202,
+      303
+    ],
+    "evaluation_seeds": [
+      1001,
+      1002,
+      1003
+    ],
+    "episodes_per_evaluation_seed": 512,
+    "contrasts": 128,
+    "step_dad_refinement_updates": 4,
+    "not_required_evaluation_seeds": [
+      1004,
+      1005
+    ]
+  },
+  "raw_records": "Complete probing histories and retained checkpoints preserved byte-for-byte; machine-specific path strings in metadata sanitized for public release."
+}

@@ -3,3 +3,4 @@
 *.pdf binary
 *.npy binary
 *.npz binary
+results/** -text
