@@ -16,8 +16,8 @@ The authoritative manuscript costs are [diagnostics/train101_eval1001_timing.jso
 Recalculate these values from the included records:
 
 ```bash
-python3 results/diagnostics/collect_train101_eval1001_timing.py \
-  --results-root results --output /tmp/tpec_timing_recalculated.json
+python3 experiments/tpec2027_conference/diagnostics/collect_train101_eval1001_timing.py \
+  --results-root experiments/tpec2027_conference --output /tmp/tpec_timing_recalculated.json
 ```
 
 The `01_results/` folders also retain historical campaign timing summaries across seeds and hardware. Those summaries are not the authoritative single-seed A100 manuscript timing table.
@@ -27,7 +27,7 @@ The `01_results/` folders also retain historical campaign timing summaries acros
 [Completed IEEE 14-bus rescoring](diagnostics/larger_L/complete_ieee14_20261005/README.md) covers 64,512 unique histories at L=10,000 and 100,000. The archive includes every history score, input/scorer hashes, the frozen scorer, and [publication_summary.json](diagnostics/larger_L/complete_ieee14_20261005/publication_summary.json).
 
 ```bash
-python3 results/diagnostics/larger_L/complete_ieee14_20261005/aggregate.py
+python3 experiments/tpec2027_conference/diagnostics/larger_L/complete_ieee14_20261005/aggregate.py
 ```
 
 For fitted methods, mean ± SD summarizes three training-seed means, each averaged across all test sequences. Random and Myopic use three test-seed means. These SDs are not confidence intervals for paired method differences. Larger-L scores remain estimator-sensitive and do not certify EIG convergence.
