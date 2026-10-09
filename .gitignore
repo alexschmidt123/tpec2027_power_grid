@@ -13,3 +13,14 @@ AGENTS.md
 /TPEC_conference/*.out
 /TPEC_conference/*.fls
 /TPEC_conference/*.fdb_latexmk
+
+# Private and generated files
+/TPEC_conference/build/
+*.synctex.gz
+*.bak
+*.tmp
+*.swp
+/private/
+.env.*
+*.pem
+*.key

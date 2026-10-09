@@ -1,14 +1,14 @@
 {
   "protocol": "continuous_no_reset_increasing_eig_endpoint_rocof_v1",
   "settings": {
-    "config": "/scratch/user/g.lin/Documents/objective_power_grid/experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303/source_snapshot/configs/ieee9_eig.yaml",
+    "config": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303/source_snapshot/configs/ieee9_eig.yaml",
     "objective": "eig",
     "experiment_type": null,
     "coverage": null,
     "numerical_gradient_scale": 0.01,
     "numerical_gradient_directions": 4,
-    "output": "/scratch/user/g.lin/Documents/objective_power_grid/experiments/09232026/09232026_ieee9_stepdad4_faster_T5_train303/T5/train303",
-    "evaluate_from": "/scratch/user/g.lin/Documents/objective_power_grid/experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303",
+    "output": "experiments/09232026/09232026_ieee9_stepdad4_faster_T5_train303/T5/train303",
+    "evaluate_from": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303",
     "T": 5,
     "N_obs": 0,
     "noise_sigma": 0.005,
@@ -360,12 +360,12 @@
   "optimization_caveat": null,
   "evaluation_only": true,
   "checkpoint_reuse": {
-    "training_run": "/scratch/user/g.lin/Documents/objective_power_grid/experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303",
+    "training_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303",
     "training_seed": 303,
     "source_config_sha256": "15511da037e66696f82a7174e59394ac8d18bce88e4820824df224c773ad69ac",
     "checkpoints": {
       "dad": {
-        "path": "/scratch/user/g.lin/Documents/objective_power_grid/experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303/models/dad.pth",
+        "path": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train303/models/dad.pth",
         "sha256": "96d51510e67a62bb9f1ea07d848b8e45c09a3bf194ef6e21778466ad9c9d849b"
       }
     },

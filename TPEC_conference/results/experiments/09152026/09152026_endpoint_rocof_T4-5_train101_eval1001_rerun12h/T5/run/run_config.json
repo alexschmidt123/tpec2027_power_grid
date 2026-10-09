@@ -1,13 +1,13 @@
 {
   "protocol": "continuous_no_reset_increasing_eig_endpoint_rocof_v1",
   "settings": {
-    "config": "/scratch/user/g.lin/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/source/configs/ieee9_eig.yaml",
+    "config": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/source/configs/ieee9_eig.yaml",
     "objective": "eig",
     "experiment_type": null,
     "coverage": null,
     "numerical_gradient_scale": 0.01,
     "numerical_gradient_directions": 4,
-    "output": "/scratch/user/g.lin/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+    "output": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
     "T": 5,
     "N_obs": 0,
     "noise_sigma": 0.005,

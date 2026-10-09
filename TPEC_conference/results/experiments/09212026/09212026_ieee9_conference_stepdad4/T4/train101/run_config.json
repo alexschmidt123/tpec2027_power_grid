@@ -1,14 +1,14 @@
 {
   "protocol": "continuous_no_reset_increasing_eig_endpoint_rocof_v1",
   "settings": {
-    "config": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run/source_snapshot/configs/ieee9_eig.yaml",
+    "config": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run/source_snapshot/configs/ieee9_eig.yaml",
     "objective": "eig",
     "experiment_type": null,
     "coverage": null,
     "numerical_gradient_scale": 0.01,
     "numerical_gradient_directions": 4,
-    "output": "/home/qiqi/Documents/objective_power_grid/experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train101",
-    "evaluate_from": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
+    "output": "experiments/09212026/09212026_ieee9_conference_stepdad4/T4/train101",
+    "evaluate_from": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
     "T": 4,
     "N_obs": 0,
     "noise_sigma": 0.005,
@@ -358,12 +358,12 @@
   "optimization_caveat": null,
   "evaluation_only": true,
   "checkpoint_reuse": {
-    "training_run": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
+    "training_run": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
     "training_seed": 101,
     "source_config_sha256": "304c9dea9fa26a063a7eec10c1f5eceda9bd5176db7cb56ccd7200aa8ee89cb8",
     "checkpoints": {
       "dad": {
-        "path": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run/models/dad.pth",
+        "path": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run/models/dad.pth",
         "sha256": "060e5ad79242f17529491679fe7ec476390af3410519ea0a29356aa383b38537"
       }
     },

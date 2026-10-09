@@ -5,7 +5,7 @@
     "sd_across_systems_nats": 1.2700676104600577,
     "n_systems": 1536,
     "training_seconds": 0.0,
-    "training_reused_from": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
+    "training_reused_from": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T4/run",
     "mean_decision_seconds": 15.899297949987764,
     "minimum_planning_ess": 1.000000732551281,
     "evaluation_seeds": [

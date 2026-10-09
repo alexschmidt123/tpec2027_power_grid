@@ -1,32 +1,35 @@
-# TPEC result index
+# Power-system result archive
 
-| Benchmark | Role | Saved evaluation seeds | Status | Open |
-|---|---|---|---|---|
-| SIR-ODE | Supplementary benchmark | 1001–1005 | Complete | [Results](sir_ode/README.md) |
-| IEEE9 | Main power-grid case | 1001–1003 | Complete (accepted three-seed protocol) | [Results](ieee9/README.md) |
-| IEEE14 | Main power-grid case | 1001–1003 | Complete (accepted three-seed protocol) | [Results](ieee14/README.md) |
+| System | Main scores and model navigation |
+|---|---|
+| IEEE 9-bus | [ieee9/README.md](ieee9/README.md) |
+| IEEE 14-bus | [ieee14/README.md](ieee14/README.md) |
 
-Each benchmark has the same five sections:
+The archived conference protocol uses horizons 3/4/5, training seeds 101/202/303 for fitted methods, test seeds 1001/1002/1003, 512 sequences per test seed, 128 sPCE contrasts, and four Step-DAD refinement updates. See [CONFERENCE_PROTOCOL.json](CONFERENCE_PROTOCOL.json).
 
-1. `01_results/` — tables and numeric summaries.
-2. `02_configuration/` — experiment settings.
-3. `03_models/` — saved models and training histories.
-4. `04_runs/` — original evaluations and training runs.
-5. `05_provenance/` — completeness, source locations and verification.
+Each system provides `01_results/`, `02_configuration/`, `03_models/`, `04_runs/`, and `05_provenance/`. Relative links point to preserved complete records under `experiments/`; keep this hierarchy intact. The complete rollout observations, design sequences, generating parameters, and retained checkpoints were not changed during repository cleanup.
 
-Methods use the same row order: Random, Fixed, Myopic, DAD, RL-sBOED, Step-DAD; columns are T=3,4,5. Unavailable groups are Pending, not zero.
+## Manuscript timing
 
-The benchmark folders provide links into preserved files. Grid raw files are fully collected under `experiments/`. SIR originals remain in `../sir ode result/`. All navigation links resolve within TPEC_conference; preserve this hierarchy when copying the folder.
+The authoritative manuscript costs are [diagnostics/train101_eval1001_timing.json](diagnostics/train101_eval1001_timing.json). They use training seed 101 and test seed 1001 on NVIDIA A100 PCIe 40-GB hardware, with 512 test sequences per method. DAD and Step-DAD offline preparation includes Fixed initialization and DAD training. Online decision timers exclude true-system propagation and terminal scoring; see the manuscript for the measured scope. All timing evaluations use the L=128 scoring setting.
 
-SIR reports finite-particle entropy reduction (ceiling ln(1024)); grids report sPCE with 128 contrasts (ceiling ln(129)). SIR's historical timing scope includes observation lookup and posterior updating and differs from grid decision-only timing. Do not pool these metrics or claim cross-hardware speedups.
+Recalculate these values from the included records:
 
-See `STATUS.json`, `FINAL_VERIFICATION.json`, and `collector_status.json` for completion and verification. Collection has finished; no ongoing SSH session is required to use these results. Evaluation seeds 1004/1005 are outside the accepted grid conference scope. See `CONFERENCE_PROTOCOL.json` for the final scope.
+```bash
+python3 TPEC_conference/results/diagnostics/collect_train101_eval1001_timing.py \
+  --results-root TPEC_conference/results --output /tmp/tpec_timing_recalculated.json
+```
 
+The `01_results/` folders also retain historical campaign timing summaries across seeds and hardware. Those summaries are not the authoritative single-seed A100 manuscript timing table.
 
-## Completed follow-up results (October 5, 2026)
+## Larger contrast sets
 
-The completed conference evaluations, saved models, training histories, configurations, and numerical summaries are available in this repository. Additional HPRC submission records, source manifests, and logs are preserved under `experiments/`; the transfer receipt is in `diagnostics/hprc_transfer_20261003/`.
+[Completed IEEE 14-bus rescoring](diagnostics/larger_L/complete_ieee14_20261005/README.md) covers 64,512 unique histories at L=10,000 and 100,000. The archive includes every history score, input/scorer hashes, the frozen scorer, and [publication_summary.json](diagnostics/larger_L/complete_ieee14_20261005/publication_summary.json).
 
-IEEE9 A100 timing for training seed 101/test seed 1001 is complete (512 test episodes per method; Grace job 19952383). Raw results are in `diagnostics/a100_online_profile_test1001_20261004/`. Both manuscript cost tables now use A100 measurements from `diagnostics/train101_eval1001_timing.json`; the adjacent collector reproduces these values. DAD and Step-DAD preparation includes Fixed and DAD training. IEEE14 larger-L rescoring is complete: all 64,512 unique histories at L=10,000 and 100,000. Raw records, frozen scorer, input checksums, portable aggregation, and seed-level summaries are in `diagnostics/larger_L/complete_ieee14_20261005/`. The manuscript includes the complete mean-score table and discusses estimator-sensitive rankings and residual contrast-count sensitivity.
+```bash
+python3 TPEC_conference/results/diagnostics/larger_L/complete_ieee14_20261005/aggregate.py
+```
 
-See `diagnostics/publication_audit_20261003.json` and `diagnostics/final_manuscript_verification_20261005.json` for the completed publication audit and numerical verification. No planned conference result remains pending.
+For fitted methods, mean ± SD summarizes three training-seed means, each averaged across all test sequences. Random and Myopic use three test-seed means. These SDs are not confidence intervals for paired method differences. Larger-L scores remain estimator-sensitive and do not certify EIG convergence.
+
+Public metadata has machine-specific path strings removed or replaced with archive markers. Numerical values are unchanged. The complete pre-cleanup originals remain in a private archive outside the repository. Raw scientific histories and retained checkpoints are byte-identical; current public-file hashes are in [the release manifest](../../provenance/public_release_manifest.json).

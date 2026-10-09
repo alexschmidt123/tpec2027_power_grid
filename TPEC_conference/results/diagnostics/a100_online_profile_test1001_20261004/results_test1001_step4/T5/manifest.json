@@ -25,15 +25,15 @@
     "dad": "c8f5102d623797cf01f19e891f607a45c701050734e0a46742a10d2100ceac61",
     "rl_sboed": "394f876c0f6b686514c2623eeca9c9362ff6b6ff89ef8bbcfb2a908c3423bd47"
   },
-  "source_run": "/scratch/user/g.lin/tpec_a100_timing_20261001/TPEC_conference/results/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+  "source_run": "<ARCHIVED_WORKSPACE>/tpec_a100_timing_20261001/TPEC_conference/results/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
   "settings": {
-    "config": "/scratch/user/g.lin/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/source/configs/ieee9_eig.yaml",
+    "config": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/source/configs/ieee9_eig.yaml",
     "objective": "eig",
     "experiment_type": null,
     "coverage": null,
     "numerical_gradient_scale": 0.01,
     "numerical_gradient_directions": 4,
-    "output": "/scratch/user/g.lin/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+    "output": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
     "T": 5,
     "N_obs": 0,
     "noise_sigma": 0.005,

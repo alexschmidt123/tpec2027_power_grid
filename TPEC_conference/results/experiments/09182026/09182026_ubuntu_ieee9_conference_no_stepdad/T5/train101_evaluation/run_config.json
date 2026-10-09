@@ -1,14 +1,14 @@
 {
   "protocol": "continuous_no_reset_increasing_eig_endpoint_rocof_v1",
   "settings": {
-    "config": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run/source_snapshot/configs/ieee9_eig.yaml",
+    "config": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run/source_snapshot/configs/ieee9_eig.yaml",
     "objective": "eig",
     "experiment_type": null,
     "coverage": null,
     "numerical_gradient_scale": 0.01,
     "numerical_gradient_directions": 4,
-    "output": "/home/qiqi/Documents/objective_power_grid/experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
-    "evaluate_from": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+    "output": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T5/train101_evaluation",
+    "evaluate_from": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
     "T": 5,
     "N_obs": 0,
     "noise_sigma": 0.005,
@@ -364,20 +364,20 @@
   "optimization_caveat": null,
   "evaluation_only": true,
   "checkpoint_reuse": {
-    "training_run": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+    "training_run": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
     "training_seed": 101,
     "source_config_sha256": "6bbf78329aa065106e1de7def1a3af4e3d84bbe11d3793d9da8c54d9e311ab6e",
     "checkpoints": {
       "fixed": {
-        "path": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run/models/fixed.pth",
+        "path": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run/models/fixed.pth",
         "sha256": "ddd2ca60e6970cb43f280a4c46399960fc1e8812cf974f32018936586995ac16"
       },
       "dad": {
-        "path": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run/models/dad.pth",
+        "path": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run/models/dad.pth",
         "sha256": "c8f5102d623797cf01f19e891f607a45c701050734e0a46742a10d2100ceac61"
       },
       "rl_sboed": {
-        "path": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run/models/rl_sboed.pth",
+        "path": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run/models/rl_sboed.pth",
         "sha256": "394f876c0f6b686514c2623eeca9c9362ff6b6ff89ef8bbcfb2a908c3423bd47"
       }
     },

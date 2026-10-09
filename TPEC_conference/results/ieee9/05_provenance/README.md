@@ -1,3 +1,5 @@
-# Provenance
+# IEEE9 provenance
 
-Raw experiment paths are preserved under ../../experiments/. SHA-256 transfer receipts are stored at ../../transfer_receipts/ and within individual campaign transfer_receipts/ folders. Model checksums are recorded in the linked inventory. No source result file is modified by this layout.
+Resolved configurations and original source/checkpoint hash metadata accompany the retained run records. [source_map.json](source_map.json) lists source run identities, and [the model inventory](model_inventory_all_grids.json) lists grid checkpoints.
+
+For current public-file integrity and relative links, use [the public release manifest](../../../../provenance/public_release_manifest.json) and `python3 tools/verify_release.py` from the repository root. Original machine-specific paths in metadata were sanitized without changing numerical values.

@@ -1,14 +1,14 @@
 {
   "protocol": "continuous_no_reset_increasing_eig_endpoint_rocof_v1",
   "settings": {
-    "config": "/home/qiqi/Documents/objective_power_grid/experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202/source_snapshot/configs/ieee9_eig.yaml",
+    "config": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202/source_snapshot/configs/ieee9_eig.yaml",
     "objective": "eig",
     "experiment_type": null,
     "coverage": null,
     "numerical_gradient_scale": 0.01,
     "numerical_gradient_directions": 4,
-    "output": "/home/qiqi/Documents/objective_power_grid/experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train202",
-    "evaluate_from": "/home/qiqi/Documents/objective_power_grid/experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+    "output": "experiments/09212026/09212026_ieee9_conference_stepdad4/T3/train202",
+    "evaluate_from": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
     "T": 3,
     "N_obs": 0,
     "noise_sigma": 0.005,
@@ -356,12 +356,12 @@
   "optimization_caveat": null,
   "evaluation_only": true,
   "checkpoint_reuse": {
-    "training_run": "/home/qiqi/Documents/objective_power_grid/experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
+    "training_run": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202",
     "training_seed": 202,
     "source_config_sha256": "001d7e77badb7a7fcb7249a1e2dd00b6e3acaf9ea98f63cec56c175eeaaf4b65",
     "checkpoints": {
       "dad": {
-        "path": "/home/qiqi/Documents/objective_power_grid/experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202/models/dad.pth",
+        "path": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train202/models/dad.pth",
         "sha256": "86a1df7b6da8eef94652ba1897fcd7658290f17f523dd110da17511a362241c0"
       }
     },

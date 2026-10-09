@@ -5,7 +5,7 @@
     "sd_across_systems_nats": 1.2863386561919135,
     "n_systems": 1536,
     "training_seconds": 0.0,
-    "training_reused_from": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+    "training_reused_from": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
     "mean_decision_seconds": 0.0008382027141730456,
     "minimum_planning_ess": null,
     "evaluation_seeds": [
@@ -21,7 +21,7 @@
     "sd_across_systems_nats": 1.279865828550607,
     "n_systems": 1536,
     "training_seconds": 0.0,
-    "training_reused_from": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+    "training_reused_from": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
     "mean_decision_seconds": 0.000764753669500351,
     "minimum_planning_ess": null,
     "evaluation_seeds": [
@@ -53,7 +53,7 @@
     "sd_across_systems_nats": 1.2621967571681976,
     "n_systems": 1536,
     "training_seconds": 0.0,
-    "training_reused_from": "/home/qiqi/Documents/objective_power_grid/experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
+    "training_reused_from": "experiments/09152026/09152026_endpoint_rocof_T4-5_train101_eval1001_rerun12h/T5/run",
     "mean_decision_seconds": 0.0007682909345021471,
     "minimum_planning_ess": null,
     "evaluation_seeds": [

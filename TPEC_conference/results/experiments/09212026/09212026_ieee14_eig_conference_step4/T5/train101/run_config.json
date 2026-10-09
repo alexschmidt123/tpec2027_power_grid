@@ -1,13 +1,13 @@
 {
   "protocol": "continuous_no_reset_increasing_eig_endpoint_rocof_v1",
   "settings": {
-    "config": "/scratch/user/g.lin/Documents/objective_power_grid/experiments/09202026/09202026_ieee14_eig_conference_ubuntu_source/source/configs/ieee14_mocu.yaml",
+    "config": "experiments/09202026/09202026_ieee14_eig_conference_ubuntu_source/source/configs/ieee14_mocu.yaml",
     "objective": "eig",
     "experiment_type": null,
     "coverage": null,
     "numerical_gradient_scale": 0.01,
     "numerical_gradient_directions": 4,
-    "output": "/scratch/user/g.lin/Documents/objective_power_grid/experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
+    "output": "experiments/09212026/09212026_ieee14_eig_conference_step4/T5/train101",
     "evaluate_from": null,
     "T": 5,
     "N_obs": 0,

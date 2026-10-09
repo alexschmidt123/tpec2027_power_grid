@@ -15,7 +15,7 @@
       "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
       "gpu_model": "NVIDIA A100-PCIE-40GB"
     },
-    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
+    "source_manifest": "<ARCHIVED_WORKSPACE>/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
   },
   {
     "network": "ieee9",
@@ -33,7 +33,7 @@
       "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
       "gpu_model": "NVIDIA A100-PCIE-40GB"
     },
-    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
+    "source_manifest": "<ARCHIVED_WORKSPACE>/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
   },
   {
     "network": "ieee9",
@@ -51,7 +51,7 @@
       "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
       "gpu_model": "NVIDIA A100-PCIE-40GB"
     },
-    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
+    "source_manifest": "<ARCHIVED_WORKSPACE>/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
   },
   {
     "network": "ieee9",
@@ -69,7 +69,7 @@
       "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
       "gpu_model": "NVIDIA A100-PCIE-40GB"
     },
-    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
+    "source_manifest": "<ARCHIVED_WORKSPACE>/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
   },
   {
     "network": "ieee9",
@@ -87,7 +87,7 @@
       "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
       "gpu_model": "NVIDIA A100-PCIE-40GB"
     },
-    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
+    "source_manifest": "<ARCHIVED_WORKSPACE>/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
   },
   {
     "network": "ieee9",
@@ -105,6 +105,6 @@
       "cpu_model": "Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
       "gpu_model": "NVIDIA A100-PCIE-40GB"
     },
-    "source_manifest": "/scratch/user/g.lin/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
+    "source_manifest": "<ARCHIVED_WORKSPACE>/tpec_a100_timing_20261001/results_test1001_step4/T4/manifest.json"
   }
 ]

@@ -1,13 +1,13 @@
 {
   "protocol": "continuous_no_reset_increasing_eig_endpoint_rocof_v1",
   "settings": {
-    "config": "/home/qiqi/Documents/objective_power_grid/experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/source/configs/ieee9_eig.yaml",
+    "config": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/source/configs/ieee9_eig.yaml",
     "objective": "eig",
     "experiment_type": null,
     "coverage": null,
     "numerical_gradient_scale": 0.01,
     "numerical_gradient_directions": 4,
-    "output": "/home/qiqi/Documents/objective_power_grid/experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303",
+    "output": "experiments/09182026/09182026_ubuntu_ieee9_conference_no_stepdad/T3/train303",
     "evaluate_from": null,
     "T": 3,
     "N_obs": 0,

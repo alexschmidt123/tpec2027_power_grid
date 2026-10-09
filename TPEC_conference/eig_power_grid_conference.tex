@@ -64,27 +64,35 @@ box/.style={draw,rounded corners=1pt,align=center,minimum height=0.70cm,text wid
 \end{figure}
 
 \subsection{Uncertain Parameters and Reduced Swing Dynamics}
-For a reduced network with $m$ retained machines, the unknown parameter vector is $\theta=(M_1,\ldots,M_m,K_1,\ldots,K_m)$. Here $M_i$ is the inertia coefficient and $K_i$ is an effective frequency-response coefficient for machine $i$. We assign a joint prior $p_0(\theta)$ constituting independent uniform priors, $M_i\sim\mathcal U(0.7\bar M_i,1.3\bar M_i)$ and $K_i\sim\mathcal U(0.1\bar K_i,\bar K_i)$. \hl{what are $\bar M_i, \bar K_i$?} One parameter vector is drawn at the start of a probing sequence and remains fixed throughout that sequence.
+
+
+For a reduced network with $m$ retained machines, the unknown parameter vector is $\theta=(M_1,\ldots,M_m,K_1,\ldots,K_m)$, where $M_i$ is the inertia coefficient and $K_i$ is the effective frequency-response coefficient for machine $i$. Let $\bar M_i$ and $\bar K_i$ denote their respective nominal values. We assume independent uniform priors, $M_i\sim\mathcal U(0.7\bar M_i,1.3\bar M_i)$ and $K_i\sim\mathcal U(0.1\bar K_i,\bar K_i)$, with joint distribution $p_0(\theta)$. One parameter vector is drawn at the start of each probing sequence and remains fixed throughout that sequence.
+
 
 Rotor angles $\delta_i$ and angular-speed deviations $\omega_i$ satisfy
+
+
 \begin{equation}
 \begin{aligned}
-\dot\delta_i &= \omega_i,\\
-M_i\dot\omega_i
- &= u_i-\left(D_i+\frac{K_i}{2\pi}\right)\omega_i-\sum_{j=1}^{m}B_{ij}\sin(\delta_i-\delta_j),
-\end{aligned}\label{eq:swing}
+\dot{\delta}_i &= \omega_i,\\
+M_i\dot{\omega}_i
+&= u_i-\left(c_i+\frac{K_i}{2\pi}\right)\omega_i-\sum_{j=1}^{m}B_{ij}
+\sin(\delta_i-\delta_j),
+\end{aligned}
+\label{eq:swing}
 \end{equation}
-where $u_i$ is the probing input, $D_i$ is the known damping coefficient, and $B_{ij}$ is the network coupling. \hl{possible not use $D_i$ here and in Table 1 as you used $D_t$ in equatin 2?} Dots denote derivatives with respect to $d$, and the frequency deviation is $\Delta f_i=\omega_i/(2\pi)$ Hz. The coefficient $K_i$ represents an effective power response to frequency deviation; turbine--governor dynamics are not modeled separately. We use a 100-MVA, 60-Hz base. The initial rotor angles, speed deviations, and net mechanical injections are zero, so each sequence starts from an unforced equilibrium.
+
+Here, $u_i$ is the probing input, $c_i$ is the known damping coefficient, and $B_{ij}$ is the network coupling. Dots denote derivatives with respect to $d$, and the frequency deviation is $\Delta f_i=\omega_i/(2\pi)$ Hz. The coefficient $K_i$ represents an effective power response to frequency deviation; turbine--governor dynamics are not modeled separately. We use a 100-MVA, 60-Hz base. The initial rotor angles, speed deviations, and net mechanical injections are zero, so each sequence starts from an unforced equilibrium.
 
 The reduced IEEE 9-bus model retains buses $(1,2,3)$, and the IEEE 14-bus model retains buses $(1,2,3,6,8)$. A lossless network Laplacian $\mathbf L$ is formed from the MATPOWER test-case reactances~\cite{zimmerman2011matpower}. Algebraic buses are removed by Kron reduction, $\mathbf L_{\mathrm{red}}=\mathbf L_{gg}-\mathbf L_{gl}\mathbf L_{ll}^{-1}\mathbf L_{lg}$, with $B_{ij}=-(\mathbf L_{\mathrm{red}})_{ij}$ for $i\ne j$. Resistance, voltage dynamics, and transformer tap effects are omitted.
 
-Nominal inertia is computed as $\bar M_i=2H_i/(2\pi f_0)$ with $f_0=60$ Hz. For IEEE 9-bus, $H=(23.64,6.40,3.01)$ s is taken from published machine data~\cite[Table~2]{kaur2016transient}. For IEEE 14-bus, we use $H=(4,6.5,5,5,5)$ s as a benchmark setting. The nominal response coefficient is $\bar K_i=K_{\mathrm{tot}}w_i$, where $K_{\mathrm{tot}}=0.5$ pu/Hz. The weights are $w=(0.5875,0.2625,0.15)$ for IEEE 9-bus and $w=(8,13,10,10,10)/51$ for IEEE 14-bus. Damping is set to $D_i=(0.1\,\mathrm{s}^{-1})\bar M_i$. Table~\ref{tab:physical} lists the resulting values. The IEEE 14-bus inertia, response, damping, and prior ranges are benchmark assumptions and should not be interpreted as validated operating parameters.
+Nominal inertia is computed as $\bar M_i=2H_i/(2\pi f_0)$ with $f_0=60$ Hz. For the IEEE 9-bus system, the inertia constants $H=(23.64,6.40,3.01)$~s are taken from \cite{kaur2016transient}. For IEEE 14-bus, we use $H=(4,6.5,5,5,5)$ s as a benchmark setting. The nominal response coefficient is $\bar K_i=K_{\mathrm{tot}}w_i$, where $K_{\mathrm{tot}}=0.5$ pu/Hz. The weights are $w=(0.5875,0.2625,0.15)$ for IEEE 9-bus and $w=(8,13,10,10,10)/51$ for IEEE 14-bus. Damping is set to $c_i=(0.1\,\mathrm{s}^{-1})\bar M_i$. Table~\ref{tab:physical} lists the resulting values. The IEEE 14-bus inertia, response, damping, and prior ranges are benchmark assumptions and should not be interpreted as validated operating parameters.
 
 \begin{table}[!t]
 \caption{Nominal parameter scales and fixed damping}
 \label{tab:physical}\papertablestyle
 \begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}llrrr@{}}
-\toprule Network & Bus & $\bar M_i$ & $\bar K_i$ & $D_i$\\\midrule
+\toprule Network & Bus & $\bar M_i$ & $\bar K_i$ & $c_i$\\\midrule
 IEEE 9-bus & 1 & 0.1254141 & 0.2937500 & 0.0125414\\
  & 2 & 0.0339531 & 0.1312500 & 0.0033953\\
  & 3 & 0.0159685 & 0.0750000 & 0.0015969\\
@@ -107,7 +115,8 @@ y_t(\theta,\xi_{1:t})=
 \frac{\Delta f_{1,t}(D_{\mathrm{obs}})-\Delta f_{1,t}(D_{\mathrm{obs}}-\Delta d_{\mathrm{samp}})}{\Delta d_{\mathrm{samp}}},
 \label{eq:sensor}
 \end{equation}
-where $\Delta d_{\mathrm{samp}}=0.025$s. \hl{what are $\xi$, $\Delta f$ here? how this connect to the system equation (1)? } Measurement noise is modeled as
+
+Here, $\xi_{1:t}=(\xi_1,\ldots,\xi_t)$ denotes the sequence of applied probes. The frequency deviation at bus 1 during stage $t$ is obtained from the angular-speed deviation in~\eqref{eq:swing} as $\Delta f_{1,t}(d)=\omega_{1,t}(d)/(2\pi)$. The endpoint RoCoF is calculated from the frequency difference over the final sampling interval, $\Delta d_{\mathrm{samp}}=0.025$~s. Measurement noise is modeled as
 \begin{equation}
 y_{\mathrm{obs},t}=y_t(\theta,\xi_{1:t})+\epsilon_t,
 \qquad \epsilon_t\sim\mathcal N(0,\sigma^2),\label{eq:noise}
@@ -121,7 +130,10 @@ Durations satisfy the common constraints
 D_t-D_{t-1}&\ge\Delta D_{\min},&&t=2,\ldots,T,
 \end{aligned}\label{eq:bounds}
 \end{equation}
-where $\Delta D_{\min}=0.01$s. At each stage, the feasible interval is shortened as needed so that the remaining probes can still satisfy the increasing-duration constraint. The same continuous action mapping is used for all methods. This ordering rule is a benchmark restriction rather than a requirement of the swing equations. Because pulse energy is proportional to $A_tD_t/2$, equal probe counts do not imply equal injected energy.
+where $\Delta D_{\min}=0.01$s. At each stage, the feasible interval is shortened as needed so that the remaining probes can still satisfy the increasing-duration constraint. The same continuous action mapping is used for all methods. This ordering rule is a benchmark restriction rather than a requirement of the swing equations. Since the probing amplitude is fixed, different pulse durations lead to different amounts of injected energy. Therefore, the methods are compared using the same number of probes rather than the same energy budget.
+
+
+
 
 \subsection{History-Dependent Decisions and Bayesian Updating}
 After stage $t$, the observed history is $h_t=((\xi_k,y_{\mathrm{obs},k}))_{k=1}^t$, with $h_0=\varnothing$. A policy $\pi\in\Pi$ selects the next probe from this history only; it does not observe the true parameter vector or the true internal state. For any candidate $\theta$, the simulator predicts the response to the applied duration sequence and defines the Gaussian likelihood in~\eqref{eq:noise}. Bayes' rule gives
@@ -193,7 +205,7 @@ For Fixed and the adaptive policy-based methods, each reported value is the mean
 
 \section{Results and Discussion}\label{sec:results}
 \subsection{Information Scores at Matched Probe Counts}
-Tables~\ref{tab:ieee9} and~\ref{tab:ieee14} report the $L=128$ information scores; the highest mean score in each horizon is shown in bold. On both networks and at every tested horizon, the adaptive policy-based methods have higher mean scores than Random, Fixed, and Myopic. For IEEE 9-bus, DAD exceeds Fixed by 0.1253, 0.0903, and 0.1286 nats at $T=3,4,5$. Step-DAD adds 0.0105, 0.0287, and 0.0269 nats over DAD. \hl{rewrite the following: reads AI writing to me: }The differences are descriptive and reflect the complete implementations; they do not isolate the effects of feedback, policy structure, or optimization quality.
+Tables~\ref{tab:ieee9} and~\ref{tab:ieee14} report the $L=128$ information scores; the highest mean score in each horizon is shown in bold. On both networks and at every tested horizon, the adaptive policy-based methods have higher mean scores than Random, Fixed, and Myopic. For IEEE 9-bus, DAD exceeds Fixed by 0.1253, 0.0903, and 0.1286 nats at $T=3,4,5$. Step-DAD adds 0.0105, 0.0287, and 0.0269 nats over DAD. The adaptive policy-based methods achieve higher information scores than the baselines under the tested settings. However, because the methods differ in their design strategies and optimization procedures, these results do not establish that adaptation alone accounts for the improvement.
 \begin{table}[!t]
 \caption{IEEE 9-bus sPCE scores ($L=128$; nats)}
 \label{tab:ieee9}
@@ -221,7 +233,7 @@ RL-sBOED & $4.7445\pm0.0022$ & $4.8275\pm0.0112$ & $4.8383\pm0.0108$\\
 Step-DAD & $4.7527\pm0.0275$ & $4.8297\pm0.0067$ & $\mathbf{4.8446\pm0.0042}$\\
 \bottomrule\end{tabular*}\end{table}
 
-On IEEE 9-bus, Fixed also scores above Myopic at all three horizons. Feedback alone is therefore not enough to guarantee a better design when the online search is one-step and approximate. The IEEE 14-bus results require additional care because the adaptive policy-based scores lie close to the 4.8598-nat ceiling of the $L=128$ estimator. Step-DAD differs from DAD by only $-0.0049$, $-0.0028$, and $+0.0003$ nats for $T=3,4,5$, which is too small to support a \hl{ranking of their true EIG?}.
+On IEEE 9-bus, Fixed also scores above Myopic at all three horizons. Feedback alone is therefore not enough to guarantee a better design when the online search is one-step and approximate. The IEEE 14-bus results require additional care because the adaptive policy-based scores lie close to the 4.8598-nat ceiling of the $L=128$ estimator. Step-DAD differs from DAD by only $-0.0049$, $-0.0028$, and $+0.0003$ nats for $T=3,4,5$. These small differences do not establish which method has higher true expected information gain.
 
 \subsection{Sensitivity to the Information Estimator}\label{sec:sensitivity}
 We therefore rescore all 64\,512 archived IEEE 14-bus histories with $L=10^4$ and $10^5$ contrasts. No policy is retrained or rerun. The generating parameters, durations, measurements, and histories remain fixed, so only the information estimator changes. Matching test-seed and sequence pairs use the same contrast streams across methods, and the $10^4$ set is a prefix of the $10^5$ set. Table~\ref{tab:largeL} reports both rescoring settings using the same seed aggregation as the main evaluation. The highest mean score in each horizon is shown in bold.
@@ -284,7 +296,8 @@ Step-DAD & 3\,083 & 7\,689 & 14\,346 & 9\,245 & 23\,320 & 45\,089\\
 
 With the larger contrast sets, the score ceilings rise to 9.2104 and 11.5129 nats. The broad result is unchanged: all three adaptive policy-based methods remain above Random, Fixed, and Myopic in mean score. However, Myopic now exceeds Fixed at every horizon, reversing their $L=128$ ordering at $T=4$ and $T=5$. The reversal shows that finite contrast count can affect comparisons between closely performing methods.
 
-At $L=10^5$, the differences of Step-DAD from DAD are $-0.0062$, $-0.0082$, and $+0.0016$ nats for $T=3,4,5$, so online refinement still gives no consistent mean advantage on IEEE 14-bus. DAD's $T=5$ score also changes from 8.666 to 9.693 nats between $L=10^4$ and $10^5$. Larger contrast sets therefore preserve the separation between the adaptive policy-based methods and the baselines, but they do not establish estimator convergence or \hl{a definitive EIG ranking} within the adaptive policy-based group.
+At $L=10^5$, the differences of Step-DAD from DAD are $-0.0062$, $-0.0082$, and $+0.0016$ nats for $T=3,4,5$, so online refinement still gives no consistent mean advantage on IEEE 14-bus. DAD's $T=5$ score also changes from 8.666 to 9.693 nats between $L=10^4$ and $10^5$. Increasing the number of contrasts preserves the advantage of the adaptive policy-based methods over the baselines. However, the scores remain sensitive to the contrast count, so the results do not establish a reliable EIG ranking among the adaptive policy-based methods.
+
 
 \subsection{Selected Probe Durations}
 Figure~\ref{fig:durations} shows the selected durations for IEEE 14-bus at $T=5$. Values are pooled over test sequences and, for trained methods, over the three training seeds. Each fitted method contributes 4608 histories; Random and Myopic contribute 1536 each. Markers denote medians and bars denote interquartile ranges.
@@ -400,7 +413,8 @@ legend style={font=\small,at={(0.5,1.03)},anchor=south,legend columns=3,draw=non
 \label{fig:durations}
 \end{figure}
 
-The final-stage medians are 0.369s for DAD, 0.376s for Step-DAD, 1.114s for Fixed, 2.283s for Myopic, and 2.979s for Random. Random shifts toward the upper bound at later stages because each new duration is sampled from the remaining feasible interval. RL-sBOED shows stronger variation across training seeds, with final-stage medians of 2.585s, 0.381s, and 0.324s for seeds 101, 202, and 303. This seed variation accounts for much of its wide pooled range. The figure also shows that similar information scores can arise from different duration patterns. Because duration changes injected energy, these distributions are not an energy-efficiency comparison. \hl{I am confused here, I assume that you are checking the optimal design but how these related to design performances? anything else you want to discuss? especially the adaptive policy methods seem to give similar designs, how similar designs gave different sPCEs? also, do these depend on $L$? }
+The final-stage medians are 0.369s for DAD, 0.376s for Step-DAD, 1.114s for Fixed, 2.283s for Myopic, and 2.979s for Random. Random shifts toward the upper bound at later stages because each new duration is sampled from the remaining feasible interval. RL-sBOED shows stronger variation across training seeds, with final-stage medians of 2.585s, 0.381s, and 0.324s for seeds 101, 202, and 303. This seed variation accounts for much of its wide pooled range. The figure compares the probing strategies selected by different methods, rather than their information scores. Although DAD and Step-DAD show similar duration distributions, the plotted medians do not capture how individual policies respond to previous observations. The sPCE score depends on the complete sequence of probes and measurements, not only on the selected durations. Furthermore, changing the number of contrasts $L$ affects the estimated information scores but does not change the durations in the saved probing histories.
+
 
 \subsection{Offline Preparation and Online Decision Cost}\label{sec:cost}
 Table~\ref{tab:cost} reports offline preparation and online decision time on NVIDIA A100 PCIe 40-GB systems using training seed 101 and test seed 1001. Online values are the mean total decision time over 512 test sequences. For IEEE 9-bus, one warm-up sequence per method is excluded. Offline values are single-run measurements and include initialization, optimization, and checkpoint validation. Because DAD initialization is compared against an optimized Fixed design, the DAD and Step-DAD preparation times include the Fixed stage.
@@ -412,7 +426,10 @@ The main computational difference appears in the online decision times. DAD and 
 
 Step-DAD makes a different tradeoff. At IEEE 9-bus $T=5$, its mean score is 0.0269 nats above DAD, but online decision time rises from 1.745ms to 14.346s per sequence. At IEEE 14-bus $T=5$, Step-DAD requires 45.089s and still shows no consistent score improvement over DAD across horizons. Under this implementation, the small benefit of online refinement comes with a large decision-time cost. These are average implementation times, not worst-case latency guarantees.
 
-For a dense $m$-machine model, one RK4 candidate simulation over $N$ time steps costs $C_s=O(Nm^2)$. If $C_\pi$ is the cost of one policy forward pass, online DAD and RL-sBOED require approximately $O(TC_\pi)$ policy \st{work}\hl{simulations?}. Myopic evaluates $Q=48$ candidates at each stage and repeatedly simulates posterior particles. Step-DAD additionally simulates future sequences during policy refinement. Offline Fixed and DAD costs grow with the number of updates, batch size, contrasts, and simulated stages, while RL-sBOED adds actor--critic replay updates instead of pathwise simulator derivatives. Increasing $L$ raises rescoring cost but does not change the already selected probes. \hl{if we are analyzing big O complexity of different methods, it might be good to summarize for the corresponding methods for clearer comparison?}
+
+
+For a dense reduced system with $m$ machines, one RK4 simulation over $N$ integration steps has a cost of $C_s=O(Nm^2)$. Random and Fixed require little online computation because neither performs online design optimization. DAD and RL-sBOED select probe durations through policy forward passes, with a total policy-inference cost of $O(TC_\pi)$, where $C_\pi$ is the cost of one forward pass. In contrast, Myopic repeatedly evaluates candidate durations using posterior particles and simulated observations. Step-DAD requires additional computation for posterior updating and online policy refinement. These differences account for the substantial variation in online decision times reported in Table~\ref{tab:cost}.
+
 
 \balance
 \subsection{Scope and Limitations}

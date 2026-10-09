@@ -1,39 +1,51 @@
-# tpec2027_power_grid
+# Adaptive Policy-Based Power-System Probing
 
-## Introduction
+Code and archived results for **Adaptive Policy-Based Methods for Informative Power-System Probing**, prepared for IEEE TPEC 2027. The study compares Random, Fixed, Myopic, DAD, RL-sBOED, and Step-DAD on reduced IEEE 9-bus and IEEE 14-bus swing models. Information scores estimate the sequential prior-contrastive (sPCE) lower bound; they are not parameter-estimation accuracy or demonstrated control benefits.
 
-Conference code for informative power-system probing through sequential Bayesian optimal experimental design. It compares Random, Fixed, Myopic, DAD, RL-sBOED, and Step-DAD on IEEE9 and IEEE14, with SIR-ODE as a supplementary benchmark.
+- [Manuscript source](TPEC_conference/eig_power_grid_conference.tex) and [compiled six-page PDF](TPEC_conference/output/pdf/eig_power_grid_conference.pdf).
+- [Grid results, checkpoints, and reproducible summaries](TPEC_conference/results/README.md).
+- [Submission-format check](TPEC_conference/SUBMISSION_CHECK.md).
 
-The repository includes the [conference paper](TPEC_conference/output/pdf/eig_power_grid_conference.pdf) and [complete results and checkpoints](TPEC_conference/results/README.md).
+## Layout
 
-## Installation
+| Folder | Contents |
+|---|---|
+| `src/` | Physical models, likelihoods, policies, and experiment runners |
+| `configs/` | Benchmark configurations; archived resolved settings accompany each run |
+| `scripts/`, `tools/` | Launch scripts, tests, timing/scoring tools, and release verification |
+| `TPEC_conference/` | Reviewed LaTeX, bibliography, one current PDF, and paper results |
+| `provenance/` | Current public-file checksums and cleanup policy |
 
-Requires Linux, Python 3.10+, an NVIDIA GPU, and a compatible CUDA toolkit with `nvcc` on `PATH`.
+New runs go into ignored `experiments/`. Historical SIR result packages, internal editorial notes, scheduler logs, incomplete duplicate outputs, and transfer receipts are outside this public release. Optional SIR code remains for compatibility with the existing runners; it is not evidence for this power-system paper.
+
+## Installation and execution
+
+Use Linux, Python 3.10+, an NVIDIA GPU, a compatible CUDA toolkit with `nvcc` on `PATH`, and a CUDA-enabled PyTorch build. Install PyTorch for your environment, then:
 
 ```bash
-git clone https://github.com/alexschmidt123/tpec2027_power_grid.git
-cd tpec2027_power_grid
 python3 -m venv .venv
 source .venv/bin/activate
-# Install a CUDA-enabled PyTorch build compatible with your GPU here.
+# Install a compatible CUDA-enabled PyTorch build in this environment.
 pip install -r requirements.txt
-```
-
-## Run
-
-Run a small smoke test:
-
-```bash
 bash run.sh --config configs/ieee9_eig.yaml --smoke
-bash run.sh --config configs/ieee14_eig.yaml --smoke
-bash run.sh --config configs/sir_ode_eig.yaml --eval-seeds 1001 --smoke
 ```
 
-Run one grid conference configuration:
+To request a grid run with the archived conference contrast count:
 
 ```bash
 bash run.sh --config configs/ieee14_eig.yaml --T 3 --seed 101 \
   --eval-seeds 1001,1002,1003 --contrasts 128 --eval-systems 512
 ```
 
-Change the config, `--T`, or `--seed` as needed; use `--methods dad,random` to select methods. Outputs are saved under `experiments/`. New grid runs default to 1024 contrasts; the archived conference results use 128.
+The paper's resolved settings are stored with the archived runs; this command alone does not replace those settings or guarantee identical results under a different source version or hardware. Training seeds are 101/202/303, test seeds are 1001/1002/1003, and each test seed has 512 sequences. Step-DAD uses four refinement updates. Timing results use A100 hardware, training seed 101, and test seed 1001.
+
+## Build and verify
+
+```bash
+bash TPEC_conference/build.sh
+python3 tools/verify_release.py
+# Optional: requires the installed scientific dependencies.
+python3 tools/verify_release.py --checkpoints
+```
+
+The PDF is a local build, not an IEEE PDF eXpress validated submission. See the submission checklist for remaining author actions.

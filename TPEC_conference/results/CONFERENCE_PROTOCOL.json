@@ -37,26 +37,5 @@
       1005
     ]
   },
-  "sir_ode": {
-    "role": "supplementary historical benchmark",
-    "training_seeds": [
-      101,
-      202,
-      303
-    ],
-    "evaluation_seeds": [
-      1001,
-      1002,
-      1003,
-      1004,
-      1005
-    ],
-    "T": [
-      3,
-      4,
-      5
-    ],
-    "estimator": "finite-particle entropy reduction, 1024 support particles"
-  },
-  "raw_records": "Preserved unchanged; acceptance scope applies to derived conference summaries."
+  "raw_records": "Complete probing histories and retained checkpoints preserved byte-for-byte; machine-specific path strings in metadata sanitized for public release."
 }
