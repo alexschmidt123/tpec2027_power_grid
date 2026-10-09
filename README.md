@@ -4,17 +4,6 @@ Code and archived results for **Adaptive Policy-Based Methods for Informative Po
 
 The reviewed [manuscript source](TPEC_conference/eig_power_grid_conference.tex) is included. Compiled PDFs, bibliography files, result archives, and internal reports are not included in this repository.
 
-## Layout
-
-| Folder | Contents |
-|---|---|
-| `src/` | Physical models, likelihoods, policies, and experiment runners |
-| `configs/` | Benchmark configurations |
-| `scripts/`, `tools/` | Launch scripts, tests, and timing/scoring tools |
-| `TPEC_conference/` | Reviewed manuscript LaTeX only |
-
-New runs go into ignored `experiments/`. Historical SIR result packages, internal editorial notes, scheduler logs, incomplete duplicate outputs, and transfer receipts are outside this public release. Optional SIR code remains for compatibility with the existing runners; it is not evidence for this power-system paper.
-
 ## Installation and execution
 
 Use Linux, Python 3.10+, an NVIDIA GPU, a compatible CUDA toolkit with `nvcc` on `PATH`, and a CUDA-enabled PyTorch build. Install PyTorch for your environment, then:
@@ -35,7 +24,3 @@ bash run.sh --config configs/ieee14_eig.yaml --T 3 --seed 101 \
 ```
 
 This command does not guarantee identical paper results under a different source version or hardware; the original resolved run settings and results are retained separately from this repository. Training seeds are 101/202/303, test seeds are 1001/1002/1003, and each test seed has 512 sequences. Step-DAD uses four refinement updates. Timing results use A100 hardware, training seed 101, and test seed 1001.
-
-## Manuscript compilation
-
-`TPEC_conference/` contains only the reviewed `.tex` file. Its bibliography command refers to `conference_refs.bib`, which must be supplied separately to compile the complete paper. The manuscript source has not been changed by this cleanup.
