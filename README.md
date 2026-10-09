@@ -2,19 +2,16 @@
 
 Code and archived results for **Adaptive Policy-Based Methods for Informative Power-System Probing**, prepared for IEEE TPEC 2027. The study compares Random, Fixed, Myopic, DAD, RL-sBOED, and Step-DAD on reduced IEEE 9-bus and IEEE 14-bus swing models. Information scores estimate the sequential prior-contrastive (sPCE) lower bound; they are not parameter-estimation accuracy or demonstrated control benefits.
 
-- [Manuscript source](TPEC_conference/eig_power_grid_conference.tex) and [compiled six-page PDF](TPEC_conference/output/pdf/eig_power_grid_conference.pdf).
-- [Grid results, checkpoints, and reproducible summaries](TPEC_conference/results/README.md).
-- [Submission-format check](TPEC_conference/SUBMISSION_CHECK.md).
+The reviewed [manuscript source](TPEC_conference/eig_power_grid_conference.tex) is included. Compiled PDFs, bibliography files, result archives, and internal reports are not included in this repository.
 
 ## Layout
 
 | Folder | Contents |
 |---|---|
 | `src/` | Physical models, likelihoods, policies, and experiment runners |
-| `configs/` | Benchmark configurations; archived resolved settings accompany each run |
-| `scripts/`, `tools/` | Launch scripts, tests, timing/scoring tools, and release verification |
-| `TPEC_conference/` | Reviewed LaTeX, bibliography, one current PDF, and paper results |
-| `provenance/` | Current public-file checksums and cleanup policy |
+| `configs/` | Benchmark configurations |
+| `scripts/`, `tools/` | Launch scripts, tests, and timing/scoring tools |
+| `TPEC_conference/` | Reviewed manuscript LaTeX only |
 
 New runs go into ignored `experiments/`. Historical SIR result packages, internal editorial notes, scheduler logs, incomplete duplicate outputs, and transfer receipts are outside this public release. Optional SIR code remains for compatibility with the existing runners; it is not evidence for this power-system paper.
 
@@ -37,15 +34,8 @@ bash run.sh --config configs/ieee14_eig.yaml --T 3 --seed 101 \
   --eval-seeds 1001,1002,1003 --contrasts 128 --eval-systems 512
 ```
 
-The paper's resolved settings are stored with the archived runs; this command alone does not replace those settings or guarantee identical results under a different source version or hardware. Training seeds are 101/202/303, test seeds are 1001/1002/1003, and each test seed has 512 sequences. Step-DAD uses four refinement updates. Timing results use A100 hardware, training seed 101, and test seed 1001.
+This command does not guarantee identical paper results under a different source version or hardware; the original resolved run settings and results are retained separately from this repository. Training seeds are 101/202/303, test seeds are 1001/1002/1003, and each test seed has 512 sequences. Step-DAD uses four refinement updates. Timing results use A100 hardware, training seed 101, and test seed 1001.
 
-## Build and verify
+## Manuscript compilation
 
-```bash
-bash TPEC_conference/build.sh
-python3 tools/verify_release.py
-# Optional: requires the installed scientific dependencies.
-python3 tools/verify_release.py --checkpoints
-```
-
-The PDF is a local build, not an IEEE PDF eXpress validated submission. See the submission checklist for remaining author actions.
+`TPEC_conference/` contains only the reviewed `.tex` file. Its bibliography command refers to `conference_refs.bib`, which must be supplied separately to compile the complete paper. The manuscript source has not been changed by this cleanup.
